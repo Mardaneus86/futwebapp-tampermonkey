@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         FUT Instant Transfer Search
+// @name         instant-transfer-search
 // @namespace    https://www.easports.com/
 // @version      0.1
 // @description  Instantly go to the Transfer Search
