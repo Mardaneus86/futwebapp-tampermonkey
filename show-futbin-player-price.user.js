@@ -7,7 +7,7 @@
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @grant       GM_xmlhttpRequest
-// @connect     https://www.futbin.com/*
+// @connect     *
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/show-futbin-player-price.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/show-futbin-player-price.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
