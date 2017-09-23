@@ -1,2 +1,23 @@
-# futwebapp-tampermonkey
-TamperMonkey scripts to enhance the FUT 18 Web App
+# FUT Web App - TamperMonkey/GreaseMonkey scripts
+TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
+
+## Installation
+
+1. Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
+
+	* Firefox - install [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/).
+	* Chrome - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=chrome).
+	* Opera - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=opera) or [Violent Monkey](https://addons.opera.com/en/extensions/details/violent-monkey/).
+	* Safari - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=safari).
+	* Dolphin - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=dolphin).
+	* UC Browser - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=ucweb).
+
+2. Get information or install:
+	* Install a script directly from GitHub by clicking on the "install" link in the table below.
+  
+	| Userscript Wiki                        | Direct<br>Install | Created    | Updated    |
+	|----------------------------------------|:------------------:|:----------:|:----------:|
+	| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install] | 2017.09.22 | 2017.09.23 |
+
+[instant-transfer-search-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Instant-Transfer-Search
+[instant-transfer-search-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/instant-transfer-search.user.js
