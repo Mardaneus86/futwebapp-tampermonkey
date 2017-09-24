@@ -21,14 +21,17 @@
     setInterval(function() { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
 
     var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {
-      var soldItems = data.items.filter(function(d) { return d.state === enums.ItemState.INVALID; }).length;
-      if (soldItems > 0) {
-        GM_notification({
-          text: soldItems + " item(s) sold",
-          title: "FUT 18 Web App",
-          onclick: function() { window.focus(); },
-        });
-        console.log(soldItems + " item(s) sold");
+      var soldItems = data.items.filter(function(d) { return d.state === enums.ItemState.INVALID; });
+      if (soldItems.length > 0) {
+        for(var i = 0; i < soldItems.length; i++) {
+            var player = repositories.Item.getStaticDataByDefId(maskedDefId);
+            GM_notification({
+                text: player.name + " sold for " + soldItems[i]._auction.currentBid,
+                title: "FUT 18 Web App",
+                onclick: function() { window.focus(); },
+            });
+        }
+        console.log(soldItems.length + " item(s) sold");
         services.Item.clearSoldItems().observe(this, function(observer, data) {
           //noop
         });
