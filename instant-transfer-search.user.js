@@ -6,7 +6,6 @@
 // @author      Tim Klingeleers
 // @match        https://www.easports.com/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
-// @grant       GM_xmlhttpRequest
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/instant-transfer-search.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/instant-transfer-search.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
