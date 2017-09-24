@@ -10,6 +10,7 @@
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/remove-sold-auctions.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // @grant       GM_notification
+// @grant       window.focus
 // ==/UserScript==
 (function() {
   'use strict';
