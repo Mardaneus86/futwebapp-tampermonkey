@@ -27,9 +27,7 @@
         method: "GET",
         url: futbinUrl,
         onload: function(res) {
-            console.log(res);
             var data = JSON.parse(res.response);
-            console.log(futbinUrl, data[playerId].prices.ps);
 
             var target = null;
             if ($(event.target).parents('#MyClubSearch')) {
