@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        FUT Show Futbin player price in Search Results
-// @version     0.1
-// @description Show the Futbin prices for players in the Search Results
+// @name        FUT Show Futbin player price
+// @version     0.1.1
+// @description Show the Futbin prices for players in the Search Results and Club Search
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
@@ -31,8 +31,15 @@
             var data = JSON.parse(res.response);
             console.log(futbinUrl, data[playerId].prices.ps);
 
-            var target = $(event.target).find('.auctionValue').parent();
-            target.prepend('<div class="auctionValue"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices.ps.LCPrice + '</span></div>');
+            var target = null;
+            if ($(event.target).parents('#MyClubSearch')) {
+                $(".secondary.player-stats-data-component").css('float', 'left');
+                target = $(event.target).find('.entityContainer');
+                target.append('<div class="auction" style="margin: 0; width: auto;"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices.ps.LCPrice + '</span></div>');
+            } else if($(event.target).parents('.SearchResults')) {
+                target = $(event.target).find('.auctionValue').parent();
+                target.prepend('<div class="auctionValue"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices.ps.LCPrice + '</span></div>');
+            }
         }
       });
     }

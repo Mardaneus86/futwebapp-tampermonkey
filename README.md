@@ -18,7 +18,7 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 	| Userscript Wiki                        | Direct<br>Install | Created    | Updated    |
 	|----------------------------------------|:------------------:|:----------:|:----------:|
 	| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install] | 2017.09.22 | 2017.09.23 |
-	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | 2017.09.23 | 2017.09.23 |
+	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | 2017.09.23 | 2017.09.24 |
 	| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install] | 2017.09.23 | 2017.09.23 |
 
 [instant-transfer-search-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Instant-Transfer-Search
