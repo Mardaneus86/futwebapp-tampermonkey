@@ -22,6 +22,7 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 	| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install] | 2017.09.23 | 2017.09.23 |
 	| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install] | 2017.09.24 | 2017.09.24 |
 	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install] | 2017.09.24 | 2017.09.24 |
+	| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install] | 2017.09.24 | 2017.09.24 |
 
 [instant-transfer-search-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Instant-Transfer-Search
 [instant-transfer-search-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/instant-transfer-search.user.js
@@ -33,3 +34,5 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 [auto-relist-expired-auctions-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/auto-relist-expired-auctions.user.js
 [remove-sold-auctions-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Remove-Sold-Auctions
 [remove-sold-auctions-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/remove-sold-auctions.user.js
+[search-bin-price-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Remove-Sold-Auctions
+[search-bin-price-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/remove-sold-auctions.user.js
