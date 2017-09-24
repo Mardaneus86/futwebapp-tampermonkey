@@ -34,5 +34,5 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 [auto-relist-expired-auctions-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/auto-relist-expired-auctions.user.js
 [remove-sold-auctions-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Remove-Sold-Auctions
 [remove-sold-auctions-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/remove-sold-auctions.user.js
-[search-bin-price-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Remove-Sold-Auctions
-[search-bin-price-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/remove-sold-auctions.user.js
+[search-bin-price-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Search-Bin-Price
+[search-bin-price-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/search-bin-price.user.js
