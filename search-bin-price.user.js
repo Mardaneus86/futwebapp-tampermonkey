@@ -71,7 +71,7 @@
 
     var searchCriteria = new transferobjects.SearchCriteria;
     searchCriteria.type = enums.SearchType.PLAYER;
-    searchCriteria.defId = [id];
+    searchCriteria.defId = [maskedDefId];
     searchCriteria.maxBuy = maxBuy;
 
     return repositories.TransferMarket.search(searchCriteria);
