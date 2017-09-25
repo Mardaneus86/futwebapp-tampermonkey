@@ -11,14 +11,14 @@
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // ==/UserScript==
 
-(function() {
+(function () {
   'use strict';
 
-  $(document).bind('DOMNodeInserted', function(event) {
+  $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("SearchResults")) {
       if ($(event.target).find('#refreshList').length === 0) {
         $(event.target).find('.pagingContainer').append('<a class="btn-flat pagination next" style="float: right" id="refreshList">Refresh</a>');
-        $('#refreshList').click(function() {
+        $('#refreshList').click(function () {
           gNavManager.getCurrentScreenController()._controller._listController._requestItems();
         });
       }
@@ -27,7 +27,7 @@
     if ($(event.target).hasClass("noResultsScreen")) {
       if ($(event.target).find('#refreshListNoResults').length === 0) {
         $(event.target).find('.layout-article.contents').append('<button class="standard" id="refreshListNoResults">Refresh</button>');
-        $('#refreshListNoResults').click(function() {
+        $('#refreshListNoResults').click(function () {
           gNavManager.getCurrentScreenController()._controller._listController._requestItems();
         });
       }

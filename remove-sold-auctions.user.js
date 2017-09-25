@@ -12,37 +12,37 @@
 // @grant       GM_notification
 // @grant       window.focus
 // ==/UserScript==
-(function() {
+(function () {
   'use strict';
 
-  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function() {
+  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
     repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions);
 
-    setInterval(function() { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
+    setInterval(function () { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
 
     var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {
-      var soldItems = data.items.filter(function(d) { return d.state === enums.ItemState.INVALID; });
+      var soldItems = data.items.filter(function (d) { return d.state === enums.ItemState.INVALID; });
       if (soldItems.length > 0) {
-        for(var i = 0; i < soldItems.length; i++) {
+        for (var i = 0; i < soldItems.length; i++) {
           if (soldItems[i].type == "player") {
             var player = repositories.Item.getStaticDataByDefId(soldItems[i].resourceId);
-            
+
             GM_notification({
-                text: player.name + " sold for " + soldItems[i]._auction.currentBid,
-                title: "FUT 18 Web App",
-                onclick: function() { window.focus(); },
+              text: player.name + " sold for " + soldItems[i]._auction.currentBid,
+              title: "FUT 18 Web App",
+              onclick: function () { window.focus(); },
             });
           } else {
             // TODO: can we get the item name?
             GM_notification({
-                text: soldItems[i].type + " item sold for " + soldItems[i]._auction.currentBid,
-                title: "FUT 18 Web App",
-                onclick: function() { window.focus(); },
+              text: soldItems[i].type + " item sold for " + soldItems[i]._auction.currentBid,
+              title: "FUT 18 Web App",
+              onclick: function () { window.focus(); },
             });
           }
         }
         console.log(soldItems.length + " item(s) sold");
-        services.Item.clearSoldItems().observe(this, function(observer, data) {
+        services.Item.clearSoldItems().observe(this, function (observer, data) {
           //noop
         });
       }

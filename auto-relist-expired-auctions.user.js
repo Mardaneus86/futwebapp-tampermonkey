@@ -12,26 +12,26 @@
 // @grant       GM_notification
 // @grant       window.focus
 // ==/UserScript==
-(function() {
+(function () {
   'use strict';
 
-  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function() {
-      repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions);
+  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
+    repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions);
 
-      setInterval(function() { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
+    setInterval(function () { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
 
-      var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {
-          if (data.items.filter(function(d) { return d.state === enums.ItemState.FREE && d._auction.buyNowPrice > 0; }).length > 0) {
-              services.Item.relistExpiredAuctions();
+    var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {
+      if (data.items.filter(function (d) { return d.state === enums.ItemState.FREE && d._auction.buyNowPrice > 0; }).length > 0) {
+        services.Item.relistExpiredAuctions();
 
-              GM_notification({
-                  text: "Relisted expired auctions",
-                  title: "FUT 18 Web App",
-                  timeout: 5000,
-                  onclick: function() { window.focus(); },
-              });
-              console.log("Automatically Relisted Expired Auctions");
-          }
-      };
+        GM_notification({
+          text: "Relisted expired auctions",
+          title: "FUT 18 Web App",
+          timeout: 5000,
+          onclick: function () { window.focus(); },
+        });
+        console.log("Automatically Relisted Expired Auctions");
+      }
+    };
   });
 })();

@@ -10,10 +10,10 @@
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/transfer-search-increase-list-size.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // ==/UserScript==
-(function() {
+(function () {
   'use strict';
 
-  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function() {
-      gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE)[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] = 30;
+  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
+    gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE)[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] = 30;
   });
 })();

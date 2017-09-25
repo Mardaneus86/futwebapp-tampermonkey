@@ -10,7 +10,7 @@
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/instant-transfer-search.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // ==/UserScript==
-(function() {
+(function () {
   'use strict';
   getStorage().setItem("deepLinkURL", enums.DeepLinkSections.AUCTION);
 })();
