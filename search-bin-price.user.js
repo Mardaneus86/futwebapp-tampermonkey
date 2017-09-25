@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1
-// @description Automatically search lowest BIN price on the markey
+// @version     0.1.1
+// @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
@@ -69,26 +69,11 @@
       maxBuy = 0;
     }
 
-    return repositories.TransferMarket.search({
-      category:"any",
-      club:-1,
-      count:16,
-      isExactSearch: false,
-      league:-1,
-      level:"any",
-      maskedDefId:playerId,
-      maxBid:0,
-      maxBuy:maxBuy,
-      minBid:0,
-      minBuy:0,
-      nation:-1,
-      offset:0,
-      playStyle:-1,
-      position:"any",
-      sort:"desc",
-      type:"player",
-      year:"any",
-      zone:"any"
-    });
+    var searchCriteria = new transferobjects.SearchCriteria;
+    searchCriteria.type = enums.SearchType.PLAYER;
+    searchCriteria.defId = [id];
+    searchCriteria.maxBuy = maxBuy;
+
+    return repositories.TransferMarket.search(searchCriteria);
   };
 })();
