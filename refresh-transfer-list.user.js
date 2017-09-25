@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Refresh Transfer List
-// @version     0.1.2
+// @version     0.1.3
 // @description Refresh Transfer List
 // @license     MIT
 // @author      Tim Klingeleers
@@ -18,18 +18,9 @@
 
   $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("SearchResults")) {
-      if ($(event.target).find('.refreshList').length === 0) {
-        $(event.target).find('.pagingContainer').append('<a class="btn-flat pagination next refreshList" style="float: right">Refresh</a>');
+      if ($('#header .subTitle').find('.refreshList').length === 0) {
+        $('#header').find('.subTitle').append('<a class="btn-flat next refreshList" style="float: right">Refresh list</a>');
         $('.refreshList').click(function () {
-          gNavManager.getCurrentScreenController()._controller._listController._requestItems();
-        });
-      }
-    }
-
-    if ($(event.target).hasClass("noResultsScreen")) {
-      if ($(event.target).find('#refreshListNoResults').length === 0) {
-        $(event.target).find('.layout-article.contents').append('<button class="standard" id="refreshListNoResults">Refresh</button>');
-        $('#refreshListNoResults').click(function () {
           gNavManager.getCurrentScreenController()._controller._listController._requestItems();
         });
       }
