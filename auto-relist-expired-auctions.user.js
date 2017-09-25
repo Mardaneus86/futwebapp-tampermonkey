@@ -12,6 +12,9 @@
 // @grant       GM_notification
 // @grant       window.focus
 // ==/UserScript==
+// ==OpenUserJS==
+// @author Mardaneus86
+// ==/OpenUserJS==
 (function () {
   'use strict';
 
