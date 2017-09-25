@@ -18,9 +18,9 @@
 
   $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("SearchResults")) {
-      if ($(event.target).find('#refreshList').length === 0) {
-        $(event.target).find('.pagingContainer').append('<a class="btn-flat pagination next" style="float: right" id="refreshList">Refresh</a>');
-        $('#refreshList').click(function () {
+      if ($(event.target).find('.refreshList').length === 0) {
+        $(event.target).find('.pagingContainer').append('<a class="btn-flat pagination next" style="float: right" class="refreshList">Refresh</a>');
+        $('.refreshList').click(function () {
           gNavManager.getCurrentScreenController()._controller._listController._requestItems();
         });
       }
