@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Refresh Transfer List
-// @version     0.1
+// @version     0.1.1
 // @description Refresh Transfer List
 // @license     MIT
 // @author      Tim Klingeleers
@@ -19,6 +19,15 @@
       if ($(event.target).find('#refreshList').length === 0) {
         $(event.target).find('.pagingContainer').append('<a class="btn-flat pagination next" style="float: right" id="refreshList">Refresh</a>');
         $('#refreshList').click(function() {
+          gNavManager.getCurrentScreenController()._controller._listController._requestItems();
+        });
+      }
+    }
+
+    if ($(event.target).hasClass("noResultsScreen")) {
+      if ($(event.target).find('#refreshListNoResults').length === 0) {
+        $(event.target).find('.layout-article.contents').append('<button class="standard" id="refreshListNoResults">Refresh</button>');
+        $('#refreshListNoResults').click(function() {
           gNavManager.getCurrentScreenController()._controller._listController._requestItems();
         });
       }
