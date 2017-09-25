@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.1.1
+// @version     0.1.2
 // @description Show the Futbin prices for players in the Search Results and Club Search
 // @license     MIT
 // @author      Tim Klingeleers
@@ -33,11 +33,11 @@
           var data = JSON.parse(res.response);
 
           var target = null;
-          if ($(event.target).parents('#MyClubSearch')) {
+          if ($(event.target).parents('#MyClubSearch').length > 0) {
             $(".secondary.player-stats-data-component").css('float', 'left');
             target = $(event.target).find('.entityContainer');
             target.append('<div class="auction" style="margin: 0; width: auto;"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices.ps.LCPrice + '</span></div>');
-          } else if ($(event.target).parents('.SearchResults')) {
+          } else if ($(event.target).parents('.SearchResults').length > 0) {
             target = $(event.target).find('.auctionValue').parent();
             target.prepend('<div class="auctionValue"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices.ps.LCPrice + '</span></div>');
           }
