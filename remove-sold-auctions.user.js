@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Auto Remove Sold Auctions
-// @version     0.1
+// @version     0.1.1
 // @description Automatically remove sold items from the transfer list
 // @license     MIT
 // @author      Tim Klingeleers
@@ -24,12 +24,22 @@
       var soldItems = data.items.filter(function(d) { return d.state === enums.ItemState.INVALID; });
       if (soldItems.length > 0) {
         for(var i = 0; i < soldItems.length; i++) {
-            var player = repositories.Item.getStaticDataByDefId(maskedDefId);
+          if (soldItems[i].type == "player") {
+            var player = repositories.Item.getStaticDataByDefId(soldItems[i].resourceId);
+            
             GM_notification({
                 text: player.name + " sold for " + soldItems[i]._auction.currentBid,
                 title: "FUT 18 Web App",
                 onclick: function() { window.focus(); },
             });
+          } else {
+            // TODO: can we get the item name?
+            GM_notification({
+                text: soldItems[i].type + " item sold for " + soldItems[i]._auction.currentBid,
+                title: "FUT 18 Web App",
+                onclick: function() { window.focus(); },
+            });
+          }
         }
         console.log(soldItems.length + " item(s) sold");
         services.Item.clearSoldItems().observe(this, function(observer, data) {
