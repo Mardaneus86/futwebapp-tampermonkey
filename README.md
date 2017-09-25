@@ -25,6 +25,7 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 	| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.25 |
 	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
+	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 
 [instant-transfer-search-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Instant-Transfer-Search
 [instant-transfer-search-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/instant-transfer-search.user.js
@@ -58,3 +59,6 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 [show-contract-fitness-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/show-contract-fitness.user.js
 [show-contract-fitness-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Show_Contracts_and_Fitness.user.js
 
+[confirm-buynow-dialog-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Confirm-BuyNow-Dialog
+[confirm-buynow-dialog-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/sconfirm-buynow-dialog.user.js
+[confirm-buynow-dialog-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Confirm_Buy_Now_Dialog.user.js
