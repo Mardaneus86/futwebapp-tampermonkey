@@ -18,7 +18,7 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 	| Userscript Wiki                        | Direct<br>Install | OpenUserJS<br>Install | Created    | Updated    |
 	|----------------------------------------|:------------------:|:----------:|:----------:|:----------:|
 	| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install] | [install][instant-transfer-search-install-openuserjs] | 2017.09.22 | 2017.09.23 |
-	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.24 |
+	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.24 |
 	| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 | 2017.09.23 |
 	| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
 	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install] | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.25 |
