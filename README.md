@@ -73,5 +73,5 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 [show-contract-fitness-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Show_Contracts_and_Fitness.user.js
 
 [confirm-buynow-dialog-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Confirm-BuyNow-Dialog
-[confirm-buynow-dialog-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/sconfirm-buynow-dialog.user.js
+[confirm-buynow-dialog-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/confirm-buynow-dialog.user.js
 [confirm-buynow-dialog-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Confirm_Buy_Now_Dialog.user.js
