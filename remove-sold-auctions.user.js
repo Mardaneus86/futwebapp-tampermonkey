@@ -19,8 +19,6 @@
   'use strict';
 
   gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
-    repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions);
-
     setInterval(function () { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
 
     var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {

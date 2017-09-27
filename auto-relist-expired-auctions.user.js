@@ -19,13 +19,16 @@
   'use strict';
 
   gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
-    repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions);
-
     setInterval(function () { repositories.Item.getTransferItems().observe(this, _handleExpiredAuctions); }, 60000);
 
     var _handleExpiredAuctions = function handleExpiredAuctions(observer, data) {
       if (data.items.filter(function (d) { return d.state === enums.ItemState.FREE && d._auction.buyNowPrice > 0; }).length > 0) {
         services.Item.relistExpiredAuctions();
+
+        // Refresh screen if we are on the transfer list screen
+        if (typeof gNavManager.getCurrentScreenController()._controller == "TransferListLandscapeViewController") {
+          gNavManager.getCurrentScreenController()._controller._listController._requestItems();
+        }
 
         GM_notification({
           text: "Relisted expired auctions",
