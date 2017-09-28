@@ -24,6 +24,10 @@
       var playerImageUrl = $(event.target).find('.photo').attr('src');
       var playerId = playerImageUrl.substr(playerImageUrl.lastIndexOf('/') + 1).replace('.png', '');
 
+      if(playerId.startsWith('p')) {
+        playerId = playerId.substr(1);
+      }
+
       var futbinUrl = "https://www.futbin.com/18/playerPrices?player=" + playerId;
 
       var ret = GM_xmlhttpRequest({
