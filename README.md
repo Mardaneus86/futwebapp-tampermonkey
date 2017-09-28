@@ -1,5 +1,11 @@
 # FUT Web App - TamperMonkey/GreaseMonkey scripts
-TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
+FIFA 18's companion app for FIFA Ultimate Team, the FUT 18 Web App, is a website that let's you trade and manage your team on the go.
+
+This collection of TamperMonkey/GreaseMonkey scripts are meant to enhance the FUT 18 Web App experience. You can install the individual scripts from below, depending on which features you want. Most scripts can be run independent of each other.
+
+:warning: Using these scripts is at your own risk. EA might (temp-)ban you for automating parts of their Web App.
+
+I started this project to learn about reverse engineering big Javascript codebases.
 
 ## Installation
 
@@ -29,6 +35,9 @@ TamperMonkey/GreaseMonkey scripts to enhance the FUT 18 Web App
 
 ## Feature requests
 If you feel there are missing features, feel free to add a request to the [issue list][issue-list]. Make sure to provide the necessary details, or even a mockup of what the feature would look like.
+
+## Issues
+File a bug report in the [issue list][issue-list].
 
 ## Contribute
 Add a feature request or bug to the [issue list][issue-list] before doing a PR in order to discuss it before implementing a fix. Issues that are marked with the `help wanted` have priority if you want to help.
