@@ -20,14 +20,18 @@ I started this project to learn about reverse engineering big Javascript codebas
 
 2. Get information or install:
 	* Install a script directly from GitHub by clicking on the "install" link in the table below.
+
+	| Userscript Wiki                        | Depending<br>Scripts | Direct<br>Install | OpenUserJS<br>Install |
+	|----------------------------------------|:------------------:|:------------------:|:----------:|
+	| [FUT Tampermonkey Settings][settings-wiki] | FUT Remove Sold Auctions | [install][settings-install] | [install][settings-install-openuserjs] |
   
 	| Userscript Wiki                        | Direct<br>Install | OpenUserJS<br>Install | Created    | Updated    |
 	|----------------------------------------|:------------------:|:----------:|:----------:|:----------:|
 	| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install] | [install][instant-transfer-search-install-openuserjs] | 2017.09.22 | 2017.09.23 |
-	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.24 |
+	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.28 |
 	| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 | 2017.09.23 |
 	| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
-	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install] | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.25 |
+	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install] | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.28 |
 	| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.25 |
 	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
@@ -84,3 +88,7 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 [confirm-buynow-dialog-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Confirm-BuyNow-Dialog
 [confirm-buynow-dialog-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/confirm-buynow-dialog.user.js
 [confirm-buynow-dialog-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Confirm_Buy_Now_Dialog.user.js
+
+[settings-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Settings
+[settings-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/settings.user.js
+[settings-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Settings_Page.user.js
