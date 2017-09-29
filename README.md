@@ -36,6 +36,7 @@ I started this project to learn about reverse engineering big Javascript codebas
 	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
+	| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
 
 ## Feature requests
 If you feel there are missing features, feel free to add a request to the [issue list][issue-list]. Make sure to provide the necessary details, or even a mockup of what the feature would look like.
@@ -92,3 +93,7 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 [settings-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Settings
 [settings-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/settings.user.js
 [settings-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Settings_Page.user.js
+
+[disable-clickshield-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Disable-Clickshield
+[disable-clickshield-install]: https://github.com/Mardaneus86/futwebapp-tampermonkey/raw/master/disable-clickshield.user.js
+[disable-clickshield-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Disable_Clickshield.user.js
