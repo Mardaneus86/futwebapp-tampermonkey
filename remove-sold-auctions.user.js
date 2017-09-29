@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Auto Remove Sold Auctions
-// @version     0.1.2
+// @version     0.1.3
 // @description Automatically remove sold items from the transfer list
 // @license     MIT
 // @author      Tim Klingeleers
@@ -60,33 +60,42 @@
       if (soldItems.length > 0) {
         for (var i = 0; i < soldItems.length; i++) {
           var lastSalePrice = 0;
+          var lastSalePriceKnown = false;
           var lastSalePricesList = JSON.parse(GM_getValue('auctionlastprices', '{}'));
           var lastSalePriceO = lastSalePricesList[soldItems[i].id];
-          if (lastSalePriceO !== null) {
+          if (!!lastSalePriceO) {
             lastSalePrice = lastSalePriceO.lastSalePrice;
+            lastSalePriceKnown = true;
           }
           var profit = (soldItems[i]._auction.currentBid * 0.95) - lastSalePrice; // calculate 5% EA tax
-          sendToIFTTT(soldItems[i]._auction.currentBid, profit, {
-            lastSalePrice: lastSalePrice,
-            salePrice: soldItems[i]._auction.currentBid,
-            name: soldItems[i]._staticData.name,
-            firstname: soldItems[i]._staticData.firstName,
-            lastname: soldItems[i]._staticData.lastName
-          });
           if (soldItems[i].type == "player") {
-            //var player = repositories.Item.getStaticDataByDefId(soldItems[i].resourceId);
-
+            var player = repositories.Item.getStaticDataByDefId(soldItems[i].resourceId);
+            var playerName = "Unknown player";
+            if (player !== null) {
+              playerName = player.name + " (" + player.rating + ")";
+            }
             GM_notification({
-              text: soldItems[i]._staticData.firstName + " " + soldItems[i]._staticData.lastName + " sold for " + soldItems[i]._auction.currentBid,
+              text: playerName + " sold for " + soldItems[i]._auction.currentBid,
               title: "FUT 18 Web App",
               onclick: function () { window.focus(); },
+            });
+
+            sendToIFTTT(soldItems[i]._auction.currentBid, lastSalePriceKnown ? profit : "", {
+              lastSalePrice: lastSalePriceKnown ? lastSalePrice : "",
+              salePrice: soldItems[i]._auction.currentBid,
+              name: playerName
             });
           } else {
             // TODO: can we get the item name?
             GM_notification({
-              text: soldItems[i].type + " item sold for " + soldItems[i]._auction.currentBid,
+              text: soldItems[i]._staticData.name + " item sold for " + soldItems[i]._auction.currentBid,
               title: "FUT 18 Web App",
               onclick: function () { window.focus(); },
+            });
+            sendToIFTTT(soldItems[i]._auction.currentBid, lastSalePriceKnown ? profit : "", {
+              lastSalePrice: lastSalePriceKnown ? lastSalePrice : "",
+              salePrice: soldItems[i]._auction.currentBid,
+              name: soldItems[i]._staticData.name
             });
           }
         }
