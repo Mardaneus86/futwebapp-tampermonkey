@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.1.3
+// @version     0.1.4
 // @description Show the Futbin prices for players in the Search Results and Club Search
 // @license     MIT
 // @author      Tim Klingeleers
@@ -39,7 +39,7 @@
           var platform = '';
           if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = "ps";
           if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = "pc";
-          if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = "xbox";
+          if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
 
           var target = null;
           if ($(event.target).parents('#MyClubSearch').length > 0) {
