@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.1
+// @version     0.1.2
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
@@ -17,6 +17,7 @@
 // ==/OpenUserJS==
 (function () {
   'use strict';
+  const START_BIN_SEARCH = 9999999999;
 
   $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("DetailPanel")) {
@@ -27,36 +28,44 @@
           var playerImageUrl = $('.listFUTItem.selected').find('.photo').attr('src');
           var playerId = playerImageUrl.substr(playerImageUrl.lastIndexOf('/') + 1).replace('.png', '');
 
-          search(playerId, 9999999999).observe(this, handleSearch);
+          searchdata = {
+            minimumBIN: START_BIN_SEARCH,
+            itemData: gNavManager.getCurrentScreenController()._controller._itemDetailController._currentController._getViewIteratorItems().current,
+            searchCriteria: new transferobjects.SearchCriteria
+          };
+          searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
+          searchdata.searchCriteria.type = searchdata.itemData.getSearchType();
+
+          search(searchdata).observe(this, handleSearch);
         });
       }
     }
   });
 
-  var minimumBIN = 9999999999;
-  var maskedDefId = 0;
-  var handleSearch = function handleSearch(t, data) {
+  var searchdata = {};
+  var handleSearch = function handleSearch(sender, data) {
     if (data.items.length > 0) {
       var newMinimumBIN = Math.min.apply(Math, data.items.map(function (o) { return o._auction.buyNowPrice; }));
-      if (newMinimumBIN < minimumBIN) {
-        minimumBIN = newMinimumBIN;
-        console.log("new BIN price found: " + minimumBIN);
-        setTimeout(function () { search(maskedDefId, minimumBIN).observe(this, handleSearch); }, 2000);
+      if (newMinimumBIN < searchdata.minimumBIN) {
+        var delay = Math.floor(Math.random() * 3000) + 2000;
+        
+        setTimeout(function () { 
+          searchdata.minimumBIN = newMinimumBIN;
+          search(searchdata).observe(this, handleSearch); 
+        }, delay);
       } else {
         var lowestBIN = Math.min.apply(Math, data.items.map(function (o) { return o._auction.buyNowPrice; }));
-        var player = repositories.Item.getStaticDataByDefId(maskedDefId);
         GM_notification({
-          text: "Minimum BIN found for " + player.name + " is " + lowestBIN,
+          text: "Minimum BIN found for " + searchdata.itemData._staticData.name + " is " + lowestBIN,
           title: "FUT 18 Web App",
           timeout: 5000,
           onclick: function () { window.focus(); },
         });
       }
     } else {
-      var lowestBIN = Math.min.apply(Math, data.items.map(function (o) { return o._auction.buyNowPrice; }));
-      var player = repositories.Item.getStaticDataByDefId(maskedDefId);
+      var lowestBIN = searchdata.minimumBIN;
       GM_notification({
-        text: "Minimum BIN found for " + player.name + " is " + lowestBIN,
+        text: "Minimum BIN found for " + searchdata.itemData._staticData.name + " is " + lowestBIN,
         title: "FUT 18 Web App",
         timeout: 5000,
         onclick: function () { window.focus(); },
@@ -64,18 +73,14 @@
     }
   };
 
-  var search = function search(playerId, maxBuy) {
-    minimumBIN = maxBuy;
-    maskedDefId = playerId;
-    if (maxBuy === 9999999999) {
+  var search = function search(data) {
+    var maxBuy = data.minimumBIN;
+    if (data.minimumBIN === START_BIN_SEARCH) {
       maxBuy = 0;
     }
 
-    var searchCriteria = new transferobjects.SearchCriteria;
-    searchCriteria.type = enums.SearchType.PLAYER;
-    searchCriteria.defId = [maskedDefId];
-    searchCriteria.maxBuy = maxBuy;
+    data.searchCriteria.maxBuy = maxBuy;
 
-    return repositories.TransferMarket.search(searchCriteria);
+    return repositories.TransferMarket.search(data.searchCriteria);
   };
 })();
