@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Refresh Transfer List
-// @version     0.1.3
+// @version     0.1.4
 // @description Refresh Transfer List
 // @license     MIT
 // @author      Tim Klingeleers
