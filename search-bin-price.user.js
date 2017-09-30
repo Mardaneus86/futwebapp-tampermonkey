@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.2
+// @version     0.1.3
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
@@ -18,6 +18,7 @@
 (function () {
   'use strict';
   const START_BIN_SEARCH = 9999999999;
+  const SEARCH_COUNT = 30;
 
   $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("DetailPanel")) {
@@ -33,8 +34,16 @@
             itemData: gNavManager.getCurrentScreenController()._controller._itemDetailController._currentController._getViewIteratorItems().current,
             searchCriteria: new transferobjects.SearchCriteria
           };
+          
+          searchdata.searchCriteria.count = SEARCH_COUNT,
           searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
-          searchdata.searchCriteria.type = searchdata.itemData.getSearchType();
+          searchdata.searchCriteria.type = searchdata.itemData.type;
+          // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
+          var rareflag = searchdata.itemData.rareflag > enums.ItemRareType.TOTW ? enums.ItemRareType.TOTW : searchdata.itemData.rareflag; 
+          var level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == rareflag)[0].value;
+          searchdata.searchCriteria.level = level;
+          searchdata.searchCriteria.category = enums.SearchCategory.ANY;
+          searchdata.searchCriteria.position = enums.SearchType.ANY;
 
           search(searchdata).observe(this, handleSearch);
         });
@@ -46,11 +55,16 @@
   var handleSearch = function handleSearch(sender, data) {
     if (data.items.length > 0) {
       var newMinimumBIN = Math.min.apply(Math, data.items.map(function (o) { return o._auction.buyNowPrice; }));
+      var delay = Math.floor(Math.random() * 3000) + 2000;
       if (newMinimumBIN < searchdata.minimumBIN) {
-        var delay = Math.floor(Math.random() * 3000) + 2000;
-        
         setTimeout(function () { 
           searchdata.minimumBIN = newMinimumBIN;
+          search(searchdata).observe(this, handleSearch); 
+        }, delay);
+      } else if (data.items.length == SEARCH_COUNT) {
+        // all results are the same price, so make min price a little less        
+        setTimeout(function () { 
+          searchdata.minimumBIN = new components.NumericInput().getIncrementBelowVal(searchdata.minimumBIN);
           search(searchdata).observe(this, handleSearch); 
         }, delay);
       } else {
