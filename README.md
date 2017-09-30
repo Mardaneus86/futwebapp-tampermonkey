@@ -37,7 +37,7 @@ I started this project to learn about reverse engineering big Javascript codebas
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
-	| :warning: [FUT Autobuyer BIN Sniper][autobuyer-bin-snipe-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 | 2017.09.30 |
+	| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 | 2017.09.30 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.
 
