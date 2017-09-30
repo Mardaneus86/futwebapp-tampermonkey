@@ -37,7 +37,7 @@ I started this project to learn about reverse engineering big Javascript codebas
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
-	| :warning: [FUT Autobuyer BIN Sniper][autobuyer-bin-snipe-wiki] | N/A | 2017.09.30 | 2017.09.30 |
+	| :warning: [FUT Autobuyer BIN Sniper][autobuyer-bin-snipe-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 | 2017.09.30 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.
 
@@ -90,5 +90,5 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 [disable-clickshield-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Disable-Clickshield
 [disable-clickshield-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Disable_Clickshield.user.js
 
-[autobuyer-bin-snipe-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Autobuyer
-[autobuyer-bin-snipe-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Autobuyer.user.js
+[autobuyer-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Autobuyer
+[autobuyer-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Autobuyer.user.js
