@@ -17,13 +17,17 @@
   'use strict';
 
   $(document).bind('DOMNodeInserted', function (event) {
-    if ($(event.target).hasClass("SearchResults")) {
-      if ($('#header .subTitle').find('.refreshList').length === 0) {
-        $('#header').find('.subTitle').append('<a class="btn-flat next refreshList" style="float: right">Refresh list</a>');
-        $('.refreshList').click(function () {
-          gNavManager.getCurrentScreenController()._controller._listController._requestItems();
-        });
-      }
+    switch (gNavManager.getCurrentScreen()._screenId) {
+      case "TradePile":
+      case "SearchResults":
+      case "MyClubSearch":
+        if ($('#header .subTitle').find('.refreshList').length === 0) {
+          $('#header').find('.subTitle').append('<a class="btn-flat next refreshList" style="float: right">Refresh list</a>');
+          $('.refreshList').click(function () {
+            gNavManager.getCurrentScreenController()._controller._listController._requestItems();
+          });
+        }
+        break;
     }
   });
 })();

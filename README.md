@@ -33,7 +33,7 @@ I started this project to learn about reverse engineering big Javascript codebas
 	| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
 	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install] | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.28 |
 	| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.29 |
-	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.25 |
+	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.30 |
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
