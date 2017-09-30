@@ -21,24 +21,30 @@ I started this project to learn about reverse engineering big Javascript codebas
 2. Get information or install:
 	* Install a script directly from GitHub by clicking on the "install" link in the table below.
 
-	| Userscript Wiki                        | Depending<br>Scripts | OpenUserJS<br>Install |
-	|----------------------------------------|:--------------------:|:---------------------:|
-	| [FUT Tampermonkey Settings][settings-wiki] | FUT Remove Sold Auctions | [install][settings-install-openuserjs] |
-  
+### Generic scripts
+
+	| Userscript Wiki                        | OpenUserJS<br>Install |
+	|----------------------------------------|:---------------------:|
+	| :hammer: [FUT Tampermonkey Settings][settings-wiki] | [install][settings-install-openuserjs] |
+    
+### Normal scripts
+
+Some of the scripts depend on the generic scripts that are mentioned above. They are marked with the corresponding icon.
+
 	| Userscript Wiki                        | OpenUserJS<br>Install | Created    | Updated    |
 	|----------------------------------------|:------------------:|:----------:|:----------:|
 	| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install-openuserjs] | 2017.09.22 | 2017.09.23 |
 	| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.30 |
 	| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 | 2017.09.23 |
 	| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
-	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.28 |
+	| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] :hammer: | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.28 |
 	| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.30 |
 	| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.30 |
 	| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
 	| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
 	| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 | 2017.09.30 |
-
+		
 Scripts marked with :warning: are experimental and not suited for regular users.
 
 ## Feature requests
