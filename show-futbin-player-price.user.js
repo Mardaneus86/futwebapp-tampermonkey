@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.1.5
+// @version     0.1.6
 // @description Show the Futbin prices for players in the Search Results and Club Search
 // @license     MIT
 // @author      Tim Klingeleers
@@ -19,7 +19,6 @@
   'use strict';
 
   var showFutbinPrice = function showFutbinPrice(target) {
-    console.log(target);
     if (target.find('.player').length === 0) {
       // not a player
       return;
@@ -44,18 +43,22 @@
       url: futbinUrl,
       onload: function (res) {
         var data = JSON.parse(res.response);
-
+        
+        if (target.find('.futbin').length > 0) {
+          return; // futbin price already added to the row
+        }
+        
         var targetForButton = null;
         switch(gNavManager.getCurrentScreen()._screenId) {
           case "TradePile":
           case "MyClubSearch":
             $(".secondary.player-stats-data-component").css('float', 'left');
             targetForButton = target.find('.entityContainer');
-            targetForButton.append('<div class="auction" style="margin: 0; width: auto;"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices[platform].LCPrice + '</span></div>');
+            targetForButton.append('<div class="auction futbin" style="margin: 0; width: auto;"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices[platform].LCPrice + '</span></div>');
             break;
           case "SearchResults":
             targetForButton = target.find('.auctionValue').parent();
-            targetForButton.prepend('<div class="auctionValue"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices[platform].LCPrice + '</span></div>');
+            targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + data[playerId].prices[platform].LCPrice + '</span></div>');
             break;
         }
       }
