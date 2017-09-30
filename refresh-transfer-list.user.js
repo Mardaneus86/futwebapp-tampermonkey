@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Refresh Transfer List
-// @version     0.1.4
+// @version     0.1.5
 // @description Refresh Transfer List
 // @license     MIT
 // @author      Tim Klingeleers
@@ -17,7 +17,12 @@
   'use strict';
 
   $(document).bind('DOMNodeInserted', function (event) {
-    switch (gNavManager.getCurrentScreen()._screenId) {
+    var currentScreen = gNavManager.getCurrentScreen();
+    if (!currentScreen) {
+      return;
+    }
+
+    switch (currentScreen._screenId) {
       case "TradePile":
       case "SearchResults":
       case "MyClubSearch":
