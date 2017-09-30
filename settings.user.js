@@ -6,6 +6,8 @@
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
+// @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/settings.user.js
+// @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/settings.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // @grant       GM_getValue
 // @grant       GM_setValue

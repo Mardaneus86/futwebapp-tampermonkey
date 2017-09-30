@@ -6,8 +6,8 @@
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
-// @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/auto-relist-unsold-transfers.user.js
-// @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/auto-relist-unsold-transfers.user.js
+// @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/auto-relist-expired-auctions.user.js
+// @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/auto-relist-expired-auctions.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // @grant       GM_notification
 // @grant       window.focus
