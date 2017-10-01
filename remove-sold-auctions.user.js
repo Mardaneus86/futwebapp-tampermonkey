@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Auto Remove Sold Auctions
-// @version     0.1.3
+// @version     0.1.4
 // @description Automatically remove sold items from the transfer list
 // @license     MIT
 // @author      Tim Klingeleers
@@ -47,7 +47,7 @@
         var lastSalePrices = JSON.parse(GM_getValue('auctionlastprices', '{}'));
 
         for (var j = 0; j < unsoldItems.length; j++) {
-          if (lastSalePrices[unsoldItems[j].id] === null) {
+          if (!lastSalePrices[unsoldItems[j].id]) {
             lastSalePrices[unsoldItems[j].id] = {
               lastSalePrice: unsoldItems[j].lastSalePrice
             };

@@ -37,7 +37,7 @@ Some of the scripts depend on the generic scripts that are mentioned above. They
 | [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.30 |
 | [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 | 2017.09.23 |
 | [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
-| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] :hammer: | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.09.28 |
+| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] :hammer: | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.10.01 |
 | [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.30 |
 | [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.30 |
 | [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
