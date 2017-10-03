@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Autobuyer
-// @version     0.1
+// @version     0.1.1
 // @description Automatically search and buy items matching search criteria, currenly based on max buy now value
 // @license     MIT
 // @author      Tim Klingeleers
@@ -39,6 +39,16 @@
     }
   };
 
+  var isNotExactTraining = function isExactTraining(crit) {
+    if (crit.category === enums.SearchCategory.POSITION) {
+      return crit.position === "any";
+    } else if (crit.category === enums.SearchCategory.PLAYSTYLE) {
+      return crit.playStyle === -1;
+    } else {
+      return true; // can't search specific enough on the rest of the categories
+    }
+  }
+
   // page
   pages.Autobuyer = function () {
     pages.Search.call(this);
@@ -71,6 +81,15 @@
   pages.controllers.AutobuyerController.prototype.onSearchButtonClicked = function () {
     if (this._viewmodel.searchCriteria.maxBuy === 0) {
       addMessage("Can't BIN snipe without a max buy now value");
+      return;
+    }
+
+    console.log(this._viewmodel.searchCriteria)
+    if (this._viewmodel.searchCriteria.type === "player" && !this._viewmodel.searchCriteria.maskedDefId ||
+        this._viewmodel.searchCriteria.type === "training" && isNotExactTraining(this._viewmodel.searchCriteria) ||
+        this._viewmodel.searchCriteria.type === "clubInfo" && (this._viewmodel.searchCriteria.club === -1 && this._viewmodel.searchCriteria.league === -1) ||
+        this._viewmodel.searchCriteria.type === "staff" && this._viewmodel.searchCriteria.category === "any") {
+      addMessage("Can't BIN snipe without a specific item");
       return;
     }
     this._isSearching = !this._isSearching;
