@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.1.6
-// @description Show the Futbin prices for players in the Search Results and Club Search
+// @version     0.2.0
+// @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
