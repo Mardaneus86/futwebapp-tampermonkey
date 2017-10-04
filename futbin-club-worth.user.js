@@ -8,8 +8,8 @@
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
 // @namespace   https://github.com/Mardaneus86
-// @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/club-worth.user.js
-// @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/club-worth.user.js
+// @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/futbin-club-worth.user.js
+// @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/futbin-club-worth.user.js
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // ==/UserScript==
 // ==OpenUserJS==

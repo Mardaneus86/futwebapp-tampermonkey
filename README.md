@@ -31,19 +31,20 @@ I started this project to learn about reverse engineering big Javascript codebas
 
 Some of the scripts depend on the generic scripts that are mentioned above. They are marked with the corresponding icon.
 
-| Userscript Wiki                        | OpenUserJS<br>Install | Created    | Updated    |
-|----------------------------------------|:------------------:|:----------:|:----------:|
-| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install-openuserjs] | 2017.09.22 | 2017.09.23 |
-| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 | 2017.09.30 |
-| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 | 2017.09.23 |
-| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 | 2017.09.24 |
-| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] :hammer: | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 | 2017.10.01 |
-| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install-openuserjs] | 2017.09.24 | 2017.09.30 |
-| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 | 2017.09.30 |
-| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 | 2017.09.25 |
-| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 | 2017.09.25 |
-| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 | 2017.09.29 |
-| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 | 2017.09.30 |
+| Userscript Wiki                        | OpenUserJS<br>Install | Created    |
+|----------------------------------------|:------------------:|:----------:|
+| [FUT Instant Transfer Search][instant-transfer-search-wiki] | [install][instant-transfer-search-install-openuserjs] | 2017.09.22 |
+| [FUT Show Futbin Player Price][show-futbin-player-price-wiki] | [install][show-futbin-player-price-install-openuserjs] | 2017.09.23 |
+| [FUT Increase Transfer Search List Size][transfer-search-increase-list-size-wiki] | [install][transfer-search-increase-list-size-install-openuserjs] | 2017.09.23 |
+| [FUT Auto Relist Expired Auctions][auto-relist-expired-auctions-wiki] | [install][auto-relist-expired-auctions-install-openuserjs] | 2017.09.24 |
+| [FUT Remove Sold Auctions][remove-sold-auctions-wiki] :hammer: | [install][remove-sold-auctions-install-openuserjs] | 2017.09.24 |
+| [FUT Search BIN Price][search-bin-price-wiki] | [install][search-bin-price-install-openuserjs] | 2017.09.24 |
+| [FUT Refresh Transfer List][refresh-transfer-list-wiki] | [install][refresh-transfer-list-install-openuserjs] | 2017.09.25 |
+| [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 |
+| [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 |
+| [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 |
+| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 |
+| [FUT Futbin Club Worth][futbin-club-worth-wiki] | [install][futbin-club-worth-install-openuserjs] | 2017.10.04 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.
 
@@ -98,3 +99,6 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 
 [autobuyer-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Autobuyer
 [autobuyer-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Autobuyer.user.js
+
+[futbin-club-worth-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Futbin-Club-Worth
+[futbin-club-worth-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Futbin_Club_Worth.user.js
