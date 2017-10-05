@@ -16,58 +16,61 @@
 // @author Mardaneus86
 // ==/OpenUserJS==
 (function () {
-    'use strict';
+  'use strict';
+  gNavManager.onScreenRequest.observe(this, function (obs, event) {
+    if (event === "MyClubSearch") {
+      var currentCount = 0;
+      var currentTotal = 0;
 
-    gNavManager.onScreenRequest.observe(this, function(obs, event) {
-        if(event === "MyClubSearch") {
-            var currentCount = 0;
-            var currentTotal = 0;
-            setTimeout(function(){
-              $('.MyClubResults').prepend(`
-              <div class="clubValue"><button class="list" style="cursor: default">
-              <span class="btn-text">Total Futbin Club Value:</span>
-              <span class="btn-subtext">Calculating, please wait...</span>
-              </div>`);
-            }, 1000);
-            var gettingPlayerData = setInterval(function() {
-                var t = new transferobjects.SearchCriteria();
-                t.type = enums.SearchType.PLAYER;
-                var o = new communication.ClubSearchDelegate(t, currentCount, 90);
-                components.ClickShield.prototype.showShield = function(t) {
-                };
-                currentCount += 90;
-                o.addListener(communication.BaseDelegate.SUCCESS, this, function marketSearch(sender, response) {
-                    var playerIds = Object.keys(response.itemData).map(function(key) { if(!response.itemData[key].untradeable){return response.itemData[key].resourceId;}});
-                    if(response.itemData.length < 1) {
-                        clearInterval(gettingPlayerData);
-                        console.log("done");
-                         $('.clubValue .btn-subtext').html(`${currentTotal}`);
-                    }
-                    var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + playerIds.join(',');
-                    var platform = '';
-                    if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = "ps";
-                    if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = "pc";
-                    if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
-                    GM_xmlhttpRequest({
-                        method: "GET",
-                        url: futbinUrl,
-                        onload: function (res) {
-                            var futbinData = JSON.parse(res.response);
-                            var clubWorth = playerIds.map(function(key) {
-                                if (futbinData[key]) {
-                                    return parseInt(futbinData[key].prices[platform].LCPrice.replace(/,/g, ""));
-                                } else {
-                                    return parseInt(0);
-                                }
-                            }).reduce(function(a, b) {
-                               return a + b;
-                            }, 0);
-                            currentTotal += clubWorth;
-                        }
-                    });
-                });
-                o.send();
-            }, 1000);
+      var platform = '';
+      if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = "ps";
+      if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = "pc";
+      if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
+
+      setTimeout(function () {
+        $('.MyClubResults').prepend(`
+        <div class="clubValue"><button class="list" style="cursor: default">
+        <span class="btn-text">Total Futbin Club Value:</span>
+        <span class="btn-subtext">Calculating, please wait...</span>
+        </div>`);
+      }, 1000);
+      var t = new transferobjects.SearchCriteria();
+      t.type = enums.SearchType.PLAYER;
+
+      var o = new communication.ClubSearchDelegate(t, currentCount, 90);
+      o._useClickShield = false;
+      o.send();
+
+      o.addListener(communication.BaseDelegate.SUCCESS, this, function marketSearch(sender, response) {
+        var playerIds = Object.keys(response.itemData).map(function (key) { if (!response.itemData[key].untradeable) { return response.itemData[key].resourceId; } }).filter(function(x) {return x != undefined});
+        if (playerIds.length < 1) {
+          console.log("club total calculation complete.");
+          $('.clubValue .btn-subtext').html(`${currentTotal}`);
+        } else {
+          var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + playerIds.join(',');
+          GM_xmlhttpRequest({
+            method: "GET",
+            url: futbinUrl,
+            onload: function (res) {
+              var futbinData = JSON.parse(res.response);
+              var clubWorth = playerIds.map(function (key) {
+                if (futbinData[key]) {
+                  return parseInt(futbinData[key].prices[platform].LCPrice.replace(/,/g, ""));
+                } else {
+                  return parseInt(0);
+                }
+              }).reduce(function (a, b) {
+                return a + b;
+              }, 0);
+              currentTotal += clubWorth;
+              currentCount += 90;
+              o.setURLVariables({sort: "desc", type: "player", defId: Array(0), start: currentCount, count: 90})
+              o.send();
+            }
+          });
         }
-    });
+      });
+      
+    }
+  });
 })();
