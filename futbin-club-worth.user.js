@@ -3,7 +3,7 @@
 // @version     0.2
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
-// @author      Tim Klingeleers, Kyle Selman
+// @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
@@ -13,7 +13,7 @@
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // ==/UserScript==
 // ==OpenUserJS==
-// @author Mardaneus86, Kyderman
+// @author Mardaneus86
 // ==/OpenUserJS==
 (function () {
     'use strict';
