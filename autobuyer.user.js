@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Autobuyer
-// @version     0.1.1
+// @version     0.1.3
 // @description Automatically search and buy items matching search criteria, currenly based on max buy now value
 // @license     MIT
 // @author      Tim Klingeleers
