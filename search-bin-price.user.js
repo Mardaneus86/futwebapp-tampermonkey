@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.4
+// @version     0.1.5
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
@@ -33,16 +33,18 @@
           searchdata = {
             minimumBIN: START_BIN_SEARCH,
             itemData: gNavManager.getCurrentScreenController()._controller._itemDetailController._currentController._getViewIteratorItems().current,
-            searchCriteria: new transferobjects.SearchCriteria
+            searchCriteria: new transferobjects.SearchCriteria()
           };
           
-          searchdata.searchCriteria.count = SEARCH_COUNT,
+          searchdata.searchCriteria.count = SEARCH_COUNT;
           searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
           searchdata.searchCriteria.type = searchdata.itemData.type;
+          
           // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
-          var rareflag = searchdata.itemData.rareflag > enums.ItemRareType.TOTW ? enums.ItemRareType.TOTW : searchdata.itemData.rareflag; 
-          var level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == rareflag)[0].value;
-          searchdata.searchCriteria.level = level;
+          if (searchdata.itemData.rareflag > enums.ItemRareType.TOTW) {
+            searchdata.searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == enums.ItemRareType.TOTW)[0].value;
+          }
+
           searchdata.searchCriteria.category = enums.SearchCategory.ANY;
           searchdata.searchCriteria.position = enums.SearchType.ANY;
 
@@ -51,7 +53,6 @@
       }
     }
   });
-
   var searchdata = {};
   var handleSearch = function handleSearch(sender, data) {
     if (data.items.length > 0) {
