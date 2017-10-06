@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Futbin Club Worth
-// @version     0.1.1
+// @version     0.1.2
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
 // @author      Tim Klingeleers, Kyderman
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
 // @namespace   https://github.com/Mardaneus86
