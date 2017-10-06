@@ -46,7 +46,6 @@ Some of the scripts depend on the generic scripts that are mentioned above. They
 | [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 |
 | [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 |
 | [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 |
-| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 |
 | [FUT Futbin Club Worth][futbin-club-worth-wiki] | [install][futbin-club-worth-install-openuserjs] | 2017.10.04 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.
