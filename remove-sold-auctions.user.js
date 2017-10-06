@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Auto Remove Sold Auctions
-// @version     0.1.4
+// @version     0.1.5
 // @description Automatically remove sold items from the transfer list
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/remove-sold-auctions.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/remove-sold-auctions.user.js

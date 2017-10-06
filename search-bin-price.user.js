@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.3
+// @version     0.1.4
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/search-bin-price.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/search-bin-price.user.js

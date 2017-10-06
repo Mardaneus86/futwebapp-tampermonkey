@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Autobuyer
-// @version     0.1.1
+// @version     0.1.2
 // @description Automatically search and buy items matching search criteria, currenly based on max buy now value
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/autobuyer.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/autobuyer.user.js
