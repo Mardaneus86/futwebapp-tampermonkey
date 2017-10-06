@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Futbin Club Worth
-// @version     0.2
+// @version     0.1.1
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
 // @author      Tim Klingeleers, Kyderman
