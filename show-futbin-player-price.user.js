@@ -41,9 +41,9 @@
     if (target.find('.futbin').length > 0) {
       return; // futbin price already added to the row
     }
-    
+
     var targetForButton = null;
-    switch(gNavManager.getCurrentScreen()._screenId) {
+    switch (gNavManager.getCurrentScreen()._screenId) {
       case "TradePile":
       case "MyClubSearch":
         $(".secondary.player-stats-data-component").css('float', 'left');
@@ -59,36 +59,36 @@
 
   var intervalRunning = null;
 
-  gNavManager.onScreenRequest.observe(this, function(obs, event) {
-    switch(event) {
+  gNavManager.onScreenRequest.observe(this, function (obs, event) {
+    switch (event) {
       case "TradePile":
       case "MyClubSearch":
       case "SearchResults":
         if (intervalRunning) {
           clearInterval(intervalRunning);
         }
-        intervalRunning = setInterval(function() {
+        intervalRunning = setInterval(function () {
           var controller = gNavManager.getCurrentScreenController()._controller;
-          
+
           var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
-          
+
           if ($(uiItems[0]).find('.futbin').length > 0) {
             return;
           }
-          
+
           if (!controller ||
-              !controller._listController ||
-              !controller._listController._view) {
+            !controller._listController ||
+            !controller._listController._view) {
             return; // only run if data is available
           }
 
           var listrows = null;
           if (controller._listController._view._list &&
-              controller._listController._view._list._listRows &&
-              controller._listController._view._list._listRows.length > 0) {
+            controller._listController._view._list._listRows &&
+            controller._listController._view._list._listRows.length > 0) {
             listrows = controller._listController._view._list._listRows; // for transfer market and club search
           } else if (controller._listController._view._listRows &&
-              controller._listController._view._listRows.length > 0) {
+            controller._listController._view._listRows.length > 0) {
             listrows = controller._listController._view._listRows; // for trade pile
           }
 
@@ -97,7 +97,7 @@
           }
 
           var resourceIdMapping = [];
-          listrows.forEach(function(row, index) {
+          listrows.forEach(function (row, index) {
             resourceIdMapping.push({
               target: uiItems[index],
               playerId: row.data.resourceId
@@ -105,15 +105,15 @@
           });
 
           var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + resourceIdMapping.
-            map(function(i) { return i.playerId}).
-            filter(function(current, next) { return current !== next}).
+            map(function (i) { return i.playerId }).
+            filter(function (current, next) { return current !== next }).
             join(',');
           GM_xmlhttpRequest({
             method: "GET",
             url: futbinUrl,
             onload: function (res) {
               var futbinData = JSON.parse(res.response);
-              resourceIdMapping.forEach(function(item) {
+              resourceIdMapping.forEach(function (item) {
                 showFutbinPrice(item, futbinData);
               })
             }
