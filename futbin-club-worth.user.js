@@ -3,7 +3,7 @@
 // @version     0.2
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
-// @author      Tim Klingeleers
+// @author      Tim Klingeleers, Kyderman
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
@@ -19,9 +19,6 @@
   'use strict';
   gNavManager.onScreenRequest.observe(this, function (obs, event) {
     if (event === "MyClubSearch") {
-      var currentCount = 0;
-      var currentTotal = 0;
-
       var platform = '';
       if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = "ps";
       if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = "pc";
@@ -33,11 +30,20 @@
         <span class="btn-text">Total Futbin Club Value:</span>
         <span class="btn-subtext">Calculating, please wait...</span>
         </div>`);
+        
+        calculatePageWorth(platform, 0, 90);
       }, 1000);
+    }
+    
+    var calculatePageWorth = function calculatePageWorth(platform, start, count, total) {
+      if (!total) {
+        total = 0;
+      }
+      
       var t = new transferobjects.SearchCriteria();
       t.type = enums.SearchType.PLAYER;
 
-      var o = new communication.ClubSearchDelegate(t, currentCount, 90);
+      var o = new communication.ClubSearchDelegate(t, start, count);
       o._useClickShield = false;
       o.send();
 
@@ -45,7 +51,7 @@
         var playerIds = Object.keys(response.itemData).map(function (key) { if (!response.itemData[key].untradeable) { return response.itemData[key].resourceId; } }).filter(function(x) {return x != undefined});
         if (playerIds.length < 1) {
           console.log("club total calculation complete.");
-          $('.clubValue .btn-subtext').html(`${currentTotal}`);
+          $('.clubValue .btn-subtext').html(`${total}`);
         } else {
           var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + playerIds.join(',');
           GM_xmlhttpRequest({
@@ -62,15 +68,16 @@
               }).reduce(function (a, b) {
                 return a + b;
               }, 0);
-              currentTotal += clubWorth;
-              currentCount += 90;
-              o.setURLVariables({sort: "desc", type: "player", defId: Array(0), start: currentCount, count: 90})
-              o.send();
+              
+              total += clubWorth;
+              
+              setTimeout(function () {
+                calculatePageWorth(platform, start + count, count, total);
+              }, 1000); // delay for requesting from futbin again
             }
           });
         }
       });
-      
     }
   });
 })();
