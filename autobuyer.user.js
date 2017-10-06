@@ -128,7 +128,7 @@
         delay = 60 * 60 * 1000; // wait an hour
       } else {
         // randomly wait between 10 and 30 seconds
-        delay = (Math.floor(Math.random() * 20)) * 500;
+        delay = (Math.floor(Math.random() * 20) + 10) * 1000;
       }
 
       GM_setValue('searchTimeoutHandle',
