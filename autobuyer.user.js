@@ -202,8 +202,6 @@
   // Add a button for sniping without select any player.
   // I will store locally a variable. If this variable is set to TRUE the user will not be alerted anymore for his choice.
 
-  GM_setValue('snipeModeNotified', false);
-
   var snipeModeNotified = function getSnipeModeAlert(){
     return(GM_getValue('snipeModeNotified'));
   };
