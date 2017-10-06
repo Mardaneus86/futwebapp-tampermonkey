@@ -5,6 +5,7 @@
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/autobuyer.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/autobuyer.user.js
@@ -47,12 +48,13 @@
     } else {
       return true; // can't search specific enough on the rest of the categories
     }
-  }
+  };
 
   // page
   pages.Autobuyer = function () {
     pages.Search.call(this);
     this.updateHeader(components.Header.DEFAULT_CHILD_PAGE, "Auto buyer");
+    this.$_root.find('.tabletButtons').append('<div style="padding: 0; float: left;" role="button" class="btn btn-raised"><span id="snipeButton" style="padding: 16px;" class="btn-text">Disable Player Restriction</span><span class="btn-subtext invisible"></span></div>');
     this.$_root.find('.search-container').css('width', '50%');
     var log = GM_getValue('log', '');
     this.$_root.append('<article class="SearchWrapper" style="width: 50%; left: 50%"><textarea id="progressAutobuyer" style="width: 100%;height: 98%;">' + log + '</textarea></article>');
@@ -72,10 +74,20 @@
 
   pages.controllers.AutobuyerController.prototype._isSearching = false;
 
+  // Get snipeMode value. If is True on reset i will let the button active just for better UX.
+  
+  var snipeMode = function getSnipeType(){
+    return(GM_getValue('snipeMode'));
+  };
+
   pages.controllers.AutobuyerController.prototype.onScreenStarted = function () {
     Object.getPrototypeOf(this.constructor.prototype).onScreenStarted.call(this);
 
     this._view._searchButton1.$_text.text(this._isSearching ? "Cancel" : "BIN snipe");
+    if(snipeMode()){
+      $('#snipeButton').parent().addClass('active');
+    }
+    scrollLogToBottom();
   };
 
   pages.controllers.AutobuyerController.prototype.onSearchButtonClicked = function () {
@@ -84,11 +96,12 @@
       return;
     }
 
-    console.log(this._viewmodel.searchCriteria)
-    if (this._viewmodel.searchCriteria.type === "player" && !this._viewmodel.searchCriteria.maskedDefId ||
-        this._viewmodel.searchCriteria.type === "training" && isNotExactTraining(this._viewmodel.searchCriteria) ||
-        this._viewmodel.searchCriteria.type === "clubInfo" && (this._viewmodel.searchCriteria.club === -1 && this._viewmodel.searchCriteria.league === -1) ||
-        this._viewmodel.searchCriteria.type === "staff" && this._viewmodel.searchCriteria.category === "any") {
+    console.log(this._viewmodel.searchCriteria);
+    //Add a new case. If snipeMode don't allow to autobuy without playername set on.
+    if (this._viewmodel.searchCriteria.type === "player" && !this._viewmodel.searchCriteria.maskedDefId && !snipeMode() ||
+      this._viewmodel.searchCriteria.type === "training" && isNotExactTraining(this._viewmodel.searchCriteria) ||
+      this._viewmodel.searchCriteria.type === "clubInfo" && (this._viewmodel.searchCriteria.club === -1 && this._viewmodel.searchCriteria.league === -1) ||
+      this._viewmodel.searchCriteria.type === "staff" && this._viewmodel.searchCriteria.category === "any") {
       addMessage("Can't BIN snipe without a specific item");
       return;
     }
@@ -115,7 +128,7 @@
         delay = 60 * 60 * 1000; // wait an hour
       } else {
         // randomly wait between 10 and 30 seconds
-        delay = (Math.floor(Math.random() * 20) + 10) * 1000;
+        delay = (Math.floor(Math.random() * 20)) * 500;
       }
 
       GM_setValue('searchTimeoutHandle',
@@ -182,9 +195,55 @@
 
       var searchCriteria = this._viewmodel.searchCriteria;
       addMessage("Starting search");
-      startSearch(searchCriteria, this);
+      startSearch(searchCriteria, this);    
     }
   };
+
+  // Add a button for sniping without select any player.
+  // I will store locally a variable. If this variable is set to TRUE the user will not be alerted anymore for his choice.
+
+  GM_setValue('snipeModeNotified', false);
+
+  var snipeModeNotified = function getSnipeModeAlert(){
+    return(GM_getValue('snipeModeNotified'));
+  };
+
+  // If snipeMode is set to false or not exist I will set it to false.
+  // Else I will set the button to active. Just for UX.
+  if(!snipeMode()){
+    GM_setValue('snipeMode', false);
+  } else{
+    $('#snipeButton').parent().addClass('active');
+  }
+
+  if(!snipeModeNotified()){
+    GM_setValue('snipeModeNotified', false);
+  }
+
+  //Simple JavaScript. Add a class for UX and toggle on and off the snipeMode variable.
+  //Case snipeMode == TRUE : allow to autobuy without a player name set on.
+  //Case snipeMode == FALSE : default behaviour.
+
+  document.addEventListener('click', function(e){
+    if(e.target.id == 'snipeButton'){
+      var snipeBtn = e.target.parentNode;
+      if(!snipeMode()){
+        // Set snipe value to true.
+        GM_setValue('snipeMode', true);
+        $(snipeBtn).addClass('active');
+
+        if(!snipeModeNotified()){
+          //If confirm nothing else will be notified, else run as usually and notified again later.
+          if (confirm("You've disabled the player restriction. With this mode enabled you can search for Role or for Quality without choose a Player name. If you don't want to read it anymore, you just have to say OK.")) {
+            GM_setValue('snipeModeNotified', true);
+          }
+        }
+      } else {
+        GM_setValue('snipeMode', false);
+        $(snipeBtn).removeClass('active');
+      }
+    }
+  });
 
   Screens.Register('AUTOBUYER', 'Autobuyer', "AUTO_BUYER");
 
