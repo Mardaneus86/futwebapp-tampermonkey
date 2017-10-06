@@ -48,12 +48,13 @@
     } else {
       return true; // can't search specific enough on the rest of the categories
     }
-  }
+  };
 
   // page
   pages.Autobuyer = function () {
     pages.Search.call(this);
     this.updateHeader(components.Header.DEFAULT_CHILD_PAGE, "Auto buyer");
+    this.$_root.find('.tabletButtons').append('<div style="padding: 0;" role="button" class="btn btn-raised"><span id="snipeButton" style="padding: 16px;" class="btn-text">Snipe Mode</span><span class="btn-subtext invisible"></span></div>');
     this.$_root.find('.search-container').css('width', '50%');
     var log = GM_getValue('log', '');
     this.$_root.append('<article class="SearchWrapper" style="width: 50%; left: 50%"><textarea id="progressAutobuyer" style="width: 100%;height: 98%;">' + log + '</textarea></article>');
@@ -85,8 +86,9 @@
       return;
     }
 
-    console.log(this._viewmodel.searchCriteria)
-    if (this._viewmodel.searchCriteria.type === "player" && !this._viewmodel.searchCriteria.maskedDefId ||
+    console.log(this._viewmodel.searchCriteria);
+    //Add a new case. If snipeMode don't allow to autobuy without playername set on.
+    if (this._viewmodel.searchCriteria.type === "player" && !this._viewmodel.searchCriteria.maskedDefId && !snipeMode ||
         this._viewmodel.searchCriteria.type === "training" && isNotExactTraining(this._viewmodel.searchCriteria) ||
         this._viewmodel.searchCriteria.type === "clubInfo" && (this._viewmodel.searchCriteria.club === -1 && this._viewmodel.searchCriteria.league === -1) ||
         this._viewmodel.searchCriteria.type === "staff" && this._viewmodel.searchCriteria.category === "any") {
@@ -186,6 +188,42 @@
       startSearch(searchCriteria, this);
     }
   };
+
+  // Add a button for sniping.
+  // I will set a variable name which will toggle on when you click on Snipe mode button.
+  var snipeMode = false;
+
+  //Simple JavaScript. Add a class for UX and toggle on and off the snipeMode variable.
+  //Case snipeMode == TRUE : allow to autobuy without a player name set on.
+  //Case snipeMode == FALSE : default behaviour.
+
+  document.addEventListener('click', function(e){
+    if(e.target.id == 'snipeButton'){
+      var snipeBtn = e.target.parentNode;
+      if(!snipeMode){
+        snipeMode = true;
+        futAddClass(snipeBtn, 'active');
+      } else {
+        snipeMode = false;
+        futRemoveClass(snipeBtn, 'active');
+      }
+    }
+  });
+
+  function futAddClass(el, className) {
+    if (el.classList)
+      el.classList.add(className);
+    else if (!hasClass(el, className)) el.className += " " + className;
+  }
+
+  function futRemoveClass(el, className) {
+    if (el.classList)
+      el.classList.remove(className);
+    else if (hasClass(el, className)) {
+      var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+      el.className=el.className.replace(reg, ' ');
+    }
+  }
 
   Screens.Register('AUTOBUYER', 'Autobuyer', "AUTO_BUYER");
 
