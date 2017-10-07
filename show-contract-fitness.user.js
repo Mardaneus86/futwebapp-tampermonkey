@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Show Contracts and Fitness
-// @version     0.1
+// @version     0.1.1
 // @description Show contract and fitness value instantly in search list
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/show-contract-fitness.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/show-contract-fitness.user.js
