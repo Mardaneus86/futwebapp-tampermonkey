@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Contracts and Fitness
-// @version     0.1.2
+// @version     0.1.3
 // @description Show contract and fitness value instantly in search list
 // @license     MIT
 // @author      Tim Klingeleers
@@ -19,7 +19,11 @@
 
   $('head').append(`
   <style id="addedCSS" type="text/css">
-    .item.player.small.TOTW .infoTab, .item.player.small.OTW .infoTab, .item.player.small.TOTS .infoTab, .item.player.small.TOTY .infoTab {
+    .item.player.small.TOTW .infoTab, 
+    .item.player.small.OTW .infoTab, 
+    .item.player.small.TOTS .infoTab, 
+    .item.player.small.TOTY .infoTab, 
+    .item.player.small.legend .infoTab {
       color: white;
     }
 
@@ -33,20 +37,36 @@
     }
   </style>`);
 
-  $(document).bind('DOMNodeInserted', function (event) {
-    if ($(event.target).hasClass("listFUTItem")) {
-      var items = gNavManager.getCurrentScreenController()._controller._listController._viewmodel._collection;
-      var rows = $('.listFUTItem');
-      rows.each(function (index, row) {
-        $(row).find('.infoTab').html(
-          '<div class="fitness" style="float: right;margin-right: 20px">' +
-          items[index].fitness +
-          '</div>' +
-          '<div class="contracts" style="margin-left: 30px;float: left">' +
-          items[index].contract +
-          '</div>'
-        );
-      });
-    }
-  });
+  var targetNodes         = $(document);
+  var MutationObserver    = window.MutationObserver || window.WebKitMutationObserver;
+  var myObserver          = new MutationObserver (mutationHandler);
+  var obsConfig           = { childList: true, characterData: true, attributes: true, subtree: true };
+  
+  targetNodes.each ( function () {
+      myObserver.observe (this, obsConfig);
+  } );
+  
+  function mutationHandler (mutationRecords) {
+    mutationRecords.forEach ( function (mutation) {
+      if ($(mutation.target).hasClass("listFUTItem")) {
+        var controller = gNavManager.getCurrentScreenController()._controller;
+        if (!controller || !controller._listController) {
+          return;
+        }
+
+        var items = controller._listController._viewmodel._collection;
+        var rows = $('.listFUTItem');
+        rows.each(function (index, row) {
+          $(row).find('.infoTab').html(
+            '<div class="fitness" style="float: right;margin-right: 20px">' +
+            items[index].fitness +
+            '</div>' +
+            '<div class="contracts" style="margin-left: 30px;float: left">' +
+            items[index].contract +
+            '</div>'
+          );
+        });
+      }
+    });
+  }
 })();
