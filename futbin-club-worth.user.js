@@ -1,10 +1,15 @@
 // ==UserScript==
 // @name        FUT Futbin Club Worth
+<<<<<<< HEAD
 // @version     0.2
+=======
+// @version     0.1.3
+>>>>>>> bf74f93799a5aa7c5a2754176834f5d6aeaa3ed4
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
 // @author      Tim Klingeleers, Kyderman
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
 // @namespace   https://github.com/Mardaneus86
@@ -25,6 +30,10 @@
       if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
 
       setTimeout(function () {
+<<<<<<< HEAD
+=======
+        $('.MyClubResults .paginated-item-list').css('top', '120px'); // make sure top pagination bar stays visible
+>>>>>>> bf74f93799a5aa7c5a2754176834f5d6aeaa3ed4
         $('.MyClubResults').prepend(`
         <div class="clubValue"><button class="list" style="cursor: default">
         <span class="btn-text">Total Futbin Club Value:</span>

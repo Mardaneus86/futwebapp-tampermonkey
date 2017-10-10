@@ -14,9 +14,9 @@ I started this project to learn about reverse engineering big Javascript codebas
 
 1. Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
 
-	* Firefox - install [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/).
+	* Firefox - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox).
 	* Chrome - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=chrome).
-	* Opera - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=opera) or [Violent Monkey](https://addons.opera.com/en/extensions/details/violent-monkey/).
+	* Opera - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=opera).
 	* Safari - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=safari).
 	* Dolphin - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=dolphin).
 	* UC Browser - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=ucweb).
@@ -46,7 +46,6 @@ Some of the scripts depend on the generic scripts that are mentioned above. They
 | [FUT Show Contract and Fitness][show-contract-fitness-wiki] | [install][show-contract-fitness-install-openuserjs] | 2017.09.25 |
 | [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 |
 | [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 |
-| :warning: [FUT Autobuyer BIN Sniper][autobuyer-wiki] | [install][autobuyer-install-openuserjs] | 2017.09.30 |
 | [FUT Futbin Club Worth][futbin-club-worth-wiki] | [install][futbin-club-worth-install-openuserjs] | 2017.10.04 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.

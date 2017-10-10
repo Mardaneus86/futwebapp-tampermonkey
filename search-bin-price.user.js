@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.3
+// @version     0.1.6
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @updateURL   https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/search-bin-price.user.js
 // @downloadURL https://raw.githubusercontent.com/Mardaneus86/futwebapp-tampermonkey/master/search-bin-price.user.js
@@ -20,36 +21,50 @@
   const START_BIN_SEARCH = 9999999999;
   const SEARCH_COUNT = 30;
 
-  $(document).bind('DOMNodeInserted', function (event) {
-    if ($(event.target).hasClass("DetailPanel")) {
-      if ($(event.target).find('#searchMinBin').length === 0) {
-        $(event.target).find('.bidOptions').append('<button class="standard" id="searchMinBin">Search min BIN</button>');
-        $(event.target).find('.QuickListPanel').append('<button class="standard" id="searchMinBin">Search min BIN</button>');
-        $('#searchMinBin').click(function () {
-          var playerImageUrl = $('.listFUTItem.selected').find('.photo').attr('src');
-          var playerId = playerImageUrl.substr(playerImageUrl.lastIndexOf('/') + 1).replace('.png', '');
+  var targetNodes         = $(document);
+  var MutationObserver    = window.MutationObserver || window.WebKitMutationObserver;
+  var myObserver          = new MutationObserver (mutationHandler);
+  var obsConfig           = { childList: true, characterData: true, attributes: false, subtree: true };
+  
+  targetNodes.each ( function () {
+      myObserver.observe (this, obsConfig);
+  } );
+  
+  function mutationHandler (mutationRecords) {
+    mutationRecords.forEach ( function (mutation) {
+      console.log(mutation.target);
+      if ($(mutation.target).hasClass("DetailView") && $(mutation.target).find('.DetailPanel')) {
+        if ($(mutation.target).find('#searchMinBin').length === 0) {
+          $(mutation.target).find('.bidOptions').append('<button class="standard" id="searchMinBin">Search min BIN</button>');
+          $(mutation.target).find('.QuickListPanel').append('<button class="standard" id="searchMinBin">Search min BIN</button>');
+          $('#searchMinBin').click(function () {
+            var playerImageUrl = $('.listFUTItem.selected').find('.photo').attr('src');
+            var playerId = playerImageUrl.substr(playerImageUrl.lastIndexOf('/') + 1).replace('.png', '');
 
-          searchdata = {
-            minimumBIN: START_BIN_SEARCH,
-            itemData: gNavManager.getCurrentScreenController()._controller._itemDetailController._currentController._getViewIteratorItems().current,
-            searchCriteria: new transferobjects.SearchCriteria
-          };
-          
-          searchdata.searchCriteria.count = SEARCH_COUNT,
-          searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
-          searchdata.searchCriteria.type = searchdata.itemData.type;
-          // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
-          var rareflag = searchdata.itemData.rareflag > enums.ItemRareType.TOTW ? enums.ItemRareType.TOTW : searchdata.itemData.rareflag; 
-          var level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == rareflag)[0].value;
-          searchdata.searchCriteria.level = level;
-          searchdata.searchCriteria.category = enums.SearchCategory.ANY;
-          searchdata.searchCriteria.position = enums.SearchType.ANY;
+            searchdata = {
+              minimumBIN: START_BIN_SEARCH,
+              itemData: gNavManager.getCurrentScreenController()._controller._itemDetailController._currentController._getViewIteratorItems().current,
+              searchCriteria: new transferobjects.SearchCriteria()
+            };
+            
+            searchdata.searchCriteria.count = SEARCH_COUNT;
+            searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
+            searchdata.searchCriteria.type = searchdata.itemData.type;
+            
+            // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
+            if (searchdata.itemData.rareflag > enums.ItemRareType.TOTW) {
+              searchdata.searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == enums.ItemRareType.TOTW)[0].value;
+            }
 
-          search(searchdata).observe(this, handleSearch);
-        });
+            searchdata.searchCriteria.category = enums.SearchCategory.ANY;
+            searchdata.searchCriteria.position = enums.SearchType.ANY;
+
+            search(searchdata).observe(this, handleSearch);
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   var searchdata = {};
   var handleSearch = function handleSearch(sender, data) {

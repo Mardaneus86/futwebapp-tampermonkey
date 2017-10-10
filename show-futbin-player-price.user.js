@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.0
+// @version     0.2.6
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @grant       GM_xmlhttpRequest
 // @connect     www.futbin.com
@@ -17,10 +18,53 @@
 // ==/OpenUserJS==
 (function () {
   'use strict';
-  var showFutbinPrice = function showFutbinPrice(target, futbinData) {
+  $('head').append(`<style id="addedCSS" type="text/css">
+  #TradePile .player-stats-data-component, #Unassigned .player-stats-data-component {
+    width: 12em;
+  }
+  #TradePile .listFUTItem .entityContainer, #Unassigned .listFUTItem .entityContainer {
+    width: 45%;
+  }
+  #Unassigned .listFUTItem .auction .auctionValue, #Unassigned .listFUTItem .auction .auction-state {
+    display: none;
+  }
+  #Unassigned .listFUTItem .auction .auctionValue.futbin {
+    display: block;
+    float: right;
+  }
+
+  .MyClubResults .listFUTItem .auction {
+    display: block;
+    position: absolute;
+    right: 0;
+  }
+  .MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
+    width: 24%;
+    float: right;
+    padding-right: 1%;
+    display: none;
+  }
+  .MyClubResults .listFUTItem .auction .auctionValue.futbin {
+    display: block;
+  }
+  .listFUTItem .auction .auction-state {
+    width: 25%;
+    float: right;
+  }
+  .listFUTItem .auction .auctionValue {
+    width: 24%;
+    float: left;
+    padding-right: 1%;
+  }
+  </style>`);
+
+  var showFutbinPrice = function showFutbinPrice(item, futbinData) {
     if (!futbinData) {
       return;
     }
+    var target = $(item.target);
+    var playerId = item.playerId;
+
     if (target.find('.player').length === 0) {
       // not a player
       return;
@@ -31,13 +75,6 @@
     if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = "pc";
     if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
 
-    // Get the player ID from the attached player image
-    var playerImageUrl = target.find('.photo').attr('src');
-    var playerId = playerImageUrl.substr(playerImageUrl.lastIndexOf('/') + 1).replace('.png', '');
-    if(playerId.startsWith('p')) {
-      playerId = playerId.substr(1);
-    }
-    
     if (!futbinData[playerId]) {
       return; // futbin data might not be available for this player
     }
@@ -45,107 +82,109 @@
     if (target.find('.futbin').length > 0) {
       return; // futbin price already added to the row
     }
-    
+
     var targetForButton = null;
-    switch(gNavManager.getCurrentScreen()._screenId) {
+    switch (gNavManager.getCurrentScreen()._screenId) {
+      case "UnassignedItems":
       case "TradePile":
       case "MyClubSearch":
         $(".secondary.player-stats-data-component").css('float', 'left');
-        targetForButton = target.find('.entityContainer');
-        targetForButton.append('<div class="auction futbin" style="margin: 0; width: auto;"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton = target.find('.auction');
+        targetForButton.show();
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
-        if (!futbinData[playerId]) {
-          debugger;
-        }
         targetForButton = target.find('.auctionValue').parent();
         targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
     };
   };
 
-  var initialised = false;
-  var lastIndex = -1;
-  var index = 0;
-  var lastScreen = "";
   var intervalRunning = null;
 
-  gNavManager.onScreenRequest.observe(this, function(obs, event) {
-      switch(event) {
-        case "TradePile":
-        case "MyClubSearch":
-        case "SearchResults":
-          if(initialised) {
+  gNavManager.onScreenRequest.observe(this, function (obs, event) {
+    switch (event) {
+      case "MyClubSearchFilters":
+      case "UnassignedItems":
+      case "TradePile":
+      case "MyClubSearch":
+      case "SearchResults":
+        if (intervalRunning) {
+          clearInterval(intervalRunning);
+        }
+        intervalRunning = setInterval(function () {
+          var controller = gNavManager.getCurrentScreenController()._controller;
+
+          var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
+
+          if ($(uiItems[0]).find('.futbin').length > 0) {
             return;
           }
-          intervalRunning = setInterval(function() {
-            var controller = gNavManager.getCurrentScreenController()._controller;
-            
-            if (lastScreen === event && 
-              lastIndex === index) {
+
+          var listController = null;
+          if (event == "UnassignedItems") {
+            if (!controller ||
+              !controller._leftController ||
+              !controller._leftController._view) {
               return;
             }
-
-            lastScreen = event;
-            lastIndex = index;
-            
+            listController = controller._leftController
+          } else {
             if (!controller ||
-                !controller._listController ||
-                !controller._listController._view) {
+              !controller._listController ||
+              !controller._listController._view) {
               return; // only run if data is available
             }
-
-            var listrows = null;
-            if (controller._listController._view._list &&
-                controller._listController._view._list._listRows &&
-                controller._listController._view._list._listRows.length > 0) {
-              listrows = controller._listController._view._list._listRows; // for transfer market and club search
-            } else if (controller._listController._view._listRows &&
-                controller._listController._view._listRows.length > 0) {
-              listrows = controller._listController._view._listRows; // for trade pile
-            }
-
-            if (listrows === null) {
-              return;
-            }
-
-            // do we have navigation?
-            if (controller._listController._view.addTarget) {
-              // TODO: can we get the index in a better way? right now the viewmodel page index stays 0 while paging occurs
-              controller._listController._view.addTarget(this, function() { index++ }, enums.UIPaginationEvent.NEXT);
-              controller._listController._view.addTarget(this, function() { index-- }, enums.UIPaginationEvent.PREVIOUS);
-            }
-
-            var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
-            
-            var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + listrows.
-              map(function(i) { return i.data._metaData.id}).
-              filter(function(current, next) { return current !== next}).
-              join(',')
-            GM_xmlhttpRequest({
-              method: "GET",
-              url: futbinUrl,
-              onload: function (res) {
-                var futbinData = JSON.parse(res.response);
-                uiItems.each(function(index, item) {
-                  showFutbinPrice($(item), futbinData);
-                })
-              }
-            });
-            initialised = true;
-          }, 1000);
-          break;
-
-        default:
-          // no need to search prices on other pages
-          // reset page
-          initialised = false;
-          lastIndex = -1;
-          if (intervalRunning) {
-            clearInterval(intervalRunning);
+            listController = controller._listController
           }
-          intervalRunning = null;
-          break;
-      }
+
+          var listrows = null;
+          if (listController._view._list &&
+            listController._view._list._listRows &&
+            listController._view._list._listRows.length > 0) {
+            listrows = listController._view._list._listRows; // for transfer market and club search
+          } else if (listController._view._listRows &&
+            listController._view._listRows.length > 0) {
+            listrows = listController._view._listRows; // for trade pile
+          }
+
+          if (listrows === null) {
+            return;
+          }
+
+          var resourceIdMapping = [];
+          listrows.forEach(function (row, index) {
+            resourceIdMapping.push({
+              target: uiItems[index],
+              playerId: row.data.resourceId
+            });
+          });
+
+          var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + resourceIdMapping.
+            map(function (i) { return i.playerId }).
+            filter(function (current, next) { return current !== next }).
+            join(',');
+          GM_xmlhttpRequest({
+            method: "GET",
+            url: futbinUrl,
+            onload: function (res) {
+              var futbinData = JSON.parse(res.response);
+              resourceIdMapping.forEach(function (item) {
+                showFutbinPrice(item, futbinData);
+              })
+            }
+          });
+        }, 1000);
+        break;
+
+      default:
+        // no need to search prices on other pages
+        // reset page
+        if (intervalRunning) {
+          clearInterval(intervalRunning);
+        }
+        intervalRunning = null;
+        break;
+    }
   });
 })();
