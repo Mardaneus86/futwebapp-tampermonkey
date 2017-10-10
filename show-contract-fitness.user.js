@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Contracts and Fitness
-// @version     0.1.1
+// @version     0.1.2
 // @description Show contract and fitness value instantly in search list
 // @license     MIT
 // @author      Tim Klingeleers
@@ -17,14 +17,21 @@
 (function () {
   'use strict';
 
-  $('head').append('<style id="addedCSS" type="text/css">.item.player.small .infoTab { ' +
-    '  top: 5%; ' +
-    '  right: 0; ' +
-    '  width: 100%; ' +
-    '  height: 22%; ' +
-    '  line-height: 165%; ' +
-    '} ' +
-    '</style>');
+  $('head').append(`
+  <style id="addedCSS" type="text/css">
+    .item.player.small.TOTW .infoTab, .item.player.small.OTW .infoTab, .item.player.small.TOTS .infoTab, .item.player.small.TOTY .infoTab {
+      color: white;
+    }
+
+    .item.player.small .infoTab {
+      color: black;
+      top: 5%;
+      right: 0;
+      width: 100%;
+      height: 22%;
+      line-height: 165%;
+    }
+  </style>`);
 
   $(document).bind('DOMNodeInserted', function (event) {
     if ($(event.target).hasClass("listFUTItem")) {
@@ -32,10 +39,10 @@
       var rows = $('.listFUTItem');
       rows.each(function (index, row) {
         $(row).find('.infoTab').html(
-          '<div class="fitness" style="float: right;margin-right: 20px;color: black;">' +
+          '<div class="fitness" style="float: right;margin-right: 20px">' +
           items[index].fitness +
           '</div>' +
-          '<div class="contracts" style="margin-left: 30px;float: left;color: black;">' +
+          '<div class="contracts" style="margin-left: 30px;float: left">' +
           items[index].contract +
           '</div>'
         );
