@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.4
+// @version     0.2.5
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -19,9 +19,20 @@
 (function () {
   'use strict';
   $('head').append(`<style id="addedCSS" type="text/css">
-  #TradePile .player-stats-data-component {
+  #TradePile .player-stats-data-component, #Unassigned .player-stats-data-component {
     width: 12em;
   }
+  #TradePile .listFUTItem .entityContainer, #Unassigned .listFUTItem .entityContainer {
+    width: 45%;
+  }
+  #Unassigned .listFUTItem .auction .auctionValue, #Unassigned .listFUTItem .auction .auction-state {
+    display: none;
+  }
+  #Unassigned .listFUTItem .auction .auctionValue.futbin {
+    display: block;
+    float: right;
+  }
+
   .MyClubResults .listFUTItem .auction {
     display: block;
     position: absolute;
@@ -74,6 +85,7 @@
 
     var targetForButton = null;
     switch (gNavManager.getCurrentScreen()._screenId) {
+      case "UnassignedItems":
       case "TradePile":
       case "MyClubSearch":
         $(".secondary.player-stats-data-component").css('float', 'left');
@@ -92,6 +104,7 @@
 
   gNavManager.onScreenRequest.observe(this, function (obs, event) {
     switch (event) {
+      case "UnassignedItems":
       case "TradePile":
       case "MyClubSearch":
       case "SearchResults":
@@ -107,20 +120,31 @@
             return;
           }
 
-          if (!controller ||
-            !controller._listController ||
-            !controller._listController._view) {
-            return; // only run if data is available
+          var listController = null;
+          if (event == "UnassignedItems") {
+            if (!controller ||
+              !controller._leftController ||
+              !controller._leftController._view) {
+              return;
+            }
+            listController = controller._leftController
+          } else {
+            if (!controller ||
+              !controller._listController ||
+              !controller._listController._view) {
+              return; // only run if data is available
+            }
+            listController = controller._listController
           }
 
           var listrows = null;
-          if (controller._listController._view._list &&
-            controller._listController._view._list._listRows &&
-            controller._listController._view._list._listRows.length > 0) {
-            listrows = controller._listController._view._list._listRows; // for transfer market and club search
-          } else if (controller._listController._view._listRows &&
-            controller._listController._view._listRows.length > 0) {
-            listrows = controller._listController._view._listRows; // for trade pile
+          if (listController._view._list &&
+            listController._view._list._listRows &&
+            listController._view._list._listRows.length > 0) {
+            listrows = listController._view._list._listRows; // for transfer market and club search
+          } else if (listController._view._listRows &&
+            listController._view._listRows.length > 0) {
+            listrows = listController._view._listRows; // for trade pile
           }
 
           if (listrows === null) {
