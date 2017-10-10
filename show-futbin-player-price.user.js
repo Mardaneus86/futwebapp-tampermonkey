@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.5
+// @version     0.2.6
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -104,6 +104,7 @@
 
   gNavManager.onScreenRequest.observe(this, function (obs, event) {
     switch (event) {
+      case "MyClubSearchFilters":
       case "UnassignedItems":
       case "TradePile":
       case "MyClubSearch":
