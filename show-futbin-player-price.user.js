@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.3
+// @version     0.2.4
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -21,6 +21,20 @@
   $('head').append(`<style id="addedCSS" type="text/css">
   #TradePile .player-stats-data-component {
     width: 12em;
+  }
+  .MyClubResults .listFUTItem .auction {
+    display: block;
+    position: absolute;
+    right: 0;
+  }
+  .MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
+    width: 24%;
+    float: right;
+    padding-right: 1%;
+    display: none;
+  }
+  .MyClubResults .listFUTItem .auction .auctionValue.futbin {
+    display: block;
   }
   .listFUTItem .auction .auction-state {
     width: 25%;
@@ -64,6 +78,7 @@
       case "MyClubSearch":
         $(".secondary.player-stats-data-component").css('float', 'left');
         targetForButton = target.find('.auction');
+        targetForButton.show();
         targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
