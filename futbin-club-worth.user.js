@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Futbin Club Worth
-// @version     0.1.2
+// @version     0.1.3
 // @description Determines the club worth based on current Futbin BIN prices
 // @license     MIT
 // @author      Tim Klingeleers, Kyderman
@@ -26,6 +26,7 @@
       if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = "xbox";
 
       setTimeout(function () {
+        $('.MyClubResults .paginated-item-list').css('top', '120px'); // make sure top pagination bar stays visible
         $('.MyClubResults').prepend(`
         <div class="clubValue"><button class="list" style="cursor: default">
         <span class="btn-text">Total Futbin Club Value:</span>
