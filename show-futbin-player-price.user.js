@@ -91,11 +91,11 @@
         $(".secondary.player-stats-data-component").css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN - ' + futbinData[playerId].prices[platform].updated + '</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN - ' + futbinData[playerId].prices[platform].updated + '</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
     };
   };
