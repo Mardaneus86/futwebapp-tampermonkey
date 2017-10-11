@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Confirm Buy Now Dialog
-// @version     0.1.2
+// @version     0.1.3
 // @description Automatically confirm the Buy Now dialog
 // @license     MIT
 // @author      Tim Klingeleers
