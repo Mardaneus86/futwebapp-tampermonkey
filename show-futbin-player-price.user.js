@@ -39,7 +39,7 @@
     right: 0;
   }
   .MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
-    width: 24%;
+    width: 34%;
     float: right;
     padding-right: 1%;
     display: none;
@@ -48,11 +48,11 @@
     display: block;
   }
   .listFUTItem .auction .auction-state {
-    width: 25%;
+    width: 15%;
     float: right;
   }
   .listFUTItem .auction .auctionValue {
-    width: 24%;
+    width: 30%;
     float: left;
     padding-right: 1%;
   }
