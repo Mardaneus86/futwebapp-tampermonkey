@@ -21,14 +21,14 @@
   var MutationObserver    = window.MutationObserver || window.WebKitMutationObserver;
   var myObserver          = new MutationObserver (mutationHandler);
   var obsConfig           = { childList: true, characterData: true, attributes: false, subtree: true };
-  
+
   targetNodes.each ( function () {
       myObserver.observe (this, obsConfig);
   } );
-  
+
   function mutationHandler (mutationRecords) {
     mutationRecords.forEach ( function (mutation) {
-      if ($(mutation.target).hasClass('Dialog')) {
+      if ($(mutation.addedNodes).hasClass('Dialog')) {
         if (gPopupClickShield._activePopup._title === "popup.buyNowConfirmationTitle") {
           gPopupClickShield._activePopup._eOptionSelected(2);
         }
