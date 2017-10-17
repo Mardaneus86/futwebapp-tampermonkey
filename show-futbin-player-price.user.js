@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.6
+// @version     0.2.7
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -56,6 +56,10 @@
     float: left;
     padding-right: 1%;
   }
+  .coins.value.futbin {
+    -webkit-filter: hue-rotate(165deg);
+    filter: hue-rotate(165deg);
+  }
   </style>`);
 
   var showFutbinPrice = function showFutbinPrice(item, futbinData) {
@@ -91,11 +95,11 @@
         $(".secondary.player-stats-data-component").css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value futbin">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value futbin">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
     };
   };
