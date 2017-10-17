@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Increase Transfer Search List Size
-// @version     0.1.1
+// @version     0.1.2
 // @description Increase Search Items Per Page to 30 instead of 15
 // @license     MIT
 // @author      Tim Klingeleers
@@ -17,7 +17,7 @@
 (function () {
   'use strict';
 
-  gAuthenticationModel.addListener(models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL, this, function () {
+  gNavManager.onScreenRequest.observe(this, function (obs, event) {
     gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE)[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] = 30;
   });
 })();
