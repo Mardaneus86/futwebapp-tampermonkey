@@ -56,6 +56,11 @@
     float: left;
     padding-right: 1%;
   }
+  .futbinupdate {
+    font-size: 14px;
+    clear: both;
+    display: block;
+  }
   .coins.value.futbin {
     -webkit-filter: hue-rotate(165deg);
     filter: hue-rotate(165deg);
@@ -95,11 +100,11 @@
         $(".secondary.player-stats-data-component").css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value futbin">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(' + futbinData[playerId].prices[platform].updated + ')</span></span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN</span><span class="coins value futbin">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(' + futbinData[playerId].prices[platform].updated + ')</span></span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
     };
   };
