@@ -90,7 +90,7 @@
                       setTimeout(function() {
                         console.log('buying new pack');
                         window.dispatchEvent(packProcessedEvent);
-                      }, 30000);
+                      }, 5000);
                     }, 3000);
                   }, waitTime + 3000);
                 }, 3000);
@@ -117,11 +117,11 @@
           
           if (player.duplicateId === 0) {
             if (low > 200) {
-              let starting = low - 200;
+              let starting = low - 300;
               if(starting < player._itemPriceLimits.minPrice) {
                 starting = player._itemPriceLimits.minPrice
               }
-              low = new components.NumericInput().getIncrementAboveVal(low);
+              low = new components.NumericInput().getIncrementBelowVal(low);
               return listItem(player, starting, low)
               .then(() => {
                 profitTrade += (low) * 0.95;
@@ -205,6 +205,8 @@
       } else if (i.type !== enums.ItemType.PLAYER) {
         // not a duplicate and not a player
         listFor(i, "club");
+      } else {
+        console.log("shouldnt be here");
       }
     });
   };
