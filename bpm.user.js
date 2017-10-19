@@ -100,10 +100,12 @@
               if(starting < player._itemPriceLimits.minPrice) {
                 starting = player._itemPriceLimits.minPrice
               }
-              listItem(player, starting, low - 50) // this needs to be a promise, but it wont work
-              console.log("should send to trade pile", player.type, player._staticData.name, player, low);
-              profitTrade += (low - 50) * 0.95;
-              resolve(player.id); // handled already
+              return listItem(player, starting, low - 50)
+              .then(() => {
+                console.log("should send to trade pile", player.type, player._staticData.name, player, low);
+                profitTrade += (low - 50) * 0.95;
+                return resolve(player.id); // handled already
+              })
             } else {
               listFor(player, "club");
               profitClub += low;
@@ -171,7 +173,7 @@
           case enums.ItemType.PHYSIO:
           case enums.ItemType.STADIUM:
             listFor(i, "discard");
-            profitSell += item.discardValue
+            profitSell += i.discardValue
             console.log('duplicate item, discard', i.type, i);
             break;
 
@@ -191,7 +193,7 @@
   var discardPile = [];
 
   function listItem(item, starting, buyNow) {
-  
+    return new Promise(resolve => {
       var moveItem = new communication.MoveItemDelegate([item], enums.FUTItemPile.TRANSFER);
       moveItem.addListener(communication.BaseDelegate.SUCCESS, this, function sendToTradePile(sender, response) {
         sender.clearListenersByScope(this);
@@ -205,6 +207,7 @@
         listItem.addListener(communication.BaseDelegate.SUCCESS, this, function itemRedeemed(sender, response) {
           sender.clearListenersByScope(this);
           console.log("listed");
+          return resolve(true);
         });
         listItem.addListener(communication.BaseDelegate.FAIL, this, function itemRedeemed(sender, response) {
           sender.clearListenersByScope(this);
@@ -217,7 +220,7 @@
         console.log('did NOT sent item to tradepile', item, response);
       });
       moveItem.send();
-    
+    })
   }
 
   function listFor(item, type) {
@@ -299,7 +302,7 @@
 
   function searchPlayerMinBIN(player) {
     return new Promise((resolve, reject) => {
-      const START_BIN_SEARCH = 150;
+      const START_BIN_SEARCH = 999999999;
       const SEARCH_COUNT = 30;
       var search = function search(data) {
         var maxBuy = data.minimumBIN;
