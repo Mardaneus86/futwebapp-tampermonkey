@@ -212,6 +212,7 @@
         listItem.addListener(communication.BaseDelegate.FAIL, this, function itemRedeemed(sender, response) {
           sender.clearListenersByScope(this);
           console.log("failed to list");
+          return resolve(true);
         });
         listItem.send();
       });
