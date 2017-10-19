@@ -102,9 +102,8 @@
               }
               return listItem(player, starting, low - 50)
               .then(() => {
-                console.log("should send to trade pile", player.type, player._staticData.name, player, low);
                 profitTrade += (low - 50) * 0.95;
-                return resolve(player.id); // handled already
+                resolve(player.id); // handled already
               })
             } else {
               listFor(player, "club");
