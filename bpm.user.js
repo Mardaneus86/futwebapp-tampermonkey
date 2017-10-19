@@ -139,6 +139,17 @@
               console.log("should discard, duplicate and low cost", player.type, player._staticData.name, player, low);
               profitSell += player.discardValue;
               resolve(player.id);
+            } else {
+              let starting = low - 300;
+              if(starting < player._itemPriceLimits.minPrice) {
+                starting = player._itemPriceLimits.minPrice
+              }
+              low = new components.NumericInput().getIncrementBelowVal(low);
+              return listItem(player, starting, low)
+              .then(() => {
+                profitTrade += (low) * 0.95;
+                resolve(player.id); // handled already
+              })
             }
           }
           resolve(null);
