@@ -22,10 +22,17 @@
 (function () {
   'use strict';
 
+  var packProcessedEvent = new Event('pack-processed');
+
   let expense = 0;
   let profitTrade = 0;
   let profitClub = 0;
   let profitSell = 0;
+
+  window.addEventListener('pack-processed', function (e) { 
+    expense += 400;
+    buyBronzePack();
+  }, false);
 
   window.addEventListener('keydown', function (ev) {
     const keyCode = ev.keyCode;
@@ -79,6 +86,11 @@
                       console.log("Potential club profit: " + profitClub);
                       console.log("exp - trade: " + (profitTrade + profitSell - expense));
                       console.log("total inc club: " + (profitTrade + profitSell - expense + profitClub));
+                      console.log('buying new pack in 30 seconds...');
+                      setTimeout(function() {
+                        console.log('buying new pack');
+                        window.dispatchEvent(packProcessedEvent);
+                      }, 30000);
                     }, 3000);
                   }, waitTime + 3000);
                 }, 3000);
@@ -92,17 +104,27 @@
   function processPlayer(player) {
     return new Promise(resolve => {
       var low = null;
-      return searchPlayerMinBIN(player)
+      return searchPlayerMinBINReverse(player)
+        .then((itemsFound) => {
+          if (itemsFound > 0) {
+            return resolve();
+          } else {
+            return searchPlayerMinBIN(player);
+          }
+        })
         .then((low) => {
+          if (low === undefined) { low = 200; }
+          
           if (player.duplicateId === 0) {
             if (low > 200) {
-              let starting = low - 500;
+              let starting = low - 200;
               if(starting < player._itemPriceLimits.minPrice) {
                 starting = player._itemPriceLimits.minPrice
               }
-              return listItem(player, starting, low - 50)
+              low = new components.NumericInput().getIncrementAboveVal(low);
+              return listItem(player, starting, low)
               .then(() => {
-                profitTrade += (low - 50) * 0.95;
+                profitTrade += (low) * 0.95;
                 resolve(player.id); // handled already
               })
             } else {
@@ -205,12 +227,12 @@
         });
         listItem.addListener(communication.BaseDelegate.SUCCESS, this, function itemRedeemed(sender, response) {
           sender.clearListenersByScope(this);
-          console.log("listed");
+          console.log("listed ", starting, buyNow , item._staticData.name);
           return resolve(true);
         });
         listItem.addListener(communication.BaseDelegate.FAIL, this, function itemRedeemed(sender, response) {
           sender.clearListenersByScope(this);
-          console.log("failed to list");
+          console.log("failed to list", starting, buyNow ,  item._staticData.name);
           return resolve(true);
         });
         listItem.send();
@@ -299,6 +321,40 @@
     });
   }
 
+  function searchPlayerMinBINReverse(player) {
+    return new Promise((resolve, reject) => {
+      const START_BIN_SEARCH = 200;
+      var search = function search(data) {
+        data.searchCriteria.maxBuy = START_BIN_SEARCH;
+        return repositories.TransferMarket.search(data.searchCriteria);
+      };
+
+      var handleSearch = function handleSearch(sender, data) {
+        return resolve(data.items.length);
+      };
+
+      var searchdata = {
+        itemData: player,
+        searchCriteria: new transferobjects.SearchCriteria()
+      };
+
+      searchdata.searchCriteria.count = 30;
+      searchdata.searchCriteria.maskedDefId = searchdata.itemData.getMaskedResourceId();
+      searchdata.searchCriteria.type = searchdata.itemData.type;
+
+      // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
+      if (searchdata.itemData.rareflag > enums.ItemRareType.TOTW) {
+        searchdata.searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == enums.ItemRareType.TOTW)[0].value;
+      }
+
+      searchdata.searchCriteria.category = enums.SearchCategory.ANY;
+      searchdata.searchCriteria.position = enums.SearchType.ANY;
+
+      setTimeout(function() {
+        search(searchdata).observe(this, handleSearch);
+      }, 2000);
+    });
+  }
 
   function searchPlayerMinBIN(player) {
     return new Promise((resolve, reject) => {
@@ -357,7 +413,9 @@
       searchdata.searchCriteria.category = enums.SearchCategory.ANY;
       searchdata.searchCriteria.position = enums.SearchType.ANY;
 
-      search(searchdata).observe(this, handleSearch);
+      setTimeout(function() {
+        search(searchdata).observe(this, handleSearch);
+      }, 2000);
 
     });
 
