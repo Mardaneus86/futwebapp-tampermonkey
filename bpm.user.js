@@ -28,8 +28,9 @@
   let profitTrade = 0;
   let profitClub = 0;
   let profitSell = 0;
+  let freePacks = 0;
 
-  window.addEventListener('pack-processed', function (e) { 
+  window.addEventListener('pack-processed', function (e) {
     expense += 400;
     buyBronzePack();
   }, false);
@@ -114,19 +115,19 @@
         })
         .then((low) => {
           if (low === undefined) { low = 200; }
-          
+
           if (player.duplicateId === 0) {
             if (low > 200) {
               let starting = low - 300;
               if(starting < player._itemPriceLimits.minPrice) {
-                starting = player._itemPriceLimits.minPrice
+                starting = player._itemPriceLimits.minPrice;
               }
               low = new components.NumericInput().getIncrementBelowVal(low);
               return listItem(player, starting, low)
               .then(() => {
                 profitTrade += (low) * 0.95;
                 resolve(player.id); // handled already
-              })
+              });
             } else {
               listFor(player, "club");
               profitClub += low;
@@ -142,14 +143,14 @@
             } else {
               let starting = low - 300;
               if(starting < player._itemPriceLimits.minPrice) {
-                starting = player._itemPriceLimits.minPrice
+                starting = player._itemPriceLimits.minPrice;
               }
               low = new components.NumericInput().getIncrementBelowVal(low);
               return listItem(player, starting, low)
               .then(() => {
                 profitTrade += (low) * 0.95;
                 resolve(player.id); // handled already
-              })
+              });
             }
           }
           resolve(null);
@@ -173,22 +174,60 @@
 
   function sendToClubOrDiscard(items) {
     return Promise.map(items, function (i) {
-      if (i == null) {
+      if (i === null) {
         return;
       }
       switch (i.type) {
         case enums.ItemType.CONTRACT:
+              listFor(i, "club");
+              console.log('duplicate item, send to club', i.type, i);
+              break;
         case enums.ItemType.HEALTH:
+          if(i.subtype === enums.ItemSubType.HEALING_ALL) {
+
+              return listItem(i, 200, 400)
+              .then(() => {
+                  profitTrade += (400 * 0.95);
+                  console.log('healing all, sell', i.type, i);
+                  return;
+              });
+          } else if(i.subtype === enums.ItemSubType.FITNESS_TEAM) {
+
+              return listItem(i, 200, 400)
+              .then(() => {
+                  profitTrade += (400 * 0.95);
+                  console.log('squad fitness, sell', i.type, i);
+                  return;
+              });
+          } else {
+              listFor(i, "club");
+              console.log('duplicate item, send to club', i.type, i);
+              break;
+          }
+              break;
         case enums.ItemType.TRAINING:
-          listFor(i, "club");
-          console.log('duplicate item, send to club', i.type, i);
-          return;
+          if(i.subtype === enums.ItemSubType.TRAINING_PLAYER_ALL) {
+              return listItem(i, 200, 250)
+              .then(() => {
+                  profitTrade += (250 * 0.95);
+                  console.log('all attributes, sell', i.type, i);
+              });
+          } else {
+              listFor(i, "club");
+              console.log('duplicate item, send to club', i.type, i);
+              return;
+          }
       }
 
       switch (i.subtype) {
-        case enums.ItemSubType.FREE_PACK:
         case enums.ItemSubType.FREE_COINS:
-          console.log("redemption item, redeem", i.subtype, i);
+          profitSell += i._staticData.amount;
+          console.log("coin redemption item, redeem", i.subtype, i);
+          redeemItem(i);
+          return;
+        case enums.ItemSubType.FREE_PACK:
+          freePacks += 1;
+          console.log("pack redemption item, redeem", i.subtype, i);
           redeemItem(i);
           return;
       }
@@ -205,7 +244,7 @@
           case enums.ItemType.PHYSIO:
           case enums.ItemType.STADIUM:
             listFor(i, "discard");
-            profitSell += i.discardValue
+            profitSell += i.discardValue;
             console.log('duplicate item, discard', i.type, i);
             break;
 
@@ -255,7 +294,7 @@
         console.log('did NOT sent item to tradepile', item, response);
       });
       moveItem.send();
-    })
+    });
   }
 
   function listFor(item, type) {
