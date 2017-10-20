@@ -24,14 +24,16 @@
 
   var packProcessedEvent = new Event('pack-processed');
 
-  let expense = 0;
-  let profitTrade = 0;
+  let packCount = 0;
+  let profitTradeHigh = 0;
+  let profitTradeLow = 0;
   let profitClub = 0;
   let profitSell = 0;
   let freePacks = 0;
 
+
   window.addEventListener('pack-processed', function (e) {
-    expense += 400;
+    packCount += 1;
     buyBronzePack();
   }, false);
 
@@ -39,7 +41,7 @@
     const keyCode = ev.keyCode;
     switch (keyCode) {
       case 66 /* b */:
-        expense += 400;
+        packCount += 1;
         buyBronzePack();
         break;
       default:
@@ -60,6 +62,8 @@
       }));
 
       bronzePack.purchase().observe(this, function (s, item, errorCode) {
+        console.log("================================");
+        console.log("PACK #" + packCount);
         s.unobserve(this);
         console.log(item, errorCode);
 
@@ -73,7 +77,6 @@
             o.unobserve(this);
             determineItemAction(list.items)
               .then(() => {
-                console.log("all determined");
                 setTimeout(function () {
                   var waitTime = sendToTradeList();
                   setTimeout(function () {
@@ -83,13 +86,24 @@
                       tradePile = [];
                       sendToClubPile = [];
                       discardPile = [];
-                      console.log("Profit on trade and quicksell: " + (profitTrade + profitSell));
-                      console.log("Potential club profit: " + profitClub);
-                      console.log("exp - trade: " + (profitTrade + profitSell - expense));
-                      console.log("total inc club: " + (profitTrade + profitSell - expense + profitClub));
-                      console.log('buying new pack in 30 seconds...');
+                      console.log("==========================");
+                      console.log("INCOME");
+                      console.log("==========================");
+                      console.log("TRADE PROFIT (Approx): " + profitTradeLow + " - " + profitTradeHigh);
+                      console.log("DISCARD PROFIT: " + profitSell);
+                      console.log("CLUB ITEM VALUE (Players): " + profitClub);
+                      console.log("==========================");
+                      console.log("OUTGOING");
+                      console.log("==========================");
+                      console.log("PACK COSTS: " + (packCount * 400));
+                      console.log("==========================");
+                      console.log("TOTALS");
+                      console.log("==========================");
+                      console.log("EXPECTED INCOME: " + (profitTradeLow + profitSell - (packCount * 400)) + " - " + (profitTradeHigh + profitSell - (packCount * 400)));
+                      console.log("EXPECTED PLUS CLUB: " + (profitTradeLow + profitSell + profitClub - (packCount * 400)) + " - " + (profitTradeHigh + profitSell + profitClub - (packCount * 400)));
+                      console.log("==========================");
                       setTimeout(function() {
-                        console.log('buying new pack');
+                        console.log('NEXT PACK...');
                         window.dispatchEvent(packProcessedEvent);
                       }, 5000);
                     }, 3000);
@@ -125,19 +139,20 @@
               low = new components.NumericInput().getIncrementBelowVal(low);
               return listItem(player, starting, low)
               .then(() => {
-                profitTrade += (low) * 0.95;
+                profitTradeLow += (starting) * 0.95;
+                profitTradeHigh += (low) * 0.95;
                 resolve(player.id); // handled already
               });
             } else {
               listFor(player, "club");
               profitClub += low;
-              console.log("should send to club", player.type, player._staticData.name, player, low);
+              //console.log("should send to club", player.type, player._staticData.name, player, low);
               resolve(player.id); // handled already
             }
           } else {
             if (low < 201) {
               listFor(player, "discard");
-              console.log("should discard, duplicate and low cost", player.type, player._staticData.name, player, low);
+              //console.log("should discard, duplicate and low cost", player.type, player._staticData.name, player, low);
               profitSell += player.discardValue;
               resolve(player.id);
             } else {
@@ -148,7 +163,8 @@
               low = new components.NumericInput().getIncrementBelowVal(low);
               return listItem(player, starting, low)
               .then(() => {
-                profitTrade += (low) * 0.95;
+                profitTradeLow += (starting) * 0.95;
+                profitTradeHigh += (low) * 0.95;
                 resolve(player.id); // handled already
               });
             }
@@ -180,23 +196,25 @@
       switch (i.type) {
         case enums.ItemType.CONTRACT:
               listFor(i, "club");
-              console.log('duplicate item, send to club', i.type, i);
+              //console.log('duplicate item, send to club', i.type, i);
               break;
         case enums.ItemType.HEALTH:
           if(i.subtype === enums.ItemSubType.HEALING_ALL) {
 
               return listItem(i, 200, 400)
               .then(() => {
-                  profitTrade += (400 * 0.95);
-                  console.log('healing all, sell', i.type, i);
+                  profitTradeLow += (200 * 0.95);
+                  profitTradeHigh += (400 * 0.95);
+                  //console.log('healing all, sell', i.type, i);
                   return;
               });
           } else if(i.subtype === enums.ItemSubType.FITNESS_TEAM) {
 
               return listItem(i, 200, 400)
               .then(() => {
-                  profitTrade += (400 * 0.95);
-                  console.log('squad fitness, sell', i.type, i);
+                  profitTradeLow += (200 * 0.95);
+                  profitTradeHigh += (400 * 0.95);
+                  //console.log('squad fitness, sell', i.type, i);
                   return;
               });
           } else {
@@ -209,7 +227,8 @@
           if(i.subtype === enums.ItemSubType.TRAINING_PLAYER_ALL) {
               return listItem(i, 200, 250)
               .then(() => {
-                  profitTrade += (250 * 0.95);
+                  profitTradeLow += (200 * 0.95);
+                  profitTradeHigh += (250 * 0.95);
                   console.log('all attributes, sell', i.type, i);
               });
           } else {
@@ -222,12 +241,12 @@
       switch (i.subtype) {
         case enums.ItemSubType.FREE_COINS:
           profitSell += i._staticData.amount;
-          console.log("coin redemption item, redeem", i.subtype, i);
+          //console.log("coin redemption item, redeem", i.subtype, i);
           redeemItem(i);
           return;
         case enums.ItemSubType.FREE_PACK:
           freePacks += 1;
-          console.log("pack redemption item, redeem", i.subtype, i);
+          //console.log("pack redemption item, redeem", i.subtype, i);
           redeemItem(i);
           return;
       }
