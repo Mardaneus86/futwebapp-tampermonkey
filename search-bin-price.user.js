@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Search BIN
-// @version     0.1.6
+// @version     0.1.7
 // @description Automatically search lowest BIN price on the market
 // @license     MIT
 // @author      Tim Klingeleers
@@ -52,7 +52,7 @@
             searchdata.searchCriteria.type = searchdata.itemData.type;
             
             // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType. Can only search for "Specials", not more specific on Rare Type
-            if (searchdata.itemData.rareflag > enums.ItemRareType.TOTW) {
+            if (searchdata.itemData.rareflag >= enums.ItemRareType.TOTW) {
               searchdata.searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id == enums.ItemRareType.TOTW)[0].value;
             }
 
