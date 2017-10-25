@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.7
+// @version     0.3.0
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -144,7 +144,7 @@
               !controller._listController._view) {
               return; // only run if data is available
             }
-            listController = controller._listController
+            listController = controller._listController;
           }
 
           var listrows = null;
@@ -152,9 +152,16 @@
             listController._view._list._listRows &&
             listController._view._list._listRows.length > 0) {
             listrows = listController._view._list._listRows; // for transfer market and club search
-          } else if (listController._view._listRows &&
-            listController._view._listRows.length > 0) {
-            listrows = listController._view._listRows; // for trade pile
+          } else if (listController._view._sections.length > 0) { // for transfer list & trade pile
+            listController._view._sections.forEach(function(row, index) {
+              if(row._listRows.length > 0) {
+                if(listrows == null) {
+                  listrows = row._listRows;
+                } else {
+                  listrows = listrows.concat(row._listRows);
+                }
+              }
+            });
           }
 
           if (listrows === null) {
