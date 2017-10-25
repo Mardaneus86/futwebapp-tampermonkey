@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.2.6
+// @version     0.2.7
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -39,7 +39,7 @@
     right: 0;
   }
   .MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
-    width: 34%;
+    width: 24%;
     float: right;
     padding-right: 1%;
     display: none;
@@ -48,13 +48,22 @@
     display: block;
   }
   .listFUTItem .auction .auction-state {
-    width: 15%;
+    width: 25%;
     float: right;
   }
   .listFUTItem .auction .auctionValue {
-    width: 30%;
+    width: 24%;
     float: left;
     padding-right: 1%;
+  }
+  .futbinupdate {
+    font-size: 14px;
+    clear: both;
+    display: block;
+  }
+  .coins.value.futbin {
+    -webkit-filter: hue-rotate(165deg);
+    filter: hue-rotate(165deg);
   }
   </style>`);
 
@@ -91,11 +100,11 @@
         $(".secondary.player-stats-data-component").css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN - ' + futbinData[playerId].prices[platform].updated + '</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(' + futbinData[playerId].prices[platform].updated + ')</span></span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
       case "SearchResults":
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN - ' + futbinData[playerId].prices[platform].updated + '</span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
+        targetForButton.prepend('<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(' + futbinData[playerId].prices[platform].updated + ')</span></span><span class="coins value">' + futbinData[playerId].prices[platform].LCPrice + '</span></div>');
         break;
     };
   };
@@ -135,7 +144,7 @@
               !controller._listController._view) {
               return; // only run if data is available
             }
-            listController = controller._listController
+            listController = controller._listController;
           }
 
           var listrows = null;
@@ -143,9 +152,16 @@
             listController._view._list._listRows &&
             listController._view._list._listRows.length > 0) {
             listrows = listController._view._list._listRows; // for transfer market and club search
-          } else if (listController._view._listRows &&
-            listController._view._listRows.length > 0) {
-            listrows = listController._view._listRows; // for trade pile
+          } else if (listController._view._sections.length == 4) { // for transfer list
+            listController._view._sections.forEach(function(row, index) {
+              if(row._listRows.length > 0) {
+                if(listrows == null) {
+                  listrows = row._listRows;
+                } else {
+                  listrows = listrows.concat(row._listRows);
+                }
+              }
+            });
           }
 
           if (listrows === null) {
