@@ -144,7 +144,7 @@
               !controller._listController._view) {
               return; // only run if data is available
             }
-            listController = controller._listController
+            listController = controller._listController;
           }
 
           var listrows = null;
@@ -152,9 +152,16 @@
             listController._view._list._listRows &&
             listController._view._list._listRows.length > 0) {
             listrows = listController._view._list._listRows; // for transfer market and club search
-          } else if (listController._view._listRows &&
-            listController._view._listRows.length > 0) {
-            listrows = listController._view._listRows; // for trade pile
+          } else if (listController._view._sections.length == 4) { // for transfer list
+            listController._view._sections.forEach(function(row, index) {
+              if(row._listRows.length > 0) {
+                if(listrows == null) {
+                  listrows = row._listRows;
+                } else {
+                  listrows = listrows.concat(row._listRows);
+                }
+              }
+            });
           }
 
           if (listrows === null) {
