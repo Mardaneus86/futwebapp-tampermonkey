@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.3.0
+// @version     0.3.1
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -88,11 +88,16 @@
       return; // futbin data might not be available for this player
     }
 
+    var targetForButton = null;
+    targetForButton = target.find('.auction');
+    if (targetForButton !== null) {
+      targetForButton.show(); // make sure it's always shown (#69)
+    }
+
     if (target.find('.futbin').length > 0) {
       return; // futbin price already added to the row
     }
 
-    var targetForButton = null;
     switch (gNavManager.getCurrentScreen()._screenId) {
       case "UnassignedItems":
       case "TradePile":
@@ -122,6 +127,12 @@
           clearInterval(intervalRunning);
         }
         intervalRunning = setInterval(function () {
+          if (gNavManager._currentScreen._screenId !== event) {
+            if (intervalRunning) {
+              clearInterval(intervalRunning);
+            }
+            return;
+          }
           var controller = gNavManager.getCurrentScreenController()._controller;
 
           var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
