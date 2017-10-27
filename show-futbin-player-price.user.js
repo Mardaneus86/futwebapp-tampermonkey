@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Show Futbin player price
-// @version     0.3.2
+// @version     0.3.3
 // @description Show the Futbin prices for players in the Search Results, Club Search and Trade Pile
 // @license     MIT
 // @author      Tim Klingeleers
@@ -112,108 +112,103 @@
 
   var intervalRunning = null;
 
+  var showFutbinPricePages = ["MyClubSearchFilters", "UnassignedItems", "TradePile", "MyClubSearch", "SearchResults"];
   gNavManager.onScreenRequest.observe(this, function (obs, event) {
-    switch (event) {
-      case "MyClubSearchFilters":
-      case "UnassignedItems":
-      case "TradePile":
-      case "MyClubSearch":
-      case "SearchResults":
-        if (intervalRunning) {
-          clearInterval(intervalRunning);
+    if (showFutbinPricePages.indexOf(event) !== -1) {
+      if (intervalRunning) {
+        clearInterval(intervalRunning);
+      }
+      intervalRunning = setInterval(function () {
+        if (showFutbinPricePages.indexOf(gNavManager._currentScreen._screenId) === -1) {
+          if (intervalRunning) {
+            clearInterval(intervalRunning);
+          }
+          return;
         }
-        intervalRunning = setInterval(function () {
-          if (gNavManager._currentScreen._screenId !== event) {
-            if (intervalRunning) {
-              clearInterval(intervalRunning);
-            }
+        var controller = gNavManager.getCurrentScreenController()._controller;
+
+        var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
+
+        var targetForButton = null;
+        targetForButton = uiItems.find('.auction');
+        if (targetForButton !== null) {
+          targetForButton.show(); // make sure it's always shown (#69)
+        }
+
+        if ($(uiItems[0]).find('.futbin').length > 0) {
+          return;
+        }
+
+        var listController = null;
+        if (event == "UnassignedItems") {
+          if (!controller ||
+            !controller._leftController ||
+            !controller._leftController._view) {
             return;
           }
-          var controller = gNavManager.getCurrentScreenController()._controller;
-
-          var uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
-
-          var targetForButton = null;
-          targetForButton = uiItems.find('.auction');
-          if (targetForButton !== null) {
-            targetForButton.show(); // make sure it's always shown (#69)
+          listController = controller._leftController
+        } else {
+          if (!controller ||
+            !controller._listController ||
+            !controller._listController._view) {
+            return; // only run if data is available
           }
+          listController = controller._listController;
+        }
 
-          if ($(uiItems[0]).find('.futbin').length > 0) {
-            return;
-          }
-
-          var listController = null;
-          if (event == "UnassignedItems") {
-            if (!controller ||
-              !controller._leftController ||
-              !controller._leftController._view) {
-              return;
-            }
-            listController = controller._leftController
-          } else {
-            if (!controller ||
-              !controller._listController ||
-              !controller._listController._view) {
-              return; // only run if data is available
-            }
-            listController = controller._listController;
-          }
-
-          var listrows = null;
-          if (listController._view._list &&
-            listController._view._list._listRows &&
-            listController._view._list._listRows.length > 0) {
-            listrows = listController._view._list._listRows; // for transfer market and club search
-          } else if (listController._view._sections.length > 0) { // for transfer list & trade pile
-            listController._view._sections.forEach(function(row, index) {
-              if(row._listRows.length > 0) {
-                if(listrows == null) {
-                  listrows = row._listRows;
-                } else {
-                  listrows = listrows.concat(row._listRows);
-                }
+        var listrows = null;
+        if (listController._view._list &&
+          listController._view._list._listRows &&
+          listController._view._list._listRows.length > 0) {
+          listrows = listController._view._list._listRows; // for transfer market and club search
+        } else if (listController._view._sections &&
+          listController._view._sections.length > 0) { // for transfer list & trade pile
+          listController._view._sections.forEach(function(row, index) {
+            if(row._listRows.length > 0) {
+              if(listrows == null) {
+                listrows = row._listRows;
+              } else {
+                listrows = listrows.concat(row._listRows);
               }
-            });
-          }
-
-          if (listrows === null) {
-            return;
-          }
-
-          var resourceIdMapping = [];
-          listrows.forEach(function (row, index) {
-            resourceIdMapping.push({
-              target: uiItems[index],
-              playerId: row.data.resourceId
-            });
-          });
-
-          var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + resourceIdMapping.
-            map(function (i) { return i.playerId }).
-            filter(function (current, next) { return current !== next }).
-            join(',');
-          GM_xmlhttpRequest({
-            method: "GET",
-            url: futbinUrl,
-            onload: function (res) {
-              var futbinData = JSON.parse(res.response);
-              resourceIdMapping.forEach(function (item) {
-                showFutbinPrice(item, futbinData);
-              })
             }
           });
-        }, 1000);
-        break;
-
-      default:
-        // no need to search prices on other pages
-        // reset page
-        if (intervalRunning) {
-          clearInterval(intervalRunning);
         }
-        intervalRunning = null;
-        break;
+
+        if (listrows === null) {
+          return;
+        }
+
+        var resourceIdMapping = [];
+        listrows.forEach(function (row, index) {
+          resourceIdMapping.push({
+            target: uiItems[index],
+            playerId: row.data.resourceId
+          });
+        });
+
+        var futbinUrl = "https://www.futbin.com/18/playerPrices?player=&all_versions=" + resourceIdMapping.
+          map(function (i) { return i.playerId }).
+          filter(function (current, next) { return current !== next }).
+          join(',');
+        GM_xmlhttpRequest({
+          method: "GET",
+          url: futbinUrl,
+          onload: function (res) {
+            var futbinData = JSON.parse(res.response);
+            resourceIdMapping.forEach(function (item) {
+              showFutbinPrice(item, futbinData);
+            })
+          }
+        });
+      }, 1000);
+
+    } else {
+      // no need to search prices on other pages
+      // reset page
+      if (intervalRunning) {
+        clearInterval(intervalRunning);
+      }
+      intervalRunning = null;
     }
   });
 })();
