@@ -47,6 +47,7 @@ Some of the scripts depend on the generic scripts that are mentioned above. They
 | [FUT Confirm Buy Now Dialog][confirm-buynow-dialog-wiki] | [install][confirm-buynow-dialog-install-openuserjs] | 2017.09.25 |
 | [FUT Disable Clickshield][disable-clickshield-wiki] | [install][disable-clickshield-install-openuserjs] | 2017.09.29 |
 | [FUT Futbin Club Worth][futbin-club-worth-wiki] | [install][futbin-club-worth-install-openuserjs] | 2017.10.04 |
+| [FUT Confirm Buy Pack Dialog][confirm-buypack-dialog-wiki] | [install][confirm-buypack-dialog-install-openuserjs] | 2017.10.13 |
 
 Scripts marked with :warning: are experimental and not suited for regular users.
 
@@ -104,3 +105,6 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 
 [futbin-club-worth-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Futbin-Club-Worth
 [futbin-club-worth-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Futbin_Club_Worth.user.js
+
+[confirm-buypack-dialog-wiki]: https://github.com/Mardaneus86/futwebapp-tampermonkey/wiki/Confirm-BuyPack-Dialog
+[confirm-buypack-dialog-install-openuserjs]: https://openuserjs.org/install/Mardaneus86/FUT_Confirm_Buy_Pack_Dialog.user.js
