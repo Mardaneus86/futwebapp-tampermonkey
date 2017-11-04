@@ -119,7 +119,8 @@ class MinBin extends BaseScript {
     }
   }
 
-  static _getSelectedItem() {
+  /* eslint-disable class-methods-use-this */
+  _getSelectedItem() {
     if (gNavManager.getCurrentScreenController()._controller._listController) {
       return gNavManager.getCurrentScreenController()._controller._listController
         .getIterator().current();
@@ -128,6 +129,7 @@ class MinBin extends BaseScript {
     return gNavManager.getCurrentScreenController()._controller._rightController
       ._currentController._viewmodel.current()._item;
   }
+  /* eslint-enable class-methods-use-this */
 }
 
 new MinBin(); // eslint-disable-line no-new

@@ -29,7 +29,8 @@ class RefreshTransferList extends BaseScript {
     $('#header').find('.subTitle').find('.refreshList').remove();
   }
 
-  static _show(event) {
+  /* eslint-disable class-methods-use-this */
+  _show(event) {
     switch (event) {
       case 'TradePile':
       case 'SearchResults':
@@ -46,6 +47,7 @@ class RefreshTransferList extends BaseScript {
         // no need to show anything on other screens
     }
   }
+  /* eslint-enable class-methods-use-this */
 }
 
 new RefreshTransferList(); // eslint-disable-line no-new

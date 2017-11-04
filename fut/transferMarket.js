@@ -10,11 +10,12 @@ import { PinEvent } from './pinEvent';
 
 export class TransferMarket {
   _logger = new Logger();
-  _pinEvent = new PinEvent();
 
+  /* eslint-disable class-methods-use-this */
   async navigateToTransferHub() {
-    await this._pinEvent.sendPageView('Hub - Transfers');
+    await PinEvent.sendPageView('Hub - Transfers');
   }
+  /* eslint-enable class-methods-use-this */
 
   async searchMinBuy(item, itemsForMean = 3, lowUp = false) {
     this._logger.log(`Searching min buy for ${item.type} ${item._staticData.name} from low upward first ${lowUp}`, 'Core - Transfermarket');
@@ -59,9 +60,9 @@ export class TransferMarket {
 
   async _findLowUp(item, itemsForMean) {
     const searchCriteria = this._defineSearchCriteria(item, 200);
-    await this._pinEvent.sendPageView('Transfer Market Search');
+    await PinEvent.sendPageView('Transfer Market Search');
     await utils.sleep(5000);
-    await this._pinEvent.sendPageView('Transfer Market Results - List View', 0);
+    await PinEvent.sendPageView('Transfer Market Results - List View', 0);
     const items = await this._find(searchCriteria);
     if (items.length > itemsForMean) {
       // we find more than X listed at this price, so it must be low value
@@ -78,8 +79,8 @@ export class TransferMarket {
     let valuesFound = [];
     for (let minBuyFound = false; minBuyFound === false;) {
       /* eslint-disable no-await-in-loop */
-      await this._pinEvent.sendPageView('Transfer Market Search');
-      await this._pinEvent.sendPageView('Transfer Market Results - List View', 0);
+      await PinEvent.sendPageView('Transfer Market Search');
+      await PinEvent.sendPageView('Transfer Market Results - List View', 0);
       const items = await this._find(searchCriteria);
       /* eslint-enable no-await-in-loop */
       if (items.length > 0) {
@@ -121,7 +122,8 @@ export class TransferMarket {
     return priceTiers.roundValueToNearestPriceTiers(mean(valuesFound));
   }
 
-  static _defineSearchCriteria(item, maxBuy = -1) {
+  /* eslint-disable class-methods-use-this */
+  _defineSearchCriteria(item, maxBuy = -1) {
     // TODO: check if this can handle other items as well
     const searchCriteria = new transferobjects.SearchCriteria();
 
@@ -144,6 +146,7 @@ export class TransferMarket {
 
     return searchCriteria;
   }
+  /* eslint-enable class-methods-use-this */
 
   _find(searchCriteria) {
     return new Promise((resolve, reject) => {
