@@ -11,11 +11,12 @@ This TamperMonkey script is meant to enhance the FUT 18 Web App experience. You 
 I started this project to learn about reverse engineering big Javascript codebases.
 
 If you benefit from this project, you can buy me a beer :beers: :+1:
+
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VTXU8XUY8JS94)
 
 ## Installation
 
-1. Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
+Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
 
 	* Firefox - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox).
 	* Chrome - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=chrome).
@@ -23,9 +24,6 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 	* Safari - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=safari).
 	* Dolphin - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=dolphin).
 	* UC Browser - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=ucweb).
-
-2. Get information or install:
-	* Install a script directly from GitHub by clicking on the "install" link in the table below.
 
 ### Install scripts
 Install the scripts via [OpenUserJS][install-script] (this script has not been uploaded to OpenUserJS yet).
