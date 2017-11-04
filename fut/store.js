@@ -69,31 +69,6 @@ export class Store {
     });
   }
 
-  /* eslint-disable */
-  relistAllItems() {
-    return new Promise((resolve, reject) => {
-      if (gUserModel.getTradeAccess() !== models.UserModel.TRADE_ACCESS.WHITELIST) {
-        reject(new Error('You are not authorized for trading'));
-        return;
-      }
-
-      const relistExpired = new communication.AuctionRelistDelegate();
-
-      relistExpired.addListener(communication.BaseDelegate.SUCCESS, this, (sender) => {
-        sender.clearListenersByScope(this);
-        repositories.Item.setDirty(enums.FUTItemPile.TRANSFER);
-        resolve();
-      });
-
-      relistExpired.addListener(communication.BaseDelegate.FAIL, this, (sender, error) => {
-        sender.clearListenersByScope(this);
-        reject(new Error(data.erorr));
-      });
-      relistExpired.execute();
-    });
-  }
-  /* eslint-enable */
-
   sendToTradePile(item) {
     return new Promise((resolve, reject) => {
       const moveItem = new communication.MoveItemDelegate([item], enums.FUTItemPile.TRANSFER);
