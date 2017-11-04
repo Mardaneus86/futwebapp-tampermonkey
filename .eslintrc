@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "func-names": ["error", "never"],
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off"
+  }
+}

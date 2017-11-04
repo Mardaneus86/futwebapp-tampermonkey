@@ -1,0 +1,52 @@
+.futsettings-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+
+  ::before {
+    font-family: UltimateTeam-Icons;
+    content: "\f127";
+  }
+}
+
+.futsettings {
+  position: absolute;
+  top: 125px;
+  bottom: 10px;
+  left: 155px;
+  right: 10px;
+  background-color: #eeeff4;
+  border: 1px solid black;
+  overflow-y: auto;
+  display: none;
+  z-index: 998;
+  padding: 12px;
+
+  .feature-settings-empty {
+    margin-bottom: 25px;
+  }
+
+  .feature-settings {
+    margin-bottom: 25px;
+    background-color: #ddd;
+    padding: 8px;
+
+    .setting {
+
+      padding: 8px;
+
+      input[type=text] {
+        width: 100%;
+        height: 2.5em;
+        text-align: left;
+        background-color: #fbfbfb;
+        color: #33314e;
+        border: 1px #33314e solid;
+        padding: 8px;
+        clear: both;
+        display: block;
+      }
+    }
+  }
+}
