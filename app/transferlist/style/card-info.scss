@@ -1,0 +1,17 @@
+.item.player.small.TOTW .infoTab-extra, 
+.item.player.small.OTW .infoTab-extra, 
+.item.player.small.TOTS .infoTab-extra, 
+.item.player.small.TOTY .infoTab-extra, 
+.item.player.small.legend .infoTab-extra {
+  color: white;
+}
+
+.item.player.small .infoTab-extra {
+  color: black;
+  top: 5%;
+  right: 0;
+  width: 100%;
+  height: 22%;
+  line-height: 165%;
+  position: relative;
+}

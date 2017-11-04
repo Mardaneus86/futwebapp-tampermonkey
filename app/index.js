@@ -6,6 +6,7 @@ import initSettingsScreen from './settings';
 import { Settings, Queue } from './core';
 
 import {
+  CardInfoSettings,
   RefreshListSettings,
   RemoveSoldAuctionsSettings,
   RelistAuctionsSettings,
@@ -26,6 +27,7 @@ gAuthenticationModel.addListener(
     settings.registerEntry(new RemoveSoldAuctionsSettings());
     settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
+    settings.registerEntry(new CardInfoSettings());
 
     initSettingsScreen(settings);
   },
