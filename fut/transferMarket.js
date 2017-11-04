@@ -1,4 +1,6 @@
-/* globals enums transferobjects factories communication */
+/* globals
+enums transferobjects factories communication gUserModel models repositories
+*/
 import { mean } from 'math-statistics';
 
 import utils from './utils';
@@ -30,6 +32,29 @@ export class TransferMarket {
 
     this._logger.log(`Min buy for ${item.type} ${item._staticData.name} is ${minBuy}`, 'Core - Transfermarket');
     return minBuy;
+  }
+
+  relistAllItems() {
+    return new Promise((resolve, reject) => {
+      if (gUserModel.getTradeAccess() !== models.UserModel.TRADE_ACCESS.WHITELIST) {
+        reject(new Error('You are not authorized for trading'));
+        return;
+      }
+
+      const relistExpired = new communication.AuctionRelistDelegate();
+
+      relistExpired.addListener(communication.BaseDelegate.SUCCESS, this, (sender) => {
+        sender.clearListenersByScope(this);
+        repositories.Item.setDirty(enums.FUTItemPile.TRANSFER);
+        resolve();
+      });
+
+      relistExpired.addListener(communication.BaseDelegate.FAIL, this, (sender, error) => {
+        sender.clearListenersByScope(this);
+        reject(new Error(error));
+      });
+      relistExpired.execute();
+    });
   }
 
   async _findLowUp(item, itemsForMean) {
