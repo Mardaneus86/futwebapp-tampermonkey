@@ -27,5 +27,4 @@ deploy:
     - dist/bundle.js
   skip_cleanup: true
   on:
-    repo: https://github.com/Mardaneus86/futwebapp-tampermonkey.git
     tags: true
