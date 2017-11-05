@@ -1,0 +1,45 @@
+#TradePile .player-stats-data-component, #Unassigned .player-stats-data-component {
+  width: 12em;
+}
+#TradePile .listFUTItem .entityContainer, #Unassigned .listFUTItem .entityContainer {
+  width: 45%;
+}
+#Unassigned .listFUTItem .auction .auctionValue, #Unassigned .listFUTItem .auction .auction-state {
+  display: none;
+}
+#Unassigned .listFUTItem .auction .auctionValue.futbin {
+  display: block;
+  float: right;
+}
+.MyClubResults .listFUTItem .auction {
+  display: block;
+  position: absolute;
+  right: 0;
+}
+.MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
+  width: 24%;
+  float: right;
+  padding-right: 1%;
+  display: none;
+}
+.MyClubResults .listFUTItem .auction .auctionValue.futbin {
+  display: block;
+}
+.listFUTItem .auction .auction-state {
+  width: 25%;
+  float: right;
+}
+.listFUTItem .auction .auctionValue {
+  width: 24%;
+  float: left;
+  padding-right: 1%;
+}
+.futbinupdate {
+  font-size: 14px;
+  clear: both;
+  display: block;
+}
+.coins.value.futbin {
+  -webkit-filter: hue-rotate(165deg);
+  filter: hue-rotate(165deg);
+}

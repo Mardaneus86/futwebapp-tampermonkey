@@ -13,6 +13,10 @@ import {
   MinBinSettings,
 } from './transferlist';
 
+import {
+  FutbinSettings,
+} from './futbin';
+
 gAuthenticationModel.addListener(
   models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL,
   this,
@@ -28,6 +32,8 @@ gAuthenticationModel.addListener(
     settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
     settings.registerEntry(new CardInfoSettings());
+
+    settings.registerEntry(new FutbinSettings());
 
     initSettingsScreen(settings);
   },
