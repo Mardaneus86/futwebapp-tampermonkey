@@ -3,7 +3,7 @@
 
 export class Database {
   constructor() {
-    set('database-version', '1');
+    this.set('database-version', '1');
   }
 
   static set(key, value) {
