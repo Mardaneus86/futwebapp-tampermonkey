@@ -11,6 +11,7 @@ import {
   RemoveSoldAuctionsSettings,
   RelistAuctionsSettings,
   MinBinSettings,
+  ListSizeSettings,
 } from './transferlist';
 
 import {
@@ -32,6 +33,7 @@ gAuthenticationModel.addListener(
     settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
     settings.registerEntry(new CardInfoSettings());
+    settings.registerEntry(new ListSizeSettings());
 
     settings.registerEntry(new FutbinSettings());
 
