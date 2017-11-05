@@ -2,6 +2,10 @@
 /* eslint valid-typeof: "error" */
 
 export class Database {
+  constructor() {
+    set('database-version', '1');
+  }
+
   static set(key, value) {
     GM_setValue(key, value);
   }
