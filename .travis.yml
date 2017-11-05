@@ -28,5 +28,3 @@ deploy:
   file:
     - dist/bundle.js
   skip_cleanup: true
-  on:
-    tags: true
