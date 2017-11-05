@@ -1,0 +1,7 @@
+install:
+  - npm install
+script:
+  - npm run build:production
+cache:
+  directories:
+    - "node_modules"
