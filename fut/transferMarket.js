@@ -86,7 +86,7 @@ export class TransferMarket {
       if (items.length > 0) {
         valuesFound = valuesFound.concat(items.map(i => i._auction.buyNowPrice));
 
-        const minBuyOnPage = Math.min(items.map(i => i._auction.buyNowPrice));
+        const minBuyOnPage = Math.min(...items.map(i => i._auction.buyNowPrice));
         if (minBuyOnPage < minBuy) {
           minBuy = minBuyOnPage;
           if (items.length < searchCriteria.count) {
@@ -109,7 +109,7 @@ export class TransferMarket {
             minBuyFound = true;
           }
         } else {
-          minBuy = Math.min(items.map(i => i._auction.buyNowPrice));
+          minBuy = Math.min(...items.map(i => i._auction.buyNowPrice));
           minBuyFound = true;
         }
       } else {
