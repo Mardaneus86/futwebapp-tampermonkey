@@ -64,6 +64,7 @@ Make sure to enable `Allow access to file URLs` in `chrome://extensions/` for Ta
 // @require     file:///<path to repo>/dist/bundle.js
 // @connect     ea.com
 // @connect     maker.ifttt.com
+// @connect     futbin.com
 // ==/UserScript==
 ```
 
