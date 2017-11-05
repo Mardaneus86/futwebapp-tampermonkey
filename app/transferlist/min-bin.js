@@ -1,6 +1,6 @@
 /* globals
 GM_notification
-gNavManager
+gNavManager entities
 window $ document
 */
 import { BaseScript, SettingsEntry } from '../core';
@@ -106,14 +106,27 @@ class MinBin extends BaseScript {
     if (settings['adjust-list-price'] &&
       gNavManager.getCurrentScreenController()._controller._rightController
         ._currentController._quickListPanel) {
-      const quicklistpanel = gNavManager.getCurrentScreenController()._controller._rightController
-        ._currentController._quickListPanel._view;
-      const bidSpinner = quicklistpanel._bidNumericStepper;
-      const buySpinner = quicklistpanel._buyNowNumericStepper;
+      const quicklistpanelController = gNavManager.getCurrentScreenController()
+        ._controller._rightController
+        ._currentController._quickListPanel;
+      const quicklistpanel = quicklistpanelController._view;
+
       const listPrice = priceTiers.determineListPrice(
         minimumBin * (settings['start-price-percentage'] / 100),
         minimumBin * (settings['buy-now-price-percentage'] / 100),
       );
+
+      if (quicklistpanelController._item) {
+        // sets the values when the quicklistpanel hasn't been initialized
+        const auction = new entities.Auction();
+        auction.tradeId = -1; // anything else than 0
+        auction.startingBid = listPrice.start;
+        auction.buyNowPrice = listPrice.buyNow;
+        quicklistpanelController._item.setAuctionData(auction);
+      }
+
+      const bidSpinner = quicklistpanel._bidNumericStepper;
+      const buySpinner = quicklistpanel._buyNowNumericStepper;
       bidSpinner.value = listPrice.start;
       buySpinner.value = listPrice.buyNow;
     }
@@ -126,8 +139,10 @@ class MinBin extends BaseScript {
         .getIterator().current();
     }
 
-    return gNavManager.getCurrentScreenController()._controller._rightController
-      ._currentController._viewmodel.current()._item;
+    const current = gNavManager.getCurrentScreenController()._controller._rightController
+      ._currentController._viewmodel.current();
+
+    return current._item ? current._item : current;
   }
   /* eslint-enable class-methods-use-this */
 }
