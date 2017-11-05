@@ -9,12 +9,10 @@ node_js:
   - '8'
 before_script:
   - npm prune
-  - npm run semver
-script:
-  - npm run build:production
-after_success:
   - git fetch --tags
   - npm run semantic-release
+script:
+  - npm run build:production
 env:
   - NPM_TOKEN="00000000-0000-0000-0000-000000000000"
 branches:
