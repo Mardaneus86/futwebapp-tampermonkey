@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        FUT Enhancer
-// @version     0.1.0
+// @version     VERSION
 // @description
 // @license     MIT
 // @author      Tim Klingeleers

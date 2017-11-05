@@ -10,7 +10,7 @@
     "build:production": "npm run standards && webpack --config webpack.config.prd.js",
     "standards": "eslint .",
     "standards:watch": "esw --watch",
-    "semver": "semantic-release changelog",
+    "semver": "semantic-release pre",
     "semantic-release": "semantic-release pre && semantic-release post"
   },
   "eslintIgnore": [
