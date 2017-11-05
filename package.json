@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run standards:watch & webpack --watch",
     "build": "npm run standards && webpack",
+    "build:production": "npm run standards && webpack --config webpack.config.prd.js",
     "standards": "eslint .",
     "standards:watch": "esw --watch",
     "semver": "semantic-release changelog",

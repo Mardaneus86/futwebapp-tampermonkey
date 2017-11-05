@@ -10,7 +10,7 @@ node_js:
 before_script:
   - npm prune
 script:
-  - npm run build
+  - npm run build:production
 after_success:
   - git fetch --tags
   - npm run semantic-release
@@ -20,6 +20,8 @@ branches:
   except:
     - /^v\d+\.\d+\.\d+$/
 deploy:
+  branches: 
+    - single-script
   provider: releases
   api_key:
     secure: "itypG5lXUZkA647w7CUiagtzgr617UA640j17OFgzsChADpmilsdsEHV8afcuzts/CO+nzxbCO42X6jeBjYKEMvSSe1DInXCy9p0OcryUvTYsTM2zYvqTRn7syF5cN+2B3BTIQERk8nct+mao0p9iKDRvna9l6OI2MGLHm6nEsP/b4VmYMJwemleLY+dHeBLF1eSlEvg6sOHf8MZp6+OU78tUUUfb6+EW0+EpOomf4FG5D+XJn0Q7naMc6L4ehI8lvxcbuM7ECVgXBcw0ixnC/OS/JcpFYlNFHjTUqK/WDXWvoMkJPWff/+2SPYk0bnFJRI7LGCqF1DP0Yzn8Sz+TsNwkJ/plWNgZmq1GC1rEl3fVxHNRwQXb0Qu66BeK/5qJqsvZ1DW+96OwGPEYnUZBAqCVLK/4IHg1yDFTWsSs+sB+ECJNmRsXVF9dLluA3qtKlkujkTcrl5iNXptBx0czRwEvZmzZfEL8OS6naEIc396wEs4YT02vRsg8wp4psMW7YnetDcnVbqcNT9I0leFCSd7MKVFQLVfs5ybhXpb40Eo/+luq6N45GFMS+QazMnoyggAqtZ/g8HoCE0K+pK6YzbrboXeMui50yzMwwRWojM+XFSIKzcSOYP7AWWof66RKfOHqlBVYw8nhFsJ3xRQxzfp6528hZeJpWvRBFzHjbU="
