@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run standards & webpack --watch",
-    "build": "webpack",
-    "standards": "esw --watch"
+    "start": "npm run standards:watch & webpack --watch",
+    "build": "npm run standards && webpack",
+    "standards": "eslint .",
+    "standards:watch": "esw --watch"
   },
   "eslintIgnore": [
     "dist",

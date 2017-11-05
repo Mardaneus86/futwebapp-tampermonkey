@@ -62,13 +62,13 @@ class CardInfo extends BaseScript {
           }
 
           let info = '';
-          if (settings['show-fitness'] == 'true') {
+          if (settings['show-fitness'] === 'true') {
             info += `<div class="fitness" style="float: right;margin-right: 20px">
               ${items[index].fitness}
               </div>`;
           }
 
-          if (settings['show-contracts'] == 'true') {
+          if (settings['show-contracts'] === 'true') {
             info += `<div class="contracts" style="margin-left: 30px;float: left">
               ${items[index].contract}
               </div>`;
