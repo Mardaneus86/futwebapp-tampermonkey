@@ -1,7 +1,7 @@
 module.exports = {
   entry: './app/index.js',
   output: {
-    filename: './dist/bundle.js',
+    filename: './dist/fut-enhancer.user.js',
   },
   devtool: 'eval-source-map',
   module: {

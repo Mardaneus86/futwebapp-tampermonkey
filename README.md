@@ -61,7 +61,7 @@ Make sure to enable `Allow access to file URLs` in `chrome://extensions/` for Ta
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       window.focus
-// @require     file:///<path to repo>/dist/bundle.js
+// @require     file:///<path to repo>/dist/fut-enhancer.user.js
 // @connect     ea.com
 // @connect     maker.ifttt.com
 // @connect     futbin.com
