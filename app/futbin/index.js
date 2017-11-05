@@ -125,7 +125,7 @@ class Futbin extends BaseScript {
           url: futbinUrl,
           onload: (res) => {
             const futbinData = JSON.parse(res.response);
-            resourceIdMapping.forEach(function (item) {
+            resourceIdMapping.forEach((item) => {
               Futbin._showFutbinPrice(item, futbinData);
             });
           },
