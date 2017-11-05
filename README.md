@@ -14,8 +14,10 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VTXU8XUY8JS94)
 
-## Installation
+## Separate scripts
+To find the old version of the scripts that you could install separately, please refer to the [separate-scripts tag](https://github.com/Mardaneus86/futwebapp-tampermonkey/tree/separate-scripts). Keep in mind that those scripts are no longer actively maintained.
 
+## Installation
 Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
 
 * Firefox - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox).
@@ -26,7 +28,7 @@ Make sure you have user scripts enabled in your browser (these instructions refe
 * UC Browser - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=ucweb).
 
 ### Install scripts
-Install the scripts via [OpenUserJS][install-script] (this script has not been uploaded to OpenUserJS yet).
+Install the scripts via [OpenUserJS][install-script] (this script has not been uploaded to OpenUserJS yet). Or find the latest version and release notes at the [releases page](https://github.com/Mardaneus86/futwebapp-tampermonkey/releases).
 
 ## Feature requests
 If you feel there are missing features, feel free to add a request to the [issue list][issue-list]. Make sure to provide the necessary details, or even a mockup of what the feature would look like.
