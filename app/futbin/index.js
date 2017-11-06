@@ -1,9 +1,10 @@
 /* globals
 GM_xmlhttpRequest
-gNavManager repositories
+gNavManager
 $
 */
 import { BaseScript, SettingsEntry } from '../core';
+import { utils } from '../../fut';
 
 import './style/futbin-prices.scss';
 
@@ -153,10 +154,7 @@ class Futbin extends BaseScript {
       return;
     }
 
-    let platform = '';
-    if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) platform = 'ps';
-    if (repositories.User.getCurrent().getSelectedPersona().isPC) platform = 'pc';
-    if (repositories.User.getCurrent().getSelectedPersona().isXbox) platform = 'xbox';
+    const platform = utils.getPlatform();
 
     if (!futbinData[playerId]) {
       return; // futbin data might not be available for this player

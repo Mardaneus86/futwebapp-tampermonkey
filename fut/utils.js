@@ -1,4 +1,6 @@
-// import {Logger} from './logger';
+/* globals
+repositories
+*/
 
 export default {
   /**
@@ -11,5 +13,19 @@ export default {
     const delay = min + Math.floor(Math.random() * variance);
     // new Logger().log(`Delay for ${delay} (requested: ${min}+${variance})`, 'Core');
     return new Promise(resolve => setTimeout(resolve, delay));
+  },
+
+  getPlatform() {
+    if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) {
+      return 'ps';
+    }
+    if (repositories.User.getCurrent().getSelectedPersona().isPC) {
+      return 'pc';
+    }
+    if (repositories.User.getCurrent().getSelectedPersona().isXbox) {
+      return 'xbox';
+    }
+
+    throw new Error('unknown platform');
   },
 };
