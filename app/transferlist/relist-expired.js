@@ -5,13 +5,16 @@ enums gNavManager
 */
 
 import { BaseScript, SettingsEntry, Queue } from '../core';
-import { Store, TransferMarket, Logger } from '../../fut';
+import { Store, TransferMarket, Logger, priceTiers, utils } from '../../fut';
 
 export class RelistAuctionsSettings extends SettingsEntry {
   static id = 'relist-auctions';
   constructor() {
     super('relist-auctions', 'Relist expired auctions automatically', null);
     this.addSetting('Interval in seconds', 'interval', 300);
+    this.addSetting('Relist at BIN price', 'relist-bin-price', true);
+    this.addSettingUnder('relist-bin-price', 'Start price percentage (0 to 100%)', 'relist-bin-price-start', 90);
+    this.addSettingUnder('relist-bin-price', 'Buy now price percentage (0 to 100%)', 'relist-bin-price-buynow', 110);
   }
 }
 
@@ -52,11 +55,29 @@ class RelistAuctions extends BaseScript {
   }
 
   async _handleRelistAuctions(tradepile) {
-    const soldItems = tradepile
+    const unsoldItems = tradepile
       .filter(d => d.state === enums.ItemState.FREE && d._auction.buyNowPrice > 0);
-    if (soldItems.length > 0) {
+    if (unsoldItems.length > 0) {
       try {
-        await this._market.relistAllItems();
+        const settings = this.getSettings();
+        if (!settings['relist-bin-price']) {
+          await this._market.relistAllItems();
+        } else {
+          /* eslint-disable no-await-in-loop */
+          for (const item of unsoldItems) { // eslint-disable-line no-restricted-syntax
+            const minimumBin = await this._market.searchMinBuy(item, 3);
+
+            const listPrice = priceTiers.determineListPrice(
+              minimumBin * (settings['relist-bin-price-start'] / 100),
+              minimumBin * (settings['relist-bin-price-buynow'] / 100),
+            );
+
+            // TODO: variable duration?
+            await this._market.listItem(item, listPrice.start, listPrice.buyNow, 1 * 60 * 60);
+            await utils.sleep(3000); // wait a few seconds before listing the next player
+          }
+          /* eslint-enable no-await-in-loop */
+        }
 
         // Refresh screen if we are on the transfer list screen
         if (gNavManager.getCurrentScreenController()._controller.className === 'TransferListLandscapeViewController') {

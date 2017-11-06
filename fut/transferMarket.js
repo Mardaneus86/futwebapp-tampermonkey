@@ -7,6 +7,7 @@ import utils from './utils';
 import priceTiers from './priceTiers';
 import { Logger } from './logger';
 import { PinEvent } from './pinEvent';
+import { ListItemError } from './errors';
 
 export class TransferMarket {
   _logger = new Logger();
@@ -33,6 +34,62 @@ export class TransferMarket {
 
     this._logger.log(`Min buy for ${item.type} ${item._staticData.name} is ${minBuy}`, 'Core - Transfermarket');
     return minBuy;
+  }
+
+  /**
+   * List item on transfermarket
+   *
+   * @param {FUTItem} item
+   * @param {number} start start price
+   * @param {number} buyNow buy now price
+   * @param {number} duration time to list in seconds (1, 3, 6, 12, 24 or 72 hours)
+   */
+  async listItem(item, start, buyNow, duration = 3600) {
+    return new Promise(async (resolve, reject) => {
+      if (gUserModel.getTradeAccess() !== models.UserModel.TRADE_ACCESS.WHITELIST) {
+        reject(new Error('You are not authorized for trading'));
+        return;
+      }
+
+      const prices = priceTiers.determineListPrice(start, buyNow);
+
+      await this.sendToTradePile(item);
+      await utils.sleep(1000);
+
+      const listItem = new communication.ListItemDelegate({
+        itemId: item.id,
+        startingBid: prices.start,
+        buyNowPrice: prices.buyNow,
+        duration,
+      });
+      listItem.addListener(communication.BaseDelegate.SUCCESS, this, (sender) => {
+        sender.clearListenersByScope(this);
+        resolve({
+          startingBid: prices.start,
+          buyNowPrice: prices.buyNow,
+        });
+      });
+      listItem.addListener(communication.BaseDelegate.FAIL, this, (sender, response) => {
+        sender.clearListenersByScope(this);
+        reject(new ListItemError(response));
+      });
+      listItem.send();
+    });
+  }
+
+  sendToTradePile(item) {
+    return new Promise((resolve, reject) => {
+      const moveItem = new communication.MoveItemDelegate([item], enums.FUTItemPile.TRANSFER);
+      moveItem.addListener(communication.BaseDelegate.SUCCESS, this, (sender) => {
+        sender.clearListenersByScope(this);
+        resolve();
+      });
+      moveItem.addListener(communication.BaseDelegate.FAIL, this, (sender, response) => {
+        sender.clearListenersByScope(this);
+        reject(new Error(response));
+      });
+      moveItem.send();
+    });
   }
 
   relistAllItems() {
