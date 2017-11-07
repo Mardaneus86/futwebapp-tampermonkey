@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run standards:watch & webpack --watch",
     "build": "npm run standards && webpack",
-    "build:production": "npm run standards && npm run semantic-release:dry && webpack --config webpack.config.prd.js",
+    "build:production": "npm run standards && npm run semantic-release && webpack --config webpack.config.prd.js",
     "standards": "eslint .",
     "standards:watch": "esw --watch",
     "semantic-release:dry": "semantic-release --dry-run",
@@ -57,6 +57,7 @@
     "url": "https://github.com/Mardaneus86/futwebapp-tampermonkey.git"
   },
   "release": {
-    "getLastRelease": "last-release-git"
+    "getLastRelease": "last-release-git",
+    "branch": "master"
   }
 }
