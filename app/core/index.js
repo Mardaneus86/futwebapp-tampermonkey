@@ -3,6 +3,7 @@ import { SettingsEntry } from './settings-entry';
 import { BaseScript } from './base-script';
 import { Database } from './db';
 import { Queue } from './queue';
+import browser from './browser';
 
 export {
   BaseScript,
@@ -10,4 +11,5 @@ export {
   Queue,
   Settings,
   SettingsEntry,
+  browser,
 };

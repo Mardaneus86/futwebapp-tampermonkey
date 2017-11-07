@@ -1,10 +1,10 @@
 /* globals
 GM_xmlhttpRequest GM_notification GM_getValue GM_setValue
-window
-repositories enums
+window $ document
+repositories enums gNavManager
 */
 
-import { BaseScript, SettingsEntry, Queue } from '../core';
+import { BaseScript, SettingsEntry, Queue, Database, browser } from '../core';
 import { Store } from '../../fut';
 
 export class RemoveSoldAuctionsSettings extends SettingsEntry {
@@ -19,16 +19,32 @@ export class RemoveSoldAuctionsSettings extends SettingsEntry {
 class RemoveSoldAuctions extends BaseScript {
   constructor() {
     super(RemoveSoldAuctionsSettings.id);
+
+    const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    this._observer = new MutationObserver(RemoveSoldAuctions._mutationHandler.bind(this));
   }
 
   activate(state) {
     super.activate(state);
+
+    const obsConfig = {
+      childList: true,
+      characterData: true,
+      attributes: false,
+      subtree: true,
+    };
+
+    setTimeout(() => {
+      this._observer.observe($(document)[0], obsConfig);
+    }, 0);
 
     this._start();
   }
 
   deactivate(state) {
     super.deactivate(state);
+
+    this._observer.disconnect();
 
     this._stop();
   }
@@ -63,7 +79,7 @@ class RemoveSoldAuctions extends BaseScript {
       }
       GM_setValue('auctionlastprices', JSON.stringify(lastSalePrices));
     }
-
+    const savedSoldItems = Database.getJson('items-sold', []);
     const soldItems = tradepile.filter(d => d.state === enums.ItemState.INVALID);
     if (soldItems.length > 0) {
       for (let i = 0; i < soldItems.length; i += 1) {
@@ -83,6 +99,13 @@ class RemoveSoldAuctions extends BaseScript {
           if (player !== null) {
             playerName = `${player.name} (${player.rating})`;
           }
+          savedSoldItems.push({
+            type: 'player',
+            name: playerName,
+            boughtPrice: lastSalePrice,
+            salePrice: soldItems[i]._auction.currentBid,
+            profit,
+          });
           GM_notification({
             text: `${playerName} sold for ${soldItems[i]._auction.currentBid}`,
             title: 'FUT 18 Web App',
@@ -95,6 +118,12 @@ class RemoveSoldAuctions extends BaseScript {
             name: playerName,
           });
         } else {
+          savedSoldItems.push({
+            type: soldItems[i].type,
+            boughtPrice: lastSalePrice,
+            salePrice: soldItems[i]._auction.currentBid,
+            profit,
+          });
           // TODO: can we get the item name?
           GM_notification({
             text: `${soldItems[i]._staticData.name} item sold for ${soldItems[i]._auction.currentBid}`,
@@ -108,8 +137,9 @@ class RemoveSoldAuctions extends BaseScript {
           });
         }
       }
-
       await new Store().removeSoldAuctions();
+
+      Database.setJson('items-sold', savedSoldItems);
     }
 
     setTimeout(() => {
@@ -133,6 +163,49 @@ class RemoveSoldAuctions extends BaseScript {
       url,
       data: JSON.stringify({ value1: salePrice, value2: profit, value3: data }),
     });
+  }
+
+  static _mutationHandler(mutationRecords) {
+    mutationRecords.forEach((mutation) => {
+      if ($(mutation.target).hasClass('DetailView') && $(mutation.target)
+        .find('.DetailPanel') && mutation.addedNodes.length > 0) {
+        if ($(mutation.target).find('#downloadSoldItems').length === 0) {
+          if (gNavManager.getCurrentScreen()._screenId !== 'TradePile') {
+            return;
+          }
+
+          const savedSoldItems = Database.getJson('items-sold', []);
+          $(mutation.target).find('.DetailPanel ul').prepend(`<button id="downloadSoldItems" class="list"><span class="btn-text">Download sold items (${savedSoldItems.length})</span><span class="btn-subtext"></span></button>`);
+
+          $('#downloadSoldItems').bind('click', async () => {
+            const csv = RemoveSoldAuctions._convertToCsv(savedSoldItems);
+            if (csv !== null) {
+              browser.downloadFile('sold-items.csv', csv);
+            } else {
+              window.alert('No sold items to download');
+            }
+            Database.setJson('items-sold', []);
+          });
+        }
+      }
+    });
+  }
+
+  static _convertToCsv(jsonList) {
+    if (jsonList === null || jsonList.length === 0) {
+      return null;
+    }
+
+    const headers = Object.keys(jsonList[0]);
+
+    let lines = '';
+    jsonList.forEach((line) => {
+      headers.forEach((key) => {
+        lines += `${line[key]},`;
+      });
+      lines += '\r\n';
+    });
+    return `${headers.join(',')}\r\n${lines}`;
   }
 }
 

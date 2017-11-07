@@ -1,11 +1,11 @@
 /* globals
 gLocalization
-$ window document Blob
+$
 */
 
 import { Club, utils } from '../../fut';
 
-import { BaseScript, SettingsEntry } from '../core';
+import { BaseScript, SettingsEntry, browser } from '../core';
 
 import './style/club-info.scss';
 
@@ -64,7 +64,7 @@ class ClubInfo extends BaseScript {
               }
               /* eslint-enable no-await-in-loop */
 
-              ClubInfo._downloadFile('players.csv', ClubInfo._convertJsonToCsv(players));
+              browser._downloadFile('players.csv', ClubInfo._convertJsonToCsv(players));
               $('#download-club-info').find('.btn-text').html('Download player list');
             });
           }
@@ -72,20 +72,6 @@ class ClubInfo extends BaseScript {
         break;
       default:
         // no need to show anything on other screens
-    }
-  }
-
-  static _downloadFile(filename, data) {
-    const blob = new Blob([data], { type: 'text/csv' });
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(blob, filename);
-    } else {
-      const elem = window.document.createElement('a');
-      elem.href = window.URL.createObjectURL(blob);
-      elem.download = filename;
-      document.body.appendChild(elem);
-      elem.click();
-      document.body.removeChild(elem);
     }
   }
 
