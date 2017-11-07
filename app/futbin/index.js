@@ -42,7 +42,7 @@ class Futbin extends BaseScript {
   }
 
   _show(screen) {
-    const showFutbinPricePages = ['MyClubSearchFilters', 'UnassignedItems', 'TradePile', 'MyClubSearch', 'SearchResults'];
+    const showFutbinPricePages = ['WatchList', 'MyClubSearchFilters', 'UnassignedItems', 'TradePile', 'MyClubSearch', 'SearchResults'];
 
     if (showFutbinPricePages.indexOf(screen) !== -1) {
       if (this._intervalRunning) {
@@ -69,7 +69,7 @@ class Futbin extends BaseScript {
         }
 
         let listController = null;
-        if (screen === 'UnassignedItems') {
+        if (screen === 'UnassignedItems' || screen === 'WatchList') {
           if (!controller ||
             !controller._leftController ||
             !controller._leftController._view) {
@@ -170,6 +170,7 @@ class Futbin extends BaseScript {
       case 'UnassignedItems':
       case 'TradePile':
       case 'MyClubSearch':
+      case 'WatchList':
         $('.secondary.player-stats-data-component').css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
