@@ -1,4 +1,4 @@
-/* globals models onVisibilityChanged gAuthenticationModel document */
+/* globals models onVisibilityChanged gAuthenticationModel document $ */
 import 'babel-polyfill';
 
 import initSettingsScreen from './settings';
