@@ -26,6 +26,9 @@ gAuthenticationModel.addListener(
   models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL,
   this,
   () => {
+    // force full web app layout in any case
+    $('body').removeClass('phone').addClass('landscape');
+
     Queue.getInstance().start();
 
     // get rid of pinEvents when switching tabs
