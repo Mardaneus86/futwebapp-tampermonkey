@@ -1,6 +1,6 @@
 /* globals
 GM_notification
-gNavManager entities
+gNavManager
 window $ document
 */
 import { BaseScript, SettingsEntry } from '../core';
@@ -118,11 +118,12 @@ class MinBin extends BaseScript {
 
       if (quicklistpanelController._item) {
         // sets the values when the quicklistpanel hasn't been initialized
-        const auction = new entities.Auction();
-        auction.tradeId = -1; // anything else than 0
-        auction.startingBid = listPrice.start;
-        auction.buyNowPrice = listPrice.buyNow;
-        quicklistpanelController._item.setAuctionData(auction);
+        const auction = quicklistpanelController._item._auction;
+        if (auction.tradeState !== 'active') {
+          auction.startingBid = listPrice.start;
+          auction.buyNowPrice = listPrice.buyNow;
+          quicklistpanelController._item.setAuctionData(auction);
+        }
       }
 
       const bidSpinner = quicklistpanel._bidNumericStepper;
