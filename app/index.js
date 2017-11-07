@@ -18,6 +18,10 @@ import {
   FutbinSettings,
 } from './futbin';
 
+import {
+  ClubInfoSettings,
+} from './club';
+
 gAuthenticationModel.addListener(
   models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL,
   this,
@@ -36,6 +40,7 @@ gAuthenticationModel.addListener(
     settings.registerEntry(new ListSizeSettings());
 
     settings.registerEntry(new FutbinSettings());
+    settings.registerEntry(new ClubInfoSettings());
 
     initSettingsScreen(settings);
   },

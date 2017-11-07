@@ -1,0 +1,12 @@
+#download-club-info {
+  .btn:before {
+    background-image: none;
+    width: 0;
+  }
+
+  position: absolute;
+  height: auto;
+  max-height: 100%;
+  right: 165px;
+  top: 15px;
+}
