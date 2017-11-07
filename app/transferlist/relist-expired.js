@@ -65,16 +65,30 @@ class RelistAuctions extends BaseScript {
         } else {
           /* eslint-disable no-await-in-loop */
           for (const item of unsoldItems) { // eslint-disable-line no-restricted-syntax
-            const minimumBin = await this._market.searchMinBuy(item, 3);
+            if (item.type === 'player') {
+              const minimumBin = await this._market.searchMinBuy(item, 3);
 
-            const listPrice = priceTiers.determineListPrice(
-              minimumBin * (settings['relist-bin-price-start'] / 100),
-              minimumBin * (settings['relist-bin-price-buynow'] / 100),
-            );
+              const listPrice = priceTiers.determineListPrice(
+                minimumBin * (settings['relist-bin-price-start'] / 100),
+                minimumBin * (settings['relist-bin-price-buynow'] / 100),
+              );
 
-            // TODO: variable duration?
-            await this._market.listItem(item, listPrice.start, listPrice.buyNow, 1 * 60 * 60);
-            await utils.sleep(3000); // wait a few seconds before listing the next player
+              // TODO: variable duration?
+              await this._market.listItem(
+                item,
+                listPrice.start,
+                listPrice.buyNow,
+                1 * 60 * 60,
+              );
+            } else {
+              await this._market.listItem(
+                item,
+                item._auction.startingBid,
+                item._auction.buyNowPrice,
+                1 * 60 * 60,
+              );
+            }
+            await utils.sleep(3000); // wait a few seconds before listing the next item
           }
           /* eslint-enable no-await-in-loop */
         }
