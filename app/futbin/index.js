@@ -3,7 +3,7 @@ GM_xmlhttpRequest
 gNavManager
 $
 */
-import { BaseScript, SettingsEntry } from '../core';
+import { BaseScript, SettingsEntry, Database } from '../core';
 import { utils } from '../../fut';
 
 import './style/futbin-prices.scss';
@@ -112,6 +112,7 @@ class Futbin extends BaseScript {
           resourceIdMapping.push({
             target: uiItems[index],
             playerId: row.data.resourceId,
+            item: row.data,
           });
         });
 
@@ -142,7 +143,7 @@ class Futbin extends BaseScript {
     }
   }
 
-  static _showFutbinPrice(item, futbinData) {
+  static async _showFutbinPrice(item, futbinData) {
     if (!futbinData) {
       return;
     }
@@ -166,6 +167,11 @@ class Futbin extends BaseScript {
       return; // futbin price already added to the row
     }
 
+    let futbinText = 'Futbin BIN';
+    const playerUrl = await Futbin._getFutbinPlayerUrl(item.item);
+    if (playerUrl) {
+      futbinText = `<a target="_blank" href="${playerUrl}">Futbin BIN</a>`;
+    }
     switch (gNavManager.getCurrentScreen()._screenId) {
       case 'UnassignedItems':
       case 'TradePile':
@@ -174,15 +180,54 @@ class Futbin extends BaseScript {
         $('.secondary.player-stats-data-component').css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
+        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">${futbinText}<span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
         break;
       case 'SearchResults':
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">Futbin BIN <span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
+        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">${futbinText}<span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
         break;
       default:
         // no need to do anything
     }
+  }
+
+  static _getFutbinPlayerUrl(item) {
+    return new Promise((resolve) => {
+      if (!item._staticData) {
+        return resolve(null);
+      }
+
+      let futbinPlayerIds = Database.getJson('futbin-player-ids', []);
+      const futbinPlayer = futbinPlayerIds.find(i => i.id === item.resourceId);
+      if (futbinPlayer != null) {
+        return resolve(`https://www.futbin.com/18/player/${futbinPlayer.futbinId}`);
+      }
+
+      const name = `${item._staticData.firstName} ${item._staticData.lastName}`.replace(' ', '+');
+      const url = `https://www.futbin.com/search?year=18&term=${name}`;
+      return GM_xmlhttpRequest({
+        method: 'GET',
+        url,
+        onload: (res) => {
+          const players = JSON.parse(res.response);
+          const exactPlayers = players.filter(p =>
+            parseInt(p.rating, 10) === parseInt(item.rating, 10));
+          if (exactPlayers.length === 1) {
+            futbinPlayerIds = Database.getJson('futbin-player-ids', []);
+            if (futbinPlayerIds.find(i => i.id === item.resourceId) == null) {
+              futbinPlayerIds.push({
+                id: item.resourceId,
+                futbinId: exactPlayers[0].id,
+              });
+            }
+            Database.setJson('futbin-player-ids', futbinPlayerIds);
+            return resolve(`https://www.futbin.com/18/player/${exactPlayers[0].id}`);
+          }
+
+          return resolve(null); // TODO: what should we do if we find more than one?
+        },
+      });
+    });
   }
 }
 
