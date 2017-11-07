@@ -209,9 +209,19 @@ class Futbin extends BaseScript {
         method: 'GET',
         url,
         onload: (res) => {
+          if (res.status !== 200) {
+            return resolve(null);
+          }
           const players = JSON.parse(res.response);
-          const exactPlayers = players.filter(p =>
+          let exactPlayers = players.filter(p =>
             parseInt(p.rating, 10) === parseInt(item.rating, 10));
+          if (exactPlayers.length > 1) {
+            let version = Object.keys(enums.ItemRareType)[item.rareflag];
+            if (item.rareflag < 3) {
+              version = 'normal';
+            }
+            exactPlayers = exactPlayers.filter(p => p.version.toLowerCase() === version.toLowerCase());
+          }
           if (exactPlayers.length === 1) {
             futbinPlayerIds = Database.getJson('futbin-player-ids', []);
             if (futbinPlayerIds.find(i => i.id === item.resourceId) == null) {
