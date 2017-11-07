@@ -182,7 +182,7 @@ class RemoveSoldAuctions extends BaseScript {
             if (csv !== null) {
               browser.downloadFile('sold-items.csv', csv);
             } else {
-              window.alert('No sold items to download');
+              window.alert('No sold items to download'); // eslint-disable-line no-alert
             }
             Database.setJson('items-sold', []);
           });
