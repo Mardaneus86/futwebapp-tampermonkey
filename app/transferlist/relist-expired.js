@@ -60,6 +60,7 @@ class RelistAuctions extends BaseScript {
     if (unsoldItems.length > 0) {
       try {
         const settings = this.getSettings();
+        await this._market.navigateToTransferList();
         if (!settings['relist-bin-price']) {
           await this._market.relistAllItems();
         } else {
@@ -67,6 +68,8 @@ class RelistAuctions extends BaseScript {
           for (const item of unsoldItems) { // eslint-disable-line no-restricted-syntax
             if (item.type === 'player') {
               const minimumBin = await this._market.searchMinBuy(item, 3);
+
+              await this._market.navigateToTransferList();
 
               const listPrice = priceTiers.determineListPrice(
                 minimumBin * (settings['relist-bin-price-start'] / 100),

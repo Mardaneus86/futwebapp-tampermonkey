@@ -16,6 +16,11 @@ export class TransferMarket {
   async navigateToTransferHub() {
     await PinEvent.sendPageView('Hub - Transfers');
   }
+
+  async navigateToTransferList() {
+    await this.navigateToTransferHub();
+    await PinEvent.sendPageView('Transfer List - List View');
+  }
   /* eslint-enable class-methods-use-this */
 
   async searchMinBuy(item, itemsForMean = 3, lowUp = false) {
