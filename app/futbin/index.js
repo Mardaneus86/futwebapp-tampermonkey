@@ -1,6 +1,6 @@
 /* globals
 GM_xmlhttpRequest
-gNavManager
+gNavManager enums
 $
 */
 import { BaseScript, SettingsEntry, Database } from '../core';
@@ -12,6 +12,8 @@ export class FutbinSettings extends SettingsEntry {
   static id = 'futbin';
   constructor() {
     super('futbin', 'FutBIN integration');
+
+    this.addSetting('Show link to player page', 'show-link-to-player', 'false');
   }
 }
 
@@ -168,9 +170,11 @@ class Futbin extends BaseScript {
     }
 
     let futbinText = 'Futbin BIN';
-    const playerUrl = await Futbin._getFutbinPlayerUrl(item.item);
-    if (playerUrl) {
-      futbinText = `<a target="_blank" href="${playerUrl}">Futbin BIN</a>`;
+    if (this.getSettings()['show-link-to-player'] === 'true') {
+      const playerUrl = await Futbin._getFutbinPlayerUrl(item.item);
+      if (playerUrl) {
+        futbinText = `<a target="_blank" href="${playerUrl}">Futbin BIN</a>`;
+      }
     }
     switch (gNavManager.getCurrentScreen()._screenId) {
       case 'UnassignedItems':
@@ -220,7 +224,8 @@ class Futbin extends BaseScript {
             if (item.rareflag < 3) {
               version = 'normal';
             }
-            exactPlayers = exactPlayers.filter(p => p.version.toLowerCase() === version.toLowerCase());
+            exactPlayers = exactPlayers.filter(p =>
+              p.version.toLowerCase() === version.toLowerCase());
           }
           if (exactPlayers.length === 1) {
             futbinPlayerIds = Database.getJson('futbin-player-ids', []);
