@@ -5,6 +5,8 @@ import initSettingsScreen from './settings';
 
 import { Settings, Queue } from './core';
 
+import { Logger } from '../fut';
+
 import {
   CardInfoSettings,
   RefreshListSettings,
@@ -26,6 +28,9 @@ gAuthenticationModel.addListener(
   models.AuthenticationModel.EVENT_AUTHENTICATION_SUCCESSFUL,
   this,
   () => {
+    // reset the logs at startup
+    new Logger().reset();
+
     // force full web app layout in any case
     $('body').removeClass('phone').addClass('landscape');
 
