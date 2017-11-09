@@ -22,8 +22,8 @@ after_success:
   # CREATE GIT TAG
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
-  - if [ $TRAVIS_BRANCH = 'master' ]; git tag $TM_VERSION -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"; fi
-  - if [ $TRAVIS_BRANCH = 'master' ]; git push --quiet https://$GITHUBKEY@github.com/Mardaneus86/futwebapp-tampermonkey $GIT_TAG > /dev/null 2>&1; fi
+  - '[[ $TRAVIS_BRANCH == "master" ]] && git tag $TM_VERSION -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"'
+  - '[[ $TRAVIS_BRANCH == "master" ]] && git push --quiet https://$GITHUBKEY@github.com/Mardaneus86/futwebapp-tampermonkey $GIT_TAG > /dev/null 2>&1'
 deploy:
   provider: releases
   api_key:
