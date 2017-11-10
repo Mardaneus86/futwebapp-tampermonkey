@@ -46,6 +46,9 @@ export class FutbinPlayerLinks extends BaseScript {
         if ($(mutation.target).find('#futbinPlayerLink').length === 0 && this.getSettings()['show-link-to-player'] === 'true') {
           let selectedItem = this._getSelectedItem();
 
+          if (selectedItem == null || selectedItem.resourceId === 0) {
+            return;
+          }
           $(mutation.target).find('.DetailPanel ul').append(`<button id="futbinPlayerLink" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">View on Futbin</span><span class="btn-subtext"></span></button>`);
 
           $('#futbinPlayerLink').bind('click', async () => {
@@ -126,10 +129,14 @@ export class FutbinPlayerLinks extends BaseScript {
         .getIterator().current();
     }
 
-    const current = gNavManager.getCurrentScreenController()._controller._rightController
-      ._currentController._viewmodel.current();
+    if (gNavManager.getCurrentScreenController()._controller._rightController._currentController) {
+      const current = gNavManager.getCurrentScreenController()._controller._rightController
+        ._currentController._viewmodel.current();
 
-    return current._item ? current._item : current;
+      return current._item ? current._item : current;
+    }
+
+    return null;
   }
   /* eslint-enable class-methods-use-this */
 }

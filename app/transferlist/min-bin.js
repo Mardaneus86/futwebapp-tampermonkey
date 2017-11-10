@@ -56,6 +56,9 @@ class MinBin extends BaseScript {
         if ($(mutation.target).find('#searchMinBin').length === 0) {
           let selectedItem = this._getSelectedItem();
 
+          if (selectedItem == null || selectedItem.resourceId === 0) {
+            return;
+          }
           const knownPlayerPrice = this._playerPrices
             .find(p => p.resourceId === selectedItem.resourceId);
           let price = '';
@@ -140,10 +143,14 @@ class MinBin extends BaseScript {
         .getIterator().current();
     }
 
-    const current = gNavManager.getCurrentScreenController()._controller._rightController
-      ._currentController._viewmodel.current();
+    if (gNavManager.getCurrentScreenController()._controller._rightController._currentController) {
+      const current = gNavManager.getCurrentScreenController()._controller._rightController
+        ._currentController._viewmodel.current();
 
-    return current._item ? current._item : current;
+      return current._item ? current._item : current;
+    }
+
+    return null;
   }
   /* eslint-enable class-methods-use-this */
 }
