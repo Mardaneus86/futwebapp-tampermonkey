@@ -85,7 +85,7 @@ class MinBin extends BaseScript {
 
             selectedItem = this._getSelectedItem();
 
-            btn = $('#searchMinBin');
+            //btn = $('#searchMinBin');
             if (btn.data('resource-id') === selectedItem.resourceId) {
               btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
 
