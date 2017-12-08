@@ -64,7 +64,7 @@ class ClubInfo extends BaseScript {
               }
               /* eslint-enable no-await-in-loop */
 
-              browser._downloadFile('players.csv', ClubInfo._convertJsonToCsv(players));
+              browser.downloadFile('players.csv', ClubInfo._convertJsonToCsv(players));
               $('#download-club-info').find('.btn-text').html('Download player list');
             });
           }
