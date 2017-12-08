@@ -44,9 +44,7 @@ class ClubInfo extends BaseScript {
         setTimeout(() => {
           if ($('.MyClubItemsSearchHeader').find('#download-club-info').length === 0) {
             $('.MyClubItemsSearchHeader').append(`<span id="download-club-info">
-              <div role="button" class="btn btn-raised mini">
-                <span class="btn-text">Download player list</span><span class="btn-subtext invisible"></span>
-              </div>
+              <button class="standard mini">Download player list</button>
             </span>`);
             $('#download-club-info').click(async () => {
               if (this._running) { return; }

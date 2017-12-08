@@ -70,7 +70,7 @@ class MinBin extends BaseScript {
           $(mutation.target).find('.DetailPanel ul').prepend(`<button id="searchMinBin" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">Search minimum BIN ${price}</span><span class="btn-subtext"></span></button>`);
 
           $('#searchMinBin').bind('click', async () => {
-            let btn = $('#searchMinBin');
+            const btn = $('#searchMinBin');
             btn.find('.btn-text').html('Searching minimum BIN...');
             const settings = this.getSettings();
             const minimumBin = await new TransferMarket().searchMinBuy(selectedItem, parseInt(settings['mean-count'], 10));
@@ -85,7 +85,6 @@ class MinBin extends BaseScript {
 
             selectedItem = this._getSelectedItem();
 
-            //btn = $('#searchMinBin');
             if (btn.data('resource-id') === selectedItem.resourceId) {
               btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
 

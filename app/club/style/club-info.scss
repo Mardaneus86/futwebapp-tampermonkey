@@ -1,7 +1,8 @@
 #download-club-info {
-  .btn:before {
-    background-image: none;
-    width: 0;
+  button {
+    height: 2em;
+    line-height: 2em;
+    padding: 0 30px;
   }
 
   position: absolute;
