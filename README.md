@@ -8,6 +8,8 @@ This TamperMonkey script is meant to enhance the FUT 18 Web App experience. You 
 
 :warning: Using these scripts is at your own risk. EA might (temp-)ban you for automating parts of their Web App.
 
+:bangbang: Do not request autobuyer features. Because they are considered to be cheating, it will not be added.
+
 I started this project to learn about reverse engineering big Javascript codebases.
 
 If you benefit from this project, you can buy me a beer :beers: :+1:
