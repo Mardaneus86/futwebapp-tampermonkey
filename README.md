@@ -2,9 +2,9 @@
 
 [![Join the chat at https://gitter.im/futwebapp-tampermonkey/Lobby](https://badges.gitter.im/futwebapp-tampermonkey/Lobby.svg)](https://gitter.im/futwebapp-tampermonkey/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-FIFA 18's companion app for FIFA Ultimate Team, the FUT 18 Web App, is a website that let's you trade and manage your team on the go.
+FIFA 19's companion app for FIFA Ultimate Team, the FUT 19 Web App, is a website that let's you trade and manage your team on the go.
 
-This TamperMonkey script is meant to enhance the FUT 18 Web App experience. You can install the scripts following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The scripts provide a certain degree of customization possibilities.
+This TamperMonkey script is meant to enhance the FUT 19 Web App experience. You can install the scripts following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The scripts provide a certain degree of customization possibilities.
 
 :warning: Using these scripts is at your own risk. EA might (temp-)ban you for automating parts of their Web App.
 
@@ -15,9 +15,6 @@ I started this project to learn about reverse engineering big Javascript codebas
 If you benefit from this project, you can buy me a beer :beers: :+1:
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VTXU8XUY8JS94)
-
-## Separate scripts
-To find the old version of the scripts that you could install separately, please refer to the [separate-scripts tag](https://github.com/Mardaneus86/futwebapp-tampermonkey/tree/separate-scripts). Keep in mind that those scripts are no longer actively maintained.
 
 ## Installation
 Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
