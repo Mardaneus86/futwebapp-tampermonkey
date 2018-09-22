@@ -1,4 +1,4 @@
-/* global gNavManager */
+/* global window */
 /* eslint class-methods-use-this: "off" */
 import { Settings } from './settings';
 import { Database } from './db';
@@ -9,7 +9,7 @@ export class BaseScript {
 
     Settings.getInstance().on('entry-enabled', (entry) => {
       if (entry.id === id) {
-        this.screenRequestObserver = gNavManager.onScreenRequest.observe(
+        this.screenRequestObserver = window.onPageNavigation.observe(
           this,
           function (obs, event) {
             setTimeout(() => {
@@ -19,7 +19,7 @@ export class BaseScript {
         );
 
         this.activate({
-          screenId: gNavManager.getCurrentScreen()._screenId,
+          screenId: window.currentPage,
         });
       }
     });
@@ -29,7 +29,7 @@ export class BaseScript {
         this.screenRequestObserver.unobserve(this);
 
         this.deactivate({
-          screenId: gNavManager.getCurrentScreen()._screenId,
+          screenId: window.currentPage,
         });
       }
     });

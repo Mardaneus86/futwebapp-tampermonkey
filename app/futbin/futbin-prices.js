@@ -1,7 +1,8 @@
 /* globals
 GM_xmlhttpRequest
-gNavManager
 $
+window
+getAppMain
 */
 
 import { utils } from '../../fut';
@@ -35,22 +36,32 @@ export class FutbinPrices extends BaseScript {
   }
 
   _show(screen) {
-    const showFutbinPricePages = ['WatchList', 'MyClubSearchFilters', 'UnassignedItems', 'TradePile', 'MyClubSearch', 'SearchResults'];
+    const showFutbinPricePages = [
+      'UTTransferListSplitViewController', // transfer list
+      'UTWatchListSplitViewController', // transfer targets
+      'UTUnassignedItemsSplitViewController', // pack buy
+      'ClubSearchResultsSplitViewController', // club
+      'UTMarketSearchResultsSplitViewController', // market search
+    ];
 
     if (showFutbinPricePages.indexOf(screen) !== -1) {
       if (this._intervalRunning) {
         clearInterval(this._intervalRunning);
       }
       this._intervalRunning = setInterval(() => {
-        if (showFutbinPricePages.indexOf(gNavManager._currentScreen._screenId) === -1) {
+        if (showFutbinPricePages.indexOf(window.currentPage) === -1) {
           if (this._intervalRunning) {
             clearInterval(this._intervalRunning);
           }
           return;
         }
-        const controller = gNavManager.getCurrentScreenController()._controller;
+        const controller = getAppMain().getRootViewController()
+          .getPresentedViewController().getCurrentViewController()
+          .getCurrentController();
 
-        const uiItems = gNavManager.getCurrentScreen().$_root.find('.listFUTItem');
+        const uiItems = $(getAppMain().getRootViewController()
+          .getPresentedViewController().getCurrentViewController()
+          ._view.__root).find('.listFUTItem');
 
         const targetForButton = uiItems.find('.auction');
         if (targetForButton !== null) {
@@ -62,7 +73,7 @@ export class FutbinPrices extends BaseScript {
         }
 
         let listController = null;
-        if (screen === 'UnassignedItems' || screen === 'WatchList') {
+        if (screen === 'UTUnassignedItemsSplitViewController' || screen === 'UTWatchListSplitViewController') {
           if (!controller ||
             !controller._leftController ||
             !controller._leftController._view) {
@@ -109,7 +120,7 @@ export class FutbinPrices extends BaseScript {
           });
         });
 
-        const futbinUrl = `https://www.futbin.com/18/playerPrices?player=&all_versions=${
+        const futbinUrl = `https://www.futbin.com/19/playerPrices?player=&all_versions=${
           resourceIdMapping
             .map(i => i.playerId)
             .filter((current, next) => current !== next)
@@ -161,11 +172,12 @@ export class FutbinPrices extends BaseScript {
     }
 
     const futbinText = 'Futbin BIN';
-    switch (gNavManager.getCurrentScreen()._screenId) {
-      case 'UnassignedItems':
-      case 'TradePile':
-      case 'MyClubSearch':
-      case 'WatchList':
+    switch (window.currentPage) {
+      case 'UTTransferListSplitViewController':
+      case 'UTWatchListSplitViewController':
+      case 'UTUnassignedItemsSplitViewController':
+      case 'ClubSearchResultsSplitViewController':
+      case 'UTMarketSearchResultsSplitViewController':
         $('.secondary.player-stats-data-component').css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();

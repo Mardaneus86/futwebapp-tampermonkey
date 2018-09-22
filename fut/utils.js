@@ -1,5 +1,5 @@
 /* globals
-repositories
+services
 */
 
 export default {
@@ -16,13 +16,13 @@ export default {
   },
 
   getPlatform() {
-    if (repositories.User.getCurrent().getSelectedPersona().isPlaystation) {
+    if (services.User.getUser().getSelectedPersona().isPlaystation) {
       return 'ps';
     }
-    if (repositories.User.getCurrent().getSelectedPersona().isPC) {
+    if (services.User.getUser().getSelectedPersona().isPC) {
       return 'pc';
     }
-    if (repositories.User.getCurrent().getSelectedPersona().isXbox) {
+    if (services.User.getUser().getSelectedPersona().isXbox) {
       return 'xbox';
     }
 

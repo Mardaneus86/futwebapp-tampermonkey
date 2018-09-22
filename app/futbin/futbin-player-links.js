@@ -1,6 +1,7 @@
 /* globals
 GM_xmlhttpRequest
-gNavManager enums
+enums
+getAppMain
 window $ document
 */
 import { BaseScript, Database } from '../core';
@@ -49,7 +50,7 @@ export class FutbinPlayerLinks extends BaseScript {
           if (selectedItem == null || selectedItem.resourceId === 0) {
             return;
           }
-          $(mutation.target).find('.DetailPanel ul').append(`<button id="futbinPlayerLink" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">View on Futbin</span><span class="btn-subtext"></span></button>`);
+          $(mutation.target).find('.DetailPanel .ut-button-group').append(`<button id="futbinPlayerLink" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">View on Futbin</span><span class="btn-subtext"></span></button>`);
 
           $('#futbinPlayerLink').bind('click', async () => {
             let btn = $('#futbinPlayerLink');
@@ -81,11 +82,11 @@ export class FutbinPlayerLinks extends BaseScript {
       let futbinPlayerIds = Database.getJson('futbin-player-ids', []);
       const futbinPlayer = futbinPlayerIds.find(i => i.id === item.resourceId);
       if (futbinPlayer != null) {
-        return resolve(`https://www.futbin.com/18/player/${futbinPlayer.futbinId}`);
+        return resolve(`https://www.futbin.com/19/player/${futbinPlayer.futbinId}`);
       }
 
       const name = `${item._staticData.firstName} ${item._staticData.lastName}`.replace(' ', '+');
-      const url = `https://www.futbin.com/search?year=18&term=${name}`;
+      const url = `https://www.futbin.com/search?year=19&term=${name}`;
       return GM_xmlhttpRequest({
         method: 'GET',
         url,
@@ -113,7 +114,7 @@ export class FutbinPlayerLinks extends BaseScript {
               });
             }
             Database.setJson('futbin-player-ids', futbinPlayerIds);
-            return resolve(`https://www.futbin.com/18/player/${exactPlayers[0].id}`);
+            return resolve(`https://www.futbin.com/19/player/${exactPlayers[0].id}`);
           }
 
           return resolve(null); // TODO: what should we do if we find more than one?
@@ -124,14 +125,18 @@ export class FutbinPlayerLinks extends BaseScript {
 
   /* eslint-disable class-methods-use-this */
   _getSelectedItem() {
-    if (gNavManager.getCurrentScreenController()._controller._listController) {
-      return gNavManager.getCurrentScreenController()._controller._listController
-        .getIterator().current();
+    const listController = getAppMain().getRootViewController()
+      .getPresentedViewController().getCurrentViewController()
+      .getCurrentController()._listController;
+    if (listController) {
+      return listController.getIterator().current();
     }
 
-    if (gNavManager.getCurrentScreenController()._controller._rightController._currentController) {
-      const current = gNavManager.getCurrentScreenController()._controller._rightController
-        ._currentController._viewmodel.current();
+    const currentController = getAppMain().getRootViewController()
+      .getPresentedViewController().getCurrentViewController()
+      .getCurrentController()._rightController._currentController;
+    if (currentController) {
+      const current = currentController._viewmodel.current();
 
       return current._item ? current._item : current;
     }
