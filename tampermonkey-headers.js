@@ -16,4 +16,5 @@
 // @connect     ea.com
 // @connect     maker.ifttt.com
 // @connect     futbin.com
+// @connect     google-analytics.com
 // ==/UserScript==
