@@ -1,9 +1,21 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: './app/index.js',
   output: {
     filename: './dist/fut-enhancer.user.js',
   },
+  node: {
+    fs: 'empty',
+    tls: 'empty',
+    net: 'empty'
+  },
   devtool: 'eval-source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+        'UA_TOKEN': JSON.stringify('UA-126264296-1')
+    })
+  ],
   module: {
     rules: [
       {

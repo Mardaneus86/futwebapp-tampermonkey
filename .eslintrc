@@ -5,5 +5,8 @@
     "func-names": ["error", "never"],
     "import/prefer-default-export": "off",
     "no-underscore-dangle": "off"
+  },
+  "globals": {
+    "UA_TOKEN": false
   }
 }

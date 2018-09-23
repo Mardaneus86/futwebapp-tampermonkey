@@ -11,6 +11,9 @@ module.exports = env => {
   
   config.devtool = 'none';
   config.plugins = [
+    new webpack.DefinePlugin({
+        'UA_TOKEN': JSON.stringify('UA-126264296-2')
+    }),
     new webpack.BannerPlugin({ 
       banner: header,
       raw: true, 

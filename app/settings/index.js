@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import './index.scss';
+import { analytics } from '../core';
 import settingsPage from './html/index/settings.html';
 
 const handleFieldChange = (entry, setting, e) => {
@@ -71,6 +72,7 @@ export default (settings) => {
   }
 
   $('.futsettings-toggle').click(() => {
+    analytics.trackEvent('Settings', 'Toggle settings', $('.futsettings').is(':visible'));
     $('.futsettings').toggle();
   });
 };

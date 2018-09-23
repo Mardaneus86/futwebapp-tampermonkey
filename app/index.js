@@ -3,7 +3,7 @@ import 'babel-polyfill';
 
 import initSettingsScreen from './settings';
 
-import { Settings, Queue } from './core';
+import { analytics, Settings, Queue } from './core';
 
 import { Logger } from '../fut';
 /*
@@ -31,6 +31,7 @@ window.currentPage = '';
 
 FUINavigationController.prototype.didPush = (t) => {
   if (t) {
+    analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
     window.currentPage = t.className;
   }
