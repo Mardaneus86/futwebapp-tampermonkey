@@ -1,4 +1,3 @@
-/* global GM_setValue GM_getValue */
 /* eslint valid-typeof: "error" */
 
 export class Database {

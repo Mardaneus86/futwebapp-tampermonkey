@@ -1,5 +1,4 @@
 /* globals
-GM_xmlhttpRequest GM_notification GM_getValue GM_setValue
 window $ document
 repositories enums gNavManager
 */

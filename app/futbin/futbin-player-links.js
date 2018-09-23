@@ -1,10 +1,8 @@
 /* globals
-GM_xmlhttpRequest
 enums
-getAppMain
 window $ document
 */
-import { BaseScript, Database } from '../core';
+import { analytics, BaseScript, Database } from '../core';
 import { FutbinSettings } from './settings-entry';
 
 export class FutbinPlayerLinks extends BaseScript {
@@ -62,6 +60,7 @@ export class FutbinPlayerLinks extends BaseScript {
             if (btn.data('resource-id') === selectedItem.resourceId) {
               if (futbinLink) {
                 btn.find('.btn-text').html('View on Futbin');
+                analytics.trackEvent('Futbin', 'Show player on Futbin', btn.data('resource-id'));
                 window.open(futbinLink);
               } else {
                 btn.find('.btn-text').html('No exact Futbin player found');

@@ -4,6 +4,7 @@ import { BaseScript } from './base-script';
 import { Database } from './db';
 import { Queue } from './queue';
 import browser from './browser';
+import analytics from './analytics';
 
 export {
   BaseScript,
@@ -12,4 +13,5 @@ export {
   Settings,
   SettingsEntry,
   browser,
+  analytics,
 };

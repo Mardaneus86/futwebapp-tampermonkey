@@ -5,8 +5,10 @@
   z-index: 999;
 
   ::before {
-    font-family: UltimateTeam-Icons;
-    content: "\f127";
+    font-family: UltimateTeam-Icons,sans-serif;
+    content: "\f139";
+    font-size: 2rem;
+    color: black;
   }
 }
 
