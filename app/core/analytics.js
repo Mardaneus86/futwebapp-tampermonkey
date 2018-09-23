@@ -1,5 +1,5 @@
-import ua from 'universal-analytics';
 import uuid from 'uuid';
+import ua from '../../analytics';
 
 import { Database } from './db';
 
@@ -12,7 +12,7 @@ class Analytics {
         Database.set('uuid', id);
       }
 
-      this.ua = ua({
+      this.ua = ua(null, null, {
         tid: UA_TOKEN,
         cid: id,
         uid: id,
