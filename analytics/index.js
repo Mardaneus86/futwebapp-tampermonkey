@@ -372,8 +372,7 @@ Visitor.prototype = {
         url: path,
         headers: options.headers,
         data: options.body,
-        onload: function (res) {
-          console.log(res);
+        onload: function () {
           nextIteration()
         },
         onerror: function(res) {
