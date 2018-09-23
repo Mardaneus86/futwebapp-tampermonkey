@@ -1,8 +1,6 @@
 /* globals
-GM_xmlhttpRequest
 $
 window
-getAppMain
 */
 
 import { utils } from '../../fut';

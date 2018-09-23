@@ -1,5 +1,3 @@
-/* globals GM_getValue GM_setValue */
-
 export class Logger {
   constructor() {
     this._storeName = 'logger';

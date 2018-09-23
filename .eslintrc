@@ -7,6 +7,11 @@
     "no-underscore-dangle": "off"
   },
   "globals": {
-    "UA_TOKEN": false
+    "UA_TOKEN": false,
+    "getAppMain": false,
+    "GM_notification": false
+  },
+  "env": {
+    "greasemonkey": true
   }
 }

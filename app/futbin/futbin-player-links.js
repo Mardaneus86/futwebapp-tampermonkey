@@ -1,7 +1,5 @@
 /* globals
-GM_xmlhttpRequest
 enums
-getAppMain
 window $ document
 */
 import { analytics, BaseScript, Database } from '../core';

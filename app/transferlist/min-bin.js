@@ -1,5 +1,4 @@
 /* globals
-GM_notification
 gNavManager
 window $ document
 */
