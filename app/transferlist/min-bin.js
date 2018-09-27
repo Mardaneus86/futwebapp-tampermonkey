@@ -1,5 +1,4 @@
 /* globals
-gNavManager
 window $ document
 */
 import { BaseScript, SettingsEntry } from '../core';
@@ -52,83 +51,85 @@ class MinBin extends BaseScript {
     mutationRecords.forEach(function (mutation) {
       if ($(mutation.target).hasClass('DetailView') && $(mutation.target)
         .find('.DetailPanel') && mutation.addedNodes.length > 0) {
-        if ($(mutation.target).find('#searchMinBin').length === 0) {
-          let selectedItem = this._getSelectedItem();
+        const searchMinBin = $(mutation.target).find('#searchMinBin');
+        searchMinBin.remove();
 
-          if (selectedItem == null || selectedItem.resourceId === 0) {
-            return;
-          }
-          const knownPlayerPrice = this._playerPrices
-            .find(p => p.resourceId === selectedItem.resourceId);
-          let price = '';
-          if (knownPlayerPrice != null) {
-            price = `(${knownPlayerPrice.minimumBin})`;
+        let selectedItem = this._getSelectedItem();
 
-            this._updateListPrice(knownPlayerPrice.minimumBin);
-          }
-          $(mutation.target).find('.DetailPanel ul').prepend(`<button id="searchMinBin" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">Search minimum BIN ${price}</span><span class="btn-subtext"></span></button>`);
-
-          $('#searchMinBin').bind('click', async () => {
-            const btn = $('#searchMinBin');
-            btn.find('.btn-text').html('Searching minimum BIN...');
-            const settings = this.getSettings();
-            const minimumBin = await new TransferMarket().searchMinBuy(selectedItem, parseInt(settings['mean-count'], 10));
-            const playerPrice = this._playerPrices.find(p => p.resourceId === btn.data('resource-id'));
-            if (playerPrice != null) {
-              this._playerPrices.splice(this._playerPrices.indexOf(playerPrice), 1);
-            }
-            this._playerPrices.push({
-              resourceId: btn.data('resource-id'),
-              minimumBin,
-            });
-
-            selectedItem = this._getSelectedItem();
-
-            if (btn.data('resource-id') === selectedItem.resourceId) {
-              btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
-
-              this._updateListPrice(minimumBin);
-            }
-
-            GM_notification({
-              text: `Minimum BIN found for ${selectedItem._staticData.name} is ${minimumBin}`,
-              title: 'FUT 18 Web App',
-              timeout: 5000,
-              onclick: () => window.focus(),
-            });
-          });
+        if (selectedItem == null || selectedItem.resourceId === 0) {
+          return;
         }
+        const knownPlayerPrice = this._playerPrices
+          .find(p => p.resourceId === selectedItem.resourceId);
+        let price = '';
+        if (knownPlayerPrice != null) {
+          price = `(${knownPlayerPrice.minimumBin})`;
+
+          this._updateListPrice(knownPlayerPrice.minimumBin);
+        }
+        $(mutation.target).find('.DetailPanel > .ut-button-group').prepend(`<button id="searchMinBin" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">Search minimum BIN ${price}</span><span class="btn-subtext"></span></button>`);
+
+        $('#searchMinBin').bind('click', async () => {
+          const btn = $('#searchMinBin');
+          btn.find('.btn-text').html('Searching minimum BIN...');
+          const settings = this.getSettings();
+          const minimumBin = await new TransferMarket().searchMinBuy(selectedItem, parseInt(settings['mean-count'], 10));
+          const playerPrice = this._playerPrices.find(p => p.resourceId === btn.data('resource-id'));
+          if (playerPrice != null) {
+            this._playerPrices.splice(this._playerPrices.indexOf(playerPrice), 1);
+          }
+          this._playerPrices.push({
+            resourceId: btn.data('resource-id'),
+            minimumBin,
+          });
+
+          selectedItem = this._getSelectedItem();
+
+          if (btn.data('resource-id') === selectedItem.resourceId) {
+            btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
+
+            this._updateListPrice(minimumBin);
+          }
+
+          GM_notification({
+            text: `Minimum BIN found for ${selectedItem._staticData.name} is ${minimumBin}`,
+            title: 'FUT 19 Web App',
+            timeout: 5000,
+            onclick: () => window.focus(),
+          });
+        });
       }
     }, this);
   }
 
   _updateListPrice(minimumBin) {
     const settings = this.getSettings();
-    if (settings['adjust-list-price'] &&
-      gNavManager.getCurrentScreenController()._controller._rightController
-        ._currentController._quickListPanel) {
-      const quicklistpanelController = gNavManager.getCurrentScreenController()
-        ._controller._rightController
-        ._currentController._quickListPanel;
-      const quicklistpanel = quicklistpanelController._view;
+    const quicklistPanel = getAppMain().getRootViewController()
+      .getPresentedViewController()
+      .getCurrentViewController()
+      .getCurrentController()
+      ._rightController._currentController._quickListPanel;
+
+    if (settings['adjust-list-price'] && quicklistPanel) {
+      const quicklistpanelView = quicklistPanel._view;
 
       const listPrice = priceTiers.determineListPrice(
         minimumBin * (settings['start-price-percentage'] / 100),
         minimumBin * (settings['buy-now-price-percentage'] / 100),
       );
 
-      if (quicklistpanelController._item) {
+      if (quicklistPanel._item) {
         // sets the values when the quicklistpanel hasn't been initialized
-        const auction = quicklistpanelController._item._auction;
+        const auction = quicklistPanel._item._auction;
         if (auction.tradeState !== 'active') {
           auction.startingBid = listPrice.start;
           auction.buyNowPrice = listPrice.buyNow;
-          quicklistpanelController._item.setAuctionData(auction);
+          quicklistPanel._item.setAuctionData(auction);
         }
       }
 
-      const bidSpinner = quicklistpanel._bidNumericStepper;
-      const buySpinner = quicklistpanel._buyNowNumericStepper;
+      const bidSpinner = quicklistpanelView._bidNumericStepper;
+      const buySpinner = quicklistpanelView._buyNowNumericStepper;
       bidSpinner.value = listPrice.start;
       buySpinner.value = listPrice.buyNow;
     }
@@ -136,13 +137,20 @@ class MinBin extends BaseScript {
 
   /* eslint-disable class-methods-use-this */
   _getSelectedItem() {
-    if (gNavManager.getCurrentScreenController()._controller._listController) {
-      return gNavManager.getCurrentScreenController()._controller._listController
-        .getIterator().current();
+    const listController = getAppMain().getRootViewController()
+      .getPresentedViewController()
+      .getCurrentViewController()
+      .getCurrentController()._listController;
+    if (listController) {
+      return listController.getIterator().current();
     }
 
-    if (gNavManager.getCurrentScreenController()._controller._rightController._currentController) {
-      const current = gNavManager.getCurrentScreenController()._controller._rightController
+    const detailController = getAppMain().getRootViewController()
+      .getPresentedViewController()
+      .getCurrentViewController()
+      .getCurrentController()._rightController;
+    if (detailController) {
+      const current = detailController
         ._currentController._viewmodel.current();
 
       return current._item ? current._item : current;

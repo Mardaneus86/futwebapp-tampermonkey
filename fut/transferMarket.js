@@ -123,8 +123,9 @@ export class TransferMarket {
   async _findLowUp(item, itemsForMean) {
     const searchCriteria = this._defineSearchCriteria(item, 200);
     await PinEvent.sendPageView('Transfer Market Search');
-    await utils.sleep(5000);
+    await utils.sleep(3000);
     await PinEvent.sendPageView('Transfer Market Results - List View', 0);
+    await PinEvent.sendPageView('Item - Detail View', 0);
     const items = await this._find(searchCriteria);
     if (items.length > itemsForMean) {
       // we find more than X listed at this price, so it must be low value
@@ -142,7 +143,9 @@ export class TransferMarket {
     for (let minBuyFound = false; minBuyFound === false;) {
       /* eslint-disable no-await-in-loop */
       await PinEvent.sendPageView('Transfer Market Search');
+      await utils.sleep(800);
       await PinEvent.sendPageView('Transfer Market Results - List View', 0);
+      await PinEvent.sendPageView('Item - Detail View', 0);
       const items = await this._find(searchCriteria);
       /* eslint-enable no-await-in-loop */
       if (items.length > 0) {
@@ -195,9 +198,9 @@ export class TransferMarket {
 
     // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType.
     // Can only search for "Specials", not more specific on Rare Type
-    if (item.rareflag >= enums.ItemRareType.TOTW) {
+    if (item.rareflag >= 3) { // 3 = TOTW
       searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
-        .filter(d => d.id === enums.ItemRareType.TOTW)[0].value;
+        .filter(d => d.id === 3)[0].value;
     }
 
     searchCriteria.category = enums.SearchCategory.ANY;
