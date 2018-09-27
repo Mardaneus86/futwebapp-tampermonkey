@@ -25,7 +25,7 @@ export default (settings) => {
 
   $('body').prepend(html);
 
-  const settingsPanel = $('.futsettings');
+  const settingsPanel = $('.futsettings #settingspanel');
   for (const entry of settings.getEntries()) {
     const checked = entry.isActive ? 'checked="checked"' : '';
     settingsPanel.append(`<h3><input type="checkbox" id="${entry.id}" data-feature-id="${entry.id}" ${checked}></input><label for="${entry.id}">${entry.name}</label></h3>`);

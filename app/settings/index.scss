@@ -16,7 +16,7 @@
   position: absolute;
   top: 125px;
   bottom: 10px;
-  left: 155px;
+  left: 115px;
   right: 10px;
   background-color: #eeeff4;
   border: 1px solid black;
@@ -24,6 +24,18 @@
   display: none;
   z-index: 998;
   padding: 12px;
+
+  footer {
+    background-color: #ddd;
+    border: 1px solid black;
+    text-align: center;
+    padding: 12px;
+
+    p, li {
+      font-size: smaller;
+      margin: 10px;
+    }
+  }
 
   .feature-settings-empty {
     margin-bottom: 25px;
