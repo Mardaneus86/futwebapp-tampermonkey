@@ -1,6 +1,6 @@
 /* globals onVisibilityChanged services FUINavigationController UTObservable window document $ */
 import 'babel-polyfill';
-
+import './index.scss';
 import initSettingsScreen from './settings';
 
 import { analytics, Settings, Queue } from './core';
