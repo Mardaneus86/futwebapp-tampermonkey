@@ -10,7 +10,7 @@ export class MinBinSettings extends SettingsEntry {
     super('min-bin', 'Search minimum BIN');
 
     this.addSetting('Amount of lowest BINs to determine minimum on', 'mean-count', '3');
-    this.addSetting('Adjust list price automatically', 'adjust-list-price', true);
+    this.addSetting('Adjust quicklist panel price automatically based on minimum BIN', 'adjust-list-price', true);
     this.addSettingUnder('adjust-list-price', 'Start price percentage (0 to 100%)', 'start-price-percentage', '90');
     this.addSettingUnder('adjust-list-price', 'Buy now price percentage (0 to 100%)', 'buy-now-price-percentage', '110');
   }

@@ -18,7 +18,7 @@
   bottom: 10px;
   left: 115px;
   right: 10px;
-  background-color: #eeeff4;
+  background-color: #dfe5f3;
   border: 1px solid black;
   overflow-y: auto;
   display: none;
@@ -26,11 +26,16 @@
   padding: 12px;
 
   footer {
-    background-color: #ddd;
-    border: 1px solid black;
+    background-color: #fbfbfb;
+    border: 1px solid #c1c1c1;
     text-align: center;
     padding: 12px;
 
+    hr {
+      border: none;
+      border-bottom: 1px solid #ddd;
+    }
+    
     p, li {
       font-size: smaller;
       margin: 10px;
@@ -43,7 +48,7 @@
 
   .feature-settings {
     margin-bottom: 25px;
-    background-color: #ddd;
+    background-color: #f2f6ff;
     padding: 8px;
 
     .setting {
