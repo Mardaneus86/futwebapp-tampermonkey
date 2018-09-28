@@ -1,5 +1,4 @@
 /* globals
-enums
 window $ document
 */
 import { analytics, BaseScript, Database } from '../core';
@@ -42,32 +41,37 @@ export class FutbinPlayerLinks extends BaseScript {
     mutationRecords.forEach(function (mutation) {
       if ($(mutation.target).hasClass('DetailView') && $(mutation.target)
         .find('.DetailPanel') && mutation.addedNodes.length > 0) {
-        if ($(mutation.target).find('#futbinPlayerLink').length === 0 && this.getSettings()['show-link-to-player'] === 'true') {
-          let selectedItem = this._getSelectedItem();
-
-          if (selectedItem == null || selectedItem.resourceId === 0) {
-            return;
-          }
-          $(mutation.target).find('.DetailPanel .ut-button-group').append(`<button id="futbinPlayerLink" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">View on Futbin</span><span class="btn-subtext"></span></button>`);
-
-          $('#futbinPlayerLink').bind('click', async () => {
-            let btn = $('#futbinPlayerLink');
-            btn.find('.btn-text').html('Searching on Futbin ...');
-            const futbinLink = await FutbinPlayerLinks._getFutbinPlayerUrl(selectedItem);
-
-            selectedItem = this._getSelectedItem();
-            btn = $('#futbinPlayerLink');
-            if (btn.data('resource-id') === selectedItem.resourceId) {
-              if (futbinLink) {
-                btn.find('.btn-text').html('View on Futbin');
-                analytics.trackEvent('Futbin', 'Show player on Futbin', btn.data('resource-id'));
-                window.open(futbinLink);
-              } else {
-                btn.find('.btn-text').html('No exact Futbin player found');
-              }
-            }
-          });
+        if (this.getSettings()['show-link-to-player'] !== 'true') {
+          return;
         }
+
+        let selectedItem = this._getSelectedItem();
+        if (selectedItem == null || selectedItem.resourceId === 0) {
+          return;
+        }
+
+        const futbinPlayerLink = $(mutation.target).find('#futbinPlayerLink');
+        futbinPlayerLink.remove();
+
+        $(mutation.target).find('.DetailPanel > .ut-button-group').prepend(`<button id="futbinPlayerLink" data-resource-id="${selectedItem.resourceId}" class="list"><span class="btn-text">View on Futbin</span><span class="btn-subtext"></span></button>`);
+
+        $('#futbinPlayerLink').bind('click', async () => {
+          let btn = $('#futbinPlayerLink');
+          btn.find('.btn-text').html('Searching on Futbin ...');
+          const futbinLink = await FutbinPlayerLinks._getFutbinPlayerUrl(selectedItem);
+
+          selectedItem = this._getSelectedItem();
+          btn = $('#futbinPlayerLink');
+          if (btn.data('resource-id') === selectedItem.resourceId) {
+            if (futbinLink) {
+              btn.find('.btn-text').html('View on Futbin');
+              analytics.trackEvent('Futbin', 'Show player on Futbin', btn.data('resource-id'));
+              window.open(futbinLink);
+            } else {
+              btn.find('.btn-text').html('No exact Futbin player found');
+            }
+          }
+        });
       }
     }, this);
   }
@@ -97,12 +101,9 @@ export class FutbinPlayerLinks extends BaseScript {
           let exactPlayers = players.filter(p =>
             parseInt(p.rating, 10) === parseInt(item.rating, 10));
           if (exactPlayers.length > 1) {
-            let version = Object.keys(enums.ItemRareType)[item.rareflag];
-            if (item.rareflag < 3) {
-              version = 'normal';
-            }
             exactPlayers = exactPlayers.filter(p =>
-              p.version.toLowerCase() === version.toLowerCase());
+              p.rare_type === item.rareflag.toString() &&
+              p.club_image.endsWith(`/${item.teamId}.png`));
           }
           if (exactPlayers.length === 1) {
             futbinPlayerIds = Database.getJson('futbin-player-ids', []);
@@ -113,6 +114,9 @@ export class FutbinPlayerLinks extends BaseScript {
               });
             }
             Database.setJson('futbin-player-ids', futbinPlayerIds);
+            return resolve(`https://www.futbin.com/19/player/${exactPlayers[0].id}`);
+          } else if (exactPlayers.length > 1) {
+            // Take first one, several players are returned more than once
             return resolve(`https://www.futbin.com/19/player/${exactPlayers[0].id}`);
           }
 
