@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import ua from '../../analytics';
 
 import { Database } from './db';
@@ -8,7 +7,7 @@ class Analytics {
     if (this.ua === undefined) {
       let id = Database.get('uuid', '');
       if (id === '') {
-        id = uuid.v4();
+        id = this._uuidv4();
         Database.set('uuid', id);
       }
 
@@ -19,6 +18,15 @@ class Analytics {
       });
     }
   }
+
+  /* eslint-disable */
+  _uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+  /* eslint-enable */
 
   trackPage(pageId) {
     return new Promise((resolve, reject) => {
