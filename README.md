@@ -18,7 +18,7 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 
 ## FIFA 19 working features
 - [x] Futbin integration
-- [ ] Find Min BIN
+- [x] Find Min BIN
 - [ ] Relist expired auctions
 - [ ] Remove sold items
 - [ ] Refresh transfer list
