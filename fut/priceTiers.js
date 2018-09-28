@@ -1,7 +1,7 @@
-/* global utils components */
+/* global utils views */
 export default {
   roundValueToNearestPriceTiers(value) {
-    const tier = utils.JS.find(components.NumericInput.PRICE_TIERS, i => value > i.min);
+    const tier = utils.JS.find(views.controls.CurrencyInput.PRICE_TIERS, i => value > i.min);
 
     const diff = value % tier.inc;
 
@@ -14,7 +14,7 @@ export default {
   },
 
   roundDownToNearestPriceTiers(value) {
-    const tier = utils.JS.find(components.NumericInput.PRICE_TIERS, i => value > i.min);
+    const tier = utils.JS.find(views.controls.CurrencyInput.PRICE_TIERS, i => value > i.min);
 
     const diff = value % tier.inc;
 
@@ -25,7 +25,7 @@ export default {
   },
 
   determineListPrice(start, buyNow) {
-    const tier = utils.JS.find(components.NumericInput.PRICE_TIERS, i => buyNow > i.min);
+    const tier = utils.JS.find(views.controls.CurrencyInput.PRICE_TIERS, i => buyNow > i.min);
 
     const startPrice = this.roundValueToNearestPriceTiers(start);
     let buyNowPrice = this.roundValueToNearestPriceTiers(buyNow);
