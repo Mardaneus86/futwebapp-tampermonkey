@@ -9,3 +9,12 @@
         }
     }
 }
+
+.listFUTItem .entityContainer .name.untradeable {
+    display: block;
+
+    &::before {
+        position: relative;
+        padding-right: 10px;
+    }
+}

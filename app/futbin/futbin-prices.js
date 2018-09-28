@@ -179,11 +179,21 @@ export class FutbinPrices extends BaseScript {
         $('.secondary.player-stats-data-component').css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">${futbinText}<span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
+        targetForButton.prepend(`
+        <div class="auctionValue futbin">
+          <span class="label">${futbinText}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+        </div>`);
         break;
       case 'SearchResults':
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend(`<div class="auctionValue futbin"><span class="label">${futbinText}<span class="futbinupdate">(${futbinData[playerId].prices[platform].updated})</span></span><span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span></div>`);
+        targetForButton.prepend(`
+        <div class="auctionValue futbin">
+          <span class="label">${futbinText}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+        </div>`);
         break;
       default:
         // no need to do anything
