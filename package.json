@@ -16,7 +16,8 @@
   "eslintIgnore": [
     "dist",
     "webpack.config.js",
-    "webpack.config.prd.js"
+    "webpack.config.prd.js",
+    "tampermonkey-headers.js"
   ],
   "author": "",
   "license": "ISC",
