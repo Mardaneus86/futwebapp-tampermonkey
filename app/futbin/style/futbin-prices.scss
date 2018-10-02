@@ -43,3 +43,10 @@
   -webkit-filter: hue-rotate(165deg);
   filter: hue-rotate(165deg);
 }
+.listFUTItem.has-auction-data.futbin-bargain .rowContent {
+  background-color: #7ffe9445;
+}
+.listFUTItem.has-auction-data.selected.futbin-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent.active {
+  background-color: #7ffe94;
+  color: #434853;
+}

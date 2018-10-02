@@ -109,6 +109,8 @@ export class FutbinPrices extends BaseScript {
           return;
         }
 
+        const showBargains = (this.getSettings()['show-bargains'] === 'true');
+
         const resourceIdMapping = [];
         listrows.forEach((row, index) => {
           resourceIdMapping.push({
@@ -130,7 +132,7 @@ export class FutbinPrices extends BaseScript {
           onload: (res) => {
             const futbinData = JSON.parse(res.response);
             resourceIdMapping.forEach((item) => {
-              FutbinPrices._showFutbinPrice(item, futbinData);
+              FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
             });
           },
         });
@@ -145,7 +147,7 @@ export class FutbinPrices extends BaseScript {
     }
   }
 
-  static async _showFutbinPrice(item, futbinData) {
+  static async _showFutbinPrice(item, futbinData, showBargain) {
     if (!futbinData) {
       return;
     }
@@ -164,6 +166,12 @@ export class FutbinPrices extends BaseScript {
     }
 
     let targetForButton = null;
+
+    if (showBargain) {
+      if (item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
+        target.addClass('futbin-bargain');
+      }
+    }
 
     if (target.find('.futbin').length > 0) {
       return; // futbin price already added to the row
