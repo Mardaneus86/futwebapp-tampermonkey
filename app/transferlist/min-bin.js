@@ -1,7 +1,7 @@
 /* globals
 window $ document
 */
-import { BaseScript, SettingsEntry } from '../core';
+import { analytics, BaseScript, SettingsEntry } from '../core';
 import { TransferMarket, priceTiers } from '../../fut';
 
 export class MinBinSettings extends SettingsEntry {
@@ -72,6 +72,7 @@ class MinBin extends BaseScript {
         $('#searchMinBin').bind('click', async () => {
           const btn = $('#searchMinBin');
           btn.find('.btn-text').html('Searching minimum BIN...');
+          analytics.trackEvent('Min BIN', 'Search Min BIN', btn.data('resource-id'));
           const settings = this.getSettings();
           const minimumBin = await new TransferMarket().searchMinBuy(selectedItem, parseInt(settings['mean-count'], 10));
           const playerPrice = this._playerPrices.find(p => p.resourceId === btn.data('resource-id'));
