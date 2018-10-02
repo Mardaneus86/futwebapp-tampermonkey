@@ -11,9 +11,9 @@ import { Logger } from '../fut';
   RefreshListSettings,
   RemoveSoldAuctionsSettings,
   RelistAuctionsSettings,
-  ListSizeSettings,
 */
 import {
+  ListSizeSettings,
   MinBinSettings,
 } from './transferlist';
 
@@ -61,7 +61,7 @@ services.Authentication._oAuthentication.observe(
     // settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
     // settings.registerEntry(new CardInfoSettings());
-    // settings.registerEntry(new ListSizeSettings());
+    settings.registerEntry(new ListSizeSettings());
 
     settings.registerEntry(new FutbinSettings());
     settings.registerEntry(new InstantBinConfirmSettings());
