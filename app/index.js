@@ -7,12 +7,12 @@ import { analytics, Settings, Queue } from './core';
 
 import { Logger } from '../fut';
 /*
-  CardInfoSettings,
   RefreshListSettings,
   RemoveSoldAuctionsSettings,
   RelistAuctionsSettings,
 */
 import {
+  CardInfoSettings,
   ListSizeSettings,
   MinBinSettings,
 } from './transferlist';
@@ -60,7 +60,7 @@ services.Authentication._oAuthentication.observe(
     // settings.registerEntry(new RemoveSoldAuctionsSettings());
     // settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
-    // settings.registerEntry(new CardInfoSettings());
+    settings.registerEntry(new CardInfoSettings());
     settings.registerEntry(new ListSizeSettings());
 
     settings.registerEntry(new FutbinSettings());

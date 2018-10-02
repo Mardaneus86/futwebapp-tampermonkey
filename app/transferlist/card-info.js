@@ -1,5 +1,4 @@
 /* globals
-gNavManager
 window $ document */
 
 import { BaseScript, SettingsEntry } from '../core';
@@ -48,7 +47,9 @@ class CardInfo extends BaseScript {
     const settings = this.getSettings();
     mutationRecords.forEach((mutation) => {
       if ($(mutation.target).find('.listFUTItem').length > 0) {
-        const controller = gNavManager.getCurrentScreenController()._controller;
+        const controller = getAppMain().getRootViewController()
+          .getPresentedViewController().getCurrentViewController()
+          .getCurrentController();
         if (!controller || !controller._listController) {
           return;
         }
@@ -63,18 +64,18 @@ class CardInfo extends BaseScript {
 
           let info = '';
           if (settings['show-fitness'] === 'true') {
-            info += `<div class="fitness" style="float: right;margin-right: 20px">
-              ${items[index].fitness}
+            info += `<div class="fitness" style="position: absolute;left: 5px;bottom: -3px;">
+              F:${items[index].fitness}
               </div>`;
           }
 
           if (settings['show-contracts'] === 'true') {
-            info += `<div class="contracts" style="margin-left: 30px;float: left">
-              ${items[index].contract}
+            info += `<div class="contracts" style="position: absolute;right: 5px;bottom: -3px;">
+              C:${items[index].contract}
               </div>`;
           }
 
-          $(row).find('.infoTab').parent().prepend(`<div class="infoTab-extra">${info}</div>`);
+          $(row).find('.small.player').prepend(`<div class="infoTab-extra">${info}</div>`);
         });
       }
     });
