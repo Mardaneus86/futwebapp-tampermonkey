@@ -86,14 +86,20 @@ class MinBin extends BaseScript {
 
           selectedItem = this._getSelectedItem();
 
+          let notificationText = `Minimum BIN found for ${selectedItem._staticData.name} is ${minimumBin}`;
           if (btn.data('resource-id') === selectedItem.resourceId) {
-            btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
+            if (minimumBin === 0) {
+              btn.find('.btn-text').html('Search minimum BIN (extinct)');
+              notificationText = `Minimum BIN not found for ${selectedItem._staticData.name}, card may be extinct`;
+            } else {
+              btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
 
-            this._updateListPrice(minimumBin);
+              this._updateListPrice(minimumBin);
+            }
           }
 
           GM_notification({
-            text: `Minimum BIN found for ${selectedItem._staticData.name} is ${minimumBin}`,
+            text: notificationText,
             title: 'FUT 19 Web App',
             timeout: 5000,
             onclick: () => window.focus(),

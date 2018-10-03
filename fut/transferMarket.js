@@ -37,7 +37,11 @@ export class TransferMarket {
       minBuy = await this._findLowDown(item, itemsForMean);
     }
 
-    this._logger.log(`Min buy for ${item.type} ${item._staticData.name} is ${minBuy}`, 'Core - Transfermarket');
+    if (minBuy === 0) {
+      this._logger.log('No players found... it might be extinct', 'Core - Transfermarket');
+    } else {
+      this._logger.log(`Min buy for ${item.type} ${item._staticData.name} is ${minBuy}`, 'Core - Transfermarket');
+    }
     return minBuy;
   }
 
@@ -184,7 +188,11 @@ export class TransferMarket {
 
     valuesFound = valuesFound.sort((a, b) => a - b).slice(0, itemsForMean);
 
-    return priceTiers.roundValueToNearestPriceTiers(mean(valuesFound));
+    if (valuesFound.length > 0) {
+      return priceTiers.roundValueToNearestPriceTiers(mean(valuesFound));
+    }
+
+    return 0; // player extinct
   }
 
   /* eslint-disable class-methods-use-this */
@@ -196,9 +204,14 @@ export class TransferMarket {
     searchCriteria.maskedDefId = item.getMaskedResourceId();
     searchCriteria.type = item.type;
 
-    // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType.
-    // Can only search for "Specials", not more specific on Rare Type
-    if (item.rareflag >= 3) { // 3 = TOTW
+    if (item.rareflag === 47) { // 47 = Champions
+      // if it is a Champions card, this is seen as a gold card
+      // Can only search for "Gold" in this case
+      searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
+        .filter(d => d.id === 2)[0].value;
+    } else if (item.rareflag >= 3) { // 3 = TOTW
+      // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType.
+      // Can only search for "Specials", not more specific on Rare Type
       searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
         .filter(d => d.id === 3)[0].value;
     }
