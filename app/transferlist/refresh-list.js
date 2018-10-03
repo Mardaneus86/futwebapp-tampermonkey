@@ -1,4 +1,4 @@
-/* globals gNavManager $ */
+/* globals $ */
 
 import { BaseScript, SettingsEntry } from '../core';
 
@@ -26,19 +26,21 @@ class RefreshTransferList extends BaseScript {
 
   deactivate(state) {
     super.deactivate(state);
-    $('#header').find('.subTitle').find('.refreshList').remove();
+    $('#header').find('.subTitle').find('.refresh').remove();
   }
 
   /* eslint-disable class-methods-use-this */
   _show(event) {
     switch (event) {
-      case 'TradePile':
-      case 'SearchResults':
+      case 'UTMarketSearchResultsSplitViewController': // market search
         setTimeout(() => {
-          if ($('#header .subTitle').find('.refreshList').length === 0) {
-            $('#header').find('.subTitle').append('<a class="btn-flat next refreshList" style="float: right">Refresh list</a>');
-            $('.refreshList').click(() => {
-              gNavManager.getCurrentScreenController()._controller._listController._requestItems();
+          if ($('.pagingContainer').find('.refresh').length === 0) {
+            $('.pagingContainer').append('<button class="flat pagination refresh" style="float: right;">Refresh list</button>');
+            $('.refresh').click(() => {
+              getAppMain().getRootViewController().getPresentedViewController()
+                .getCurrentViewController()
+                .getCurrentController()
+                ._listController._requestItems();
             });
           }
         }, 1000);

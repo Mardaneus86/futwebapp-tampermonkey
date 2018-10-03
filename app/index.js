@@ -7,11 +7,11 @@ import { analytics, Settings, Queue } from './core';
 
 import { Logger } from '../fut';
 /*
-  RefreshListSettings,
   RemoveSoldAuctionsSettings,
   RelistAuctionsSettings,
 */
 import {
+  RefreshListSettings,
   CardInfoSettings,
   ListSizeSettings,
   MinBinSettings,
@@ -56,7 +56,7 @@ services.Authentication._oAuthentication.observe(
     document.removeEventListener('visibilitychange', onVisibilityChanged);
 
     const settings = Settings.getInstance();
-    // settings.registerEntry(new RefreshListSettings());
+    settings.registerEntry(new RefreshListSettings());
     // settings.registerEntry(new RemoveSoldAuctionsSettings());
     // settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
