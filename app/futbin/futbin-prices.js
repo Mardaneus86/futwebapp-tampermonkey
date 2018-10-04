@@ -40,6 +40,7 @@ export class FutbinPrices extends BaseScript {
       'UTUnassignedItemsSplitViewController', // pack buy
       'ClubSearchResultsSplitViewController', // club
       'UTMarketSearchResultsSplitViewController', // market search
+      'UTPlayerPicksViewController',
     ];
 
     if (showFutbinPricePages.indexOf(screen) !== -1) {
@@ -71,7 +72,16 @@ export class FutbinPrices extends BaseScript {
         }
 
         let listController = null;
-        if (screen === 'UTUnassignedItemsSplitViewController' || screen === 'UTWatchListSplitViewController') {
+        if (screen === 'UTPlayerPicksViewController') {
+          if (!controller.getPresentedViewController()) {
+            return;
+          }
+          if ($(controller.getPresentedViewController()._view.__root).find('.futbin').length > 0) {
+            // Futbin prices already shown
+            return;
+          }
+          listController = controller.getPresentedViewController();
+        } else if (screen === 'UTUnassignedItemsSplitViewController' || screen === 'UTWatchListSplitViewController') {
           if (!controller ||
             !controller._leftController ||
             !controller._leftController._view) {
@@ -88,7 +98,13 @@ export class FutbinPrices extends BaseScript {
         }
 
         let listrows = null;
-        if (listController._view._list &&
+        if (listController._picks && screen === 'UTPlayerPicksViewController') {
+          listrows = listController._picks.map((pick, index) => (
+            {
+              data: pick,
+              target: listController._view._playerPickViews[index].__root,
+            }));
+        } else if (listController._view._list &&
           listController._view._list._listRows &&
           listController._view._list._listRows.length > 0) {
           listrows = listController._view._list._listRows; // for transfer market and club search
@@ -114,7 +130,7 @@ export class FutbinPrices extends BaseScript {
         const resourceIdMapping = [];
         listrows.forEach((row, index) => {
           resourceIdMapping.push({
-            target: uiItems[index],
+            target: uiItems[index] || row.target,
             playerId: row.data.resourceId,
             item: row.data,
           });
@@ -167,18 +183,21 @@ export class FutbinPrices extends BaseScript {
 
     let targetForButton = null;
 
-    if (showBargain) {
-      if (item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
-        target.addClass('futbin-bargain');
-      }
-    }
-
     if (target.find('.futbin').length > 0) {
       return; // futbin price already added to the row
     }
 
     const futbinText = 'Futbin BIN';
+
     switch (window.currentPage) {
+      case 'UTPlayerPicksViewController':
+        target.append(`
+        <div class="auctionValue futbin">
+          <span class="label">${futbinText}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+        </div>`);
+        break;
       case 'UTTransferListSplitViewController':
       case 'UTWatchListSplitViewController':
       case 'UTUnassignedItemsSplitViewController':
@@ -205,6 +224,13 @@ export class FutbinPrices extends BaseScript {
         break;
       default:
         // no need to do anything
+    }
+
+    if (showBargain) {
+      if (item.item._auction &&
+        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
+        target.addClass('futbin-bargain');
+      }
     }
   }
 }
