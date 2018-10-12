@@ -149,6 +149,7 @@ export class FutbinPrices extends BaseScript {
             const futbinData = JSON.parse(res.response);
             resourceIdMapping.forEach((item) => {
               FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
+              FutbinPrices._colorizeRow(item, futbinData);
             });
           },
         });
@@ -231,6 +232,47 @@ export class FutbinPrices extends BaseScript {
         item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
         target.addClass('futbin-bargain');
       }
+    }
+  }
+
+  static async _colorizeRow(item, futbinData) {
+    if (!futbinData) {
+      return;
+    }
+    const target = $(item.target);
+    const { playerId } = item;
+
+    if (target.find('.player').length === 0) {
+      // not a player
+      return;
+    }
+
+    const platform = utils.getPlatform();
+
+    if (!futbinData[playerId]) {
+      return; // futbin data might not be available for this player
+    }
+
+    const futbinPrice = parseInt(
+      futbinData[playerId].prices[platform].LCPrice.replace(/,/g, ''),
+      10,
+    );
+    const shouldYouBuyPlayer = item.item._auction.buyNowPrice < futbinPrice;
+
+    if (!shouldYouBuyPlayer) {
+      return;
+    }
+
+    switch (window.currentPage) {
+      case 'UTWatchListSplitViewController':
+      case 'UTUnassignedItemsSplitViewController':
+      case 'ClubSearchResultsSplitViewController':
+      case 'UTMarketSearchResultsSplitViewController':
+      case 'SearchResults':
+        target.addClass('futbin-cheaper');
+        break;
+      default:
+      // no need to do anything
     }
   }
 }

@@ -39,6 +39,12 @@
   clear: both;
   display: block;
 }
+.listFUTItem.futbin-cheaper {
+  background-color: #ffaac5;
+}
+.listFUTItem.futbin-cheaper .auction .auctionValue {
+  color: #f93b78;
+}
 .coins.value.futbin {
   -webkit-filter: hue-rotate(165deg);
   filter: hue-rotate(165deg);
