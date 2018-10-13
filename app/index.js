@@ -16,15 +16,12 @@ import {
   CardInfoSettings,
   ListSizeSettings,
   MinBinSettings,
+  TransferTotalsSettings,
 } from './transferlist';
 
-import {
-  FutbinSettings,
-} from './futbin';
+import { FutbinSettings } from './futbin';
 
-import {
-  InstantBinConfirmSettings,
-} from './instant-bin-confirm';
+import { InstantBinConfirmSettings } from './instant-bin-confirm';
 /*
 import {
   ClubInfoSettings,
@@ -50,32 +47,32 @@ FUIViewController.prototype.didPresent = (t) => {
   }
 };
 
-services.Authentication._oAuthentication.observe(
-  this,
-  () => {
-    // reset the logs at startup
-    new Logger().reset();
+services.Authentication._oAuthentication.observe(this, () => {
+  // reset the logs at startup
+  new Logger().reset();
 
-    // force full web app layout in any case
-    $('body').removeClass('phone').addClass('landscape');
+  // force full web app layout in any case
+  $('body')
+    .removeClass('phone')
+    .addClass('landscape');
 
-    Queue.getInstance().start();
+  Queue.getInstance().start();
 
-    // get rid of pinEvents when switching tabs
-    document.removeEventListener('visibilitychange', onVisibilityChanged);
+  // get rid of pinEvents when switching tabs
+  document.removeEventListener('visibilitychange', onVisibilityChanged);
 
-    const settings = Settings.getInstance();
-    settings.registerEntry(new RefreshListSettings());
-    // settings.registerEntry(new RemoveSoldAuctionsSettings());
-    // settings.registerEntry(new RelistAuctionsSettings());
-    settings.registerEntry(new MinBinSettings());
-    settings.registerEntry(new CardInfoSettings());
-    settings.registerEntry(new ListSizeSettings());
+  const settings = Settings.getInstance();
+  settings.registerEntry(new RefreshListSettings());
+  // settings.registerEntry(new RemoveSoldAuctionsSettings());
+  // settings.registerEntry(new RelistAuctionsSettings());
+  settings.registerEntry(new MinBinSettings());
+  settings.registerEntry(new CardInfoSettings());
+  settings.registerEntry(new ListSizeSettings());
+  settings.registerEntry(new TransferTotalsSettings());
 
-    settings.registerEntry(new FutbinSettings());
-    settings.registerEntry(new InstantBinConfirmSettings());
-    // settings.registerEntry(new ClubInfoSettings());
+  settings.registerEntry(new FutbinSettings());
+  settings.registerEntry(new InstantBinConfirmSettings());
+  // settings.registerEntry(new ClubInfoSettings());
 
-    initSettingsScreen(settings);
-  },
-);
+  initSettingsScreen(settings);
+});
