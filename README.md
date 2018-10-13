@@ -76,7 +76,7 @@ Make sure to enable `Allow access to file URLs` in `chrome://extensions/` for Ta
 // ==/UserScript==
 ```
 
-Remember to change the path after `@require` to the folder where you cloned the repository. It should point to the generated `bundle.js` in the `dist` folder.
+Remember to change the path after `@require` to the folder where you cloned the repository. It should point to the generated `fut-enhancer.user.js` in the `dist` folder.
 
 ## Contribute
 Add a feature request or bug to the [issue list][issue-list] before doing a PR in order to discuss it before implementing a fix. Issues that are marked with the `help wanted` have priority if you want to help.
