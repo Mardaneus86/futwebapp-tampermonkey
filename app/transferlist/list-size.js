@@ -8,8 +8,8 @@ export class ListSizeSettings extends SettingsEntry {
   static id = 'list-size';
   constructor() {
     super('list-size', 'Increase transfer list size', null);
-    this.addSetting('Items per page on transfer market (max 30)', 'items-per-page-transfermarket', 30);
-    this.addSetting('Items per page on club (max 90)', 'items-per-page-club', 90);
+    this.addSetting('Items per page on transfer market (max 30)', 'items-per-page-transfermarket', 30, 'number');
+    this.addSetting('Items per page on club (max 90)', 'items-per-page-club', 90, 'number');
   }
 }
 

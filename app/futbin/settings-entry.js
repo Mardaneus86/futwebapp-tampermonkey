@@ -5,7 +5,7 @@ export class FutbinSettings extends SettingsEntry {
   constructor() {
     super('futbin', 'FutBIN integration');
 
-    this.addSetting('Show link to player page', 'show-link-to-player', 'false');
-    this.addSetting('Mark bargains', 'show-bargains', 'false');
+    this.addSetting('Show link to player page', 'show-link-to-player', false, 'checkbox');
+    this.addSetting('Mark bargains', 'show-bargains', false, 'checkbox');
   }
 }
