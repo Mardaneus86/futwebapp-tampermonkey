@@ -1,0 +1,48 @@
+.transfer-totals {
+    background-color: #183f94;
+    color: #fff;
+    .auction {
+        float: right;
+        margin: 1em 3em 1em 0;
+        text-align: right;
+        width: 45%;
+        .auctionStartPrice {
+            display: none;
+            @media (min-width: 1281px) {
+                display: block;
+            }
+        }
+        .auctionValue {
+            float: left;
+            padding-right: 1%;
+            width: 24%;
+        }
+        .label {
+            color: #b5b7bb;
+            display: block;
+            font-size: .75rem;
+            text-transform: uppercase;
+        }
+        .value {
+            font-size: 1.125em;
+            font-weight: 400;
+            font-family: UltimateTeamCondensed,sans-serif;
+            display: block;
+        }
+        @media (max-width: 1130px) {
+            align-items: flex-start;
+            box-sizing: border-box;
+            display: flex;
+            float: none;
+            margin: 0;
+            padding: 0.5em 1.2rem 0.5em 113px;
+            text-align: left;
+            width: 100%;
+        }
+    }
+    &:after {
+        content: '';
+        display: table;
+        width: 100%;
+    }
+}

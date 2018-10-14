@@ -16,6 +16,7 @@ import {
   CardInfoSettings,
   ListSizeSettings,
   MinBinSettings,
+  TransferTotalsSettings,
 } from './transferlist';
 
 import {
@@ -71,6 +72,7 @@ services.Authentication._oAuthentication.observe(
     settings.registerEntry(new MinBinSettings());
     settings.registerEntry(new CardInfoSettings());
     settings.registerEntry(new ListSizeSettings());
+    settings.registerEntry(new TransferTotalsSettings());
 
     settings.registerEntry(new FutbinSettings());
     settings.registerEntry(new InstantBinConfirmSettings());
