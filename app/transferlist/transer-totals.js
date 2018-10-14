@@ -10,7 +10,7 @@ export class TransferTotalsSettings extends SettingsEntry {
   constructor() {
     super('transfer-totals', 'Transfer list totals', null);
 
-    this.addSetting('Show transfer lost totals', 'show-transfer-totals', 'true');
+    this.addSetting('Show transfer list totals', 'show-transfer-totals', 'true');
   }
 }
 
