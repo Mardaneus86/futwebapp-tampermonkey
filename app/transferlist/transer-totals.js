@@ -98,14 +98,14 @@ class TransferTotals extends BaseScript {
                 .text()
                 .replace(/[,.]/g, ''),
               10,
-            );
+            ) || 0;
             const binValue = parseInt(
               rowEl
                 .find(`.auctionValue:eq(${hasFutbin ? 3 : 2}) .coins.value`)
                 .text()
                 .replace(/[,.]/g, ''),
               10,
-            );
+            ) || 0;
             totals.futbin += futbinValue;
             totals.bid += bidValue;
             totals.bin += binValue;
