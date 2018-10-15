@@ -23,7 +23,7 @@ const handleFieldChange = (entry, setting, e) => {
 const renderSettingsEntry = (setting, entry) => {
   const inputId = `${entry.id}:${setting.key}`;
   return `<div class="setting">
-    <label for="${inputId}">${setting.label}</label>
+    ${setting.type !== 'checkbox' ? `<label for="${inputId}">${setting.label}</label>` : ''}
     <input
       type="${setting.type}"
       id="${inputId}"
@@ -31,6 +31,7 @@ const renderSettingsEntry = (setting, entry) => {
       value="${setting.value}"
       ${setting.type === 'checkbox' && setting.value.toString() === 'true' ? 'checked' : ''}
     />
+    ${setting.type === 'checkbox' ? `<label for="${inputId}">${setting.label}</label>` : ''}
   </div>`;
 };
 
@@ -43,7 +44,7 @@ export default (settings) => {
 
   for (const entry of settings.getEntries()) {
     const checked = entry.isActive ? 'checked="checked"' : '';
-    settingsPanel.append(`<h3>
+    settingsPanel.append(`<h3 class="main-setting">
       <input type="checkbox" id="${entry.id}" data-feature-id="${entry.id}" ${checked} />
       <label for="${entry.id}">${entry.name}</label>
     </h3>`);
