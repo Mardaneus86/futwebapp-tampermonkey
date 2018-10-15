@@ -10,8 +10,8 @@ export class CardInfoSettings extends SettingsEntry {
   constructor() {
     super('card-info', 'Extra card information', null);
 
-    this.addSetting('Show contracts', 'show-contracts', 'true');
-    this.addSetting('Show fitness', 'show-fitness', 'true');
+    this.addSetting('Show contracts', 'show-contracts', true, 'checkbox');
+    this.addSetting('Show fitness', 'show-fitness', true, 'checkbox');
   }
 }
 

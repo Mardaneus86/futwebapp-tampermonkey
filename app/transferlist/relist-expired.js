@@ -10,10 +10,10 @@ export class RelistAuctionsSettings extends SettingsEntry {
   static id = 'relist-auctions';
   constructor() {
     super('relist-auctions', 'Relist expired auctions automatically', null);
-    this.addSetting('Interval in seconds', 'interval', 300);
-    this.addSetting('Relist at BIN price', 'relist-bin-price', true);
-    this.addSettingUnder('relist-bin-price', 'Start price percentage (0 to 100%)', 'relist-bin-price-start', 90);
-    this.addSettingUnder('relist-bin-price', 'Buy now price percentage (0 to 100%)', 'relist-bin-price-buynow', 110);
+    this.addSetting('Interval in seconds', 'interval', 300, 'number');
+    this.addSetting('Relist at BIN price', 'relist-bin-price', true, 'checkbox');
+    this.addSettingUnder('relist-bin-price', 'Start price percentage (0 to 100%)', 'relist-bin-price-start', 90, 'number');
+    this.addSettingUnder('relist-bin-price', 'Buy now price percentage (0 to 100%)', 'relist-bin-price-buynow', 110, 'number');
   }
 }
 

@@ -10,8 +10,8 @@ export class RemoveSoldAuctionsSettings extends SettingsEntry {
   static id = 'remove-sold-auctions';
   constructor() {
     super('remove-sold-auctions', 'Remove sold auctions automatically', null);
-    this.addSetting('Interval in seconds', 'interval', 60);
-    this.addSetting('IFTTT Key', 'ifttt-key', '');
+    this.addSetting('Interval in seconds', 'interval', 60, 'number');
+    this.addSetting('IFTTT Key', 'ifttt-key', '', 'text');
   }
 }
 
