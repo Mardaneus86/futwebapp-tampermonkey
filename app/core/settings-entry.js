@@ -18,7 +18,7 @@ export class SettingsEntry {
     Database.setJson(`settings:${this.id}`, settings);
   }
 
-  addSetting(label, key, defaultValue, cb) {
+  addSetting(label, key, defaultValue, type, cb) {
     const settings = Database.getJson(`settings:${this.id}`, {});
 
     settings[key] = key in settings ? settings[key] : defaultValue;
@@ -27,13 +27,14 @@ export class SettingsEntry {
     this.settings.push({
       label,
       key,
+      type,
       value: key in settings ? settings[key] : defaultValue,
       callback: cb,
       subsettings: [],
     });
   }
 
-  addSettingUnder(underKey, label, key, defaultValue, cb) {
+  addSettingUnder(underKey, label, key, defaultValue, type, cb) {
     const settings = Database.getJson(`settings:${this.id}`, {});
     settings[key] = key in settings ? settings[key] : defaultValue;
     Database.setJson(`settings:${this.id}`, settings);
@@ -42,6 +43,7 @@ export class SettingsEntry {
     setting.subsettings.push({
       label,
       key,
+      type,
       value: key in settings ? settings[key] : defaultValue,
       callback: cb,
     });
