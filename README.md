@@ -14,19 +14,24 @@ I started this project to learn about reverse engineering big Javascript codebas
 
 If you benefit from this project, you can buy me a beer :beers: :+1:
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VTXU8XUY8JS94)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/timklingeleers)
 
-## FIFA 19 working features
+## Features
 - [x] Futbin integration
+  - [x] Show Futbin prices on all player cards throughout the app
+  - [x] Show link to player on Futbin
+  - [x] Mark bargains (BIN price lower then Futbin value)
 - [x] Find Min BIN
 - [x] Refresh transfer list
 - [x] Increase transfer list size
+- [x] Extra card information (contracts, fitness)
+- [x] Total coin value for transfer list cards
 - [ ] Download all players in club
 
 ## Installation
 Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
 
-* Firefox - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox).
+* Firefox - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox). :warning: Has issues loading properly (see issue #115)
 * Chrome - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=chrome).
 * Opera - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=opera).
 * Safari - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=safari).
@@ -34,7 +39,7 @@ Make sure you have user scripts enabled in your browser (these instructions refe
 * UC Browser - install [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=ucweb).
 
 ### Install scripts
-Install the scripts via [OpenUserJS][install-script] (this script has not been uploaded to OpenUserJS yet). Or find the latest version and release notes at the [releases page](https://github.com/Mardaneus86/futwebapp-tampermonkey/releases).
+Install the scripts via [OpenUserJS][install-script]. Or find the latest version and release notes at the [releases page](https://github.com/Mardaneus86/futwebapp-tampermonkey/releases).
 
 ## Feature requests
 If you feel there are missing features, feel free to add a request to the [issue list][issue-list]. Make sure to provide the necessary details, or even a mockup of what the feature would look like.
