@@ -63,13 +63,13 @@ class CardInfo extends BaseScript {
           }
 
           let info = '';
-          if (settings['show-fitness'] === 'true') {
+          if (settings['show-fitness'].toString() === 'true') {
             info += `<div class="fitness" style="position: absolute;left: 5px;bottom: -3px;">
               F:${items[index].fitness}
               </div>`;
           }
 
-          if (settings['show-contracts'] === 'true') {
+          if (settings['show-contracts'].toString() === 'true') {
             info += `<div class="contracts" style="position: absolute;right: 5px;bottom: -3px;">
               C:${items[index].contract}
               </div>`;

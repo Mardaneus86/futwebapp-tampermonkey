@@ -8,6 +8,8 @@ import settingsPage from './html/index/settings.html';
 const handleFieldChange = (entry, setting, e) => {
   if (setting.subsettings && setting.subsettings.length > 0) {
     entry.changeValue(setting.key, e.target.checked);
+  } else if (setting.type === 'checkbox') {
+    entry.changeValue(setting.key, e.target.checked);
   } else {
     entry.changeValue(setting.key, e.target.value);
   }

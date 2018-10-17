@@ -62,7 +62,7 @@ class TransferTotals extends BaseScript {
           return;
         }
 
-        if (!settings.isActive || settings['show-transfer-totals'] !== 'true') {
+        if (!settings.isActive || settings['show-transfer-totals'].toString() !== 'true') {
           return;
         }
 

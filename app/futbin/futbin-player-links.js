@@ -41,7 +41,7 @@ export class FutbinPlayerLinks extends BaseScript {
     mutationRecords.forEach(function (mutation) {
       if ($(mutation.target).hasClass('DetailView') && $(mutation.target)
         .find('.DetailPanel') && mutation.addedNodes.length > 0) {
-        if (this.getSettings()['show-link-to-player'] !== 'true') {
+        if (this.getSettings()['show-link-to-player'].toString() !== 'true') {
           return;
         }
 

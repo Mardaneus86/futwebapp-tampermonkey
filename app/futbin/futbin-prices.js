@@ -125,7 +125,7 @@ export class FutbinPrices extends BaseScript {
           return;
         }
 
-        const showBargains = (this.getSettings()['show-bargains'] === 'true');
+        const showBargains = (this.getSettings()['show-bargains'].toString() === 'true');
 
         const resourceIdMapping = [];
         listrows.forEach((row, index) => {
