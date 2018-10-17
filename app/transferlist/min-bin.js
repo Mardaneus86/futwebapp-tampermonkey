@@ -128,6 +128,10 @@ class MinBin extends BaseScript {
       if (quicklistPanel._item) {
         // sets the values when the quicklistpanel hasn't been initialized
         const auction = quicklistPanel._item._auction;
+        if (auction.tradeState === 'closed') {
+          // item is sold
+          return;
+        }
         if (auction.tradeState !== 'active') {
           auction.startingBid = listPrice.start;
           auction.buyNowPrice = listPrice.buyNow;
