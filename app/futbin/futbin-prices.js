@@ -228,7 +228,7 @@ export class FutbinPrices extends BaseScript {
 
     if (showBargain) {
       if (item.item._auction &&
-        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
+        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice.replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
       }
     }
