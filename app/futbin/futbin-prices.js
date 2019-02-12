@@ -125,7 +125,8 @@ export class FutbinPrices extends BaseScript {
           return;
         }
 
-        const showBargains = (this.getSettings()['show-bargains'].toString() === 'true');
+        const showBargainsBIN = (this.getSettings()['show-bargainsBIN'].toString() === 'true');
+        const showBargainsBID = (this.getSettings()['show-bargainsBID'].toString() === 'true');
 
         const resourceIdMapping = [];
         listrows.forEach((row, index) => {
@@ -148,7 +149,7 @@ export class FutbinPrices extends BaseScript {
           onload: (res) => {
             const futbinData = JSON.parse(res.response);
             resourceIdMapping.forEach((item) => {
-              FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
+              FutbinPrices._showFutbinPrice(item, futbinData, showBargainsBIN, showBargainsBID);
             });
           },
         });
@@ -163,7 +164,7 @@ export class FutbinPrices extends BaseScript {
     }
   }
 
-  static async _showFutbinPrice(item, futbinData, showBargain) {
+  static async _showFutbinPrice(item, futbinData, showBargainBIN, showBargainBID) {
     if (!futbinData) {
       return;
     }
@@ -226,9 +227,14 @@ export class FutbinPrices extends BaseScript {
         // no need to do anything
     }
 
-    if (showBargain) {
-      if (item.item._auction &&
-        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice) {
+    if (showBargainBIN || showBargainBID) {
+      if (showBargainBIN && item.item._auction && item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice.replace(/[,.]/g, '') * 0.95) {
+        target.addClass('futbin-bargain');
+      }
+      if (showBargainBID && item.item._auction && item.item._auction.currentBid!==0 && item.item._auction.currentBid < futbinData[playerId].prices[platform].LCPrice.replace(/[,.]/g, '') * 0.95) {
+        target.addClass('futbin-bargain');
+      }
+      if (showBargainBID && item.item._auction && item.item._auction.currentBid==0 && item.item._auction.startingBid  < futbinData[playerId].prices[platform].LCPrice.replace(/[,.]/g, '') * 0.95) {
         target.addClass('futbin-bargain');
       }
     }
