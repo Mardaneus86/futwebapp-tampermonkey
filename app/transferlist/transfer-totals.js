@@ -67,6 +67,8 @@ class TransferTotals extends BaseScript {
         }
 
         const lists = $('.list-view .itemList');
+        const items = controller._listController._viewmodel._collection;
+        const listRows = $('.list-view .listFUTItem');
 
         lists.each((index, list) => {
           const totals = {
@@ -80,36 +82,27 @@ class TransferTotals extends BaseScript {
             return;
           }
 
-          listEl.find('.listFUTItem').each((rowIndex, row) => {
-            const rowEl = $(row);
-            const hasFutbin = rowEl.find('.auctionValue.futbin').length > 0;
-            const futbinValue = hasFutbin
-              ? parseInt(
-                rowEl
-                  .find('.auctionValue.futbin .coins.value')
-                  .text()
-                  .replace(/[,.]/g, ''),
-                10,
-              )
-              : 0;
-            const bidValue = parseInt(
-              rowEl
-                .find(`.auctionValue:eq(${hasFutbin ? 2 : 1}) .coins.value`)
+          const firstIndex = $(list).find('.listFUTItem:first').index('.list-view .listFUTItem');
+          const lastIndex = $(list).find('.listFUTItem:last').index('.list-view .listFUTItem');
+
+          totals.futbin = items.slice(firstIndex, lastIndex + 1).reduce((sum, item, i) => {
+            const futbin = parseInt(
+              listRows.eq(i + firstIndex)
+                .find('.auctionValue.futbin .coins.value')
                 .text()
                 .replace(/[,.]/g, ''),
               10,
             ) || 0;
-            const binValue = parseInt(
-              rowEl
-                .find(`.auctionValue:eq(${hasFutbin ? 3 : 2}) .coins.value`)
-                .text()
-                .replace(/[,.]/g, ''),
-              10,
-            ) || 0;
-            totals.futbin += futbinValue;
-            totals.bid += bidValue;
-            totals.bin += binValue;
-          });
+            return sum + futbin;
+          }, 0);
+          totals.bid = items.slice(firstIndex, lastIndex + 1)
+            .reduce((sum, item) => {
+              const { currentBid, startingBid } = item._auction;
+              const actualBid = currentBid > 0 ? currentBid : startingBid;
+              return sum + actualBid;
+            }, 0);
+          totals.bin = items.slice(firstIndex, lastIndex + 1)
+            .reduce((sum, item) => sum + item._auction.buyNowPrice, 0);
 
           const totalsItem = listEl.prev('.transfer-totals');
 
