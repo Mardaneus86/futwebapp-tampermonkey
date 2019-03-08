@@ -136,22 +136,27 @@ export class FutbinPrices extends BaseScript {
           });
         });
 
-        const futbinUrl = `https://www.futbin.com/19/playerPrices?player=&all_versions=${
-          resourceIdMapping
-            .map(i => i.playerId)
-            .filter((current, next) => current !== next)
-            .join(',')
-        }`;
-        GM_xmlhttpRequest({
-          method: 'GET',
-          url: futbinUrl,
-          onload: (res) => {
-            const futbinData = JSON.parse(res.response);
-            resourceIdMapping.forEach((item) => {
-              FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
-            });
-          },
-        });
+        let fetchedPlayers = 0;
+        const fetchAtOnce = 30;
+        while (fetchedPlayers < resourceIdMapping.length) {
+          const futbinUrl = `https://www.futbin.com/19/playerPrices?player=&all_versions=${
+            resourceIdMapping.slice(fetchedPlayers, fetchedPlayers + fetchAtOnce)
+              .map(i => i.playerId)
+              .filter((current, next) => current !== next)
+              .join(',')
+          }`;
+          fetchedPlayers += fetchAtOnce;
+          GM_xmlhttpRequest({
+            method: 'GET',
+            url: futbinUrl,
+            onload: (res) => {
+              const futbinData = JSON.parse(res.response);
+              resourceIdMapping.forEach((item) => {
+                FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
+              });
+            },
+          });
+        }
       }, 1000);
     } else {
       // no need to search prices on other pages
