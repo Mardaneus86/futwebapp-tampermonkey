@@ -54,3 +54,16 @@
 .player-picks-modal .time {
   display: block;
 }
+
+.squadSlotPedestal.futbin {
+  min-width: 58px;
+  flex: none;
+  width: auto;
+  bottom: -2.2em;
+  white-space: nowrap;
+
+  .coins.value {
+    text-align: center; 
+    margin: 0 8px;
+  }
+}

@@ -10,6 +10,7 @@ import { FutbinSettings } from './settings-entry';
 export class FutbinPrices extends BaseScript {
   constructor() {
     super(FutbinSettings.id);
+    this._squadObserver = null;
   }
 
   activate(state) {
@@ -20,6 +21,34 @@ export class FutbinPrices extends BaseScript {
 
   onScreenRequest(screenId) {
     super.onScreenRequest(screenId);
+
+    const controllerName = getAppMain().getRootViewController()
+      .getPresentedViewController().getCurrentViewController()
+      .getCurrentController().className;
+
+    if (screenId === 'SBCSquadSplitViewController' ||
+      screenId === 'SquadSplitViewController') {
+      this._squadObserver = getAppMain().getRootViewController()
+        .getPresentedViewController().getCurrentViewController()
+        .getCurrentController()._leftController._squad.onDataUpdated
+        .observe(this, () => {
+          $('.squadSlotPedestal.futbin').remove(); // forces update
+          this._show('SBCSquadSplitViewController', true);
+        });
+      $('.ut-squad-summary-info--right.ut-squad-summary-info').append(`
+        <div class="futbin total">
+          <span class="ut-squad-summary-label">Total BIN value</span>
+          <div style="text-align: right">
+            <span class="ut-squad-summary-value coins value">---</span>
+          </div>
+        </div>
+      `);
+    } else if (this._squadObserver !== null &&
+        controllerName !== 'SBCSquadSplitViewController' &&
+        controllerName !== 'SquadSplitViewController') {
+      this._squadObserver.unobserve(this);
+    }
+
     this._show(screenId);
   }
 
@@ -28,12 +57,16 @@ export class FutbinPrices extends BaseScript {
 
     $('.futbin').remove();
 
+    if (this._squadObserver !== null) {
+      this._squadObserver.unobserve(this);
+    }
+
     if (this._intervalRunning) {
       clearInterval(this._intervalRunning);
     }
   }
 
-  _show(screen) {
+  _show(screen, force = false) {
     const showFutbinPricePages = [
       'UTTransferListSplitViewController', // transfer list
       'UTWatchListSplitViewController', // transfer targets
@@ -41,6 +74,8 @@ export class FutbinPrices extends BaseScript {
       'ClubSearchResultsSplitViewController', // club
       'UTMarketSearchResultsSplitViewController', // market search
       'UTPlayerPicksViewController',
+      'SBCSquadSplitViewController',
+      'SquadSplitViewController',
     ];
 
     if (showFutbinPricePages.indexOf(screen) !== -1) {
@@ -48,7 +83,7 @@ export class FutbinPrices extends BaseScript {
         clearInterval(this._intervalRunning);
       }
       this._intervalRunning = setInterval(() => {
-        if (showFutbinPricePages.indexOf(window.currentPage) === -1) {
+        if (showFutbinPricePages.indexOf(window.currentPage) === -1 && !force) {
           if (this._intervalRunning) {
             clearInterval(this._intervalRunning);
           }
@@ -58,13 +93,19 @@ export class FutbinPrices extends BaseScript {
           .getPresentedViewController().getCurrentViewController()
           .getCurrentController();
 
-        const uiItems = $(getAppMain().getRootViewController()
-          .getPresentedViewController().getCurrentViewController()
-          ._view.__root).find('.listFUTItem');
+        let uiItems = null;
+        if (screen === 'SBCSquadSplitViewController' ||
+          screen === 'SquadSplitViewController') {
+          uiItems = $(controller._view.__root).find('.squadSlot');
+        } else {
+          uiItems = $(getAppMain().getRootViewController()
+            .getPresentedViewController().getCurrentViewController()
+            ._view.__root).find('.listFUTItem');
 
-        const targetForButton = uiItems.find('.auction');
-        if (targetForButton !== null) {
-          targetForButton.show(); // make sure it's always shown (#69)
+          const targetForButton = uiItems.find('.auction');
+          if (targetForButton !== null) {
+            targetForButton.show(); // make sure it's always shown (#69)
+          }
         }
 
         if ($(uiItems[0]).find('.futbin').length > 0) {
@@ -72,7 +113,10 @@ export class FutbinPrices extends BaseScript {
         }
 
         let listController = null;
-        if (screen === 'UTPlayerPicksViewController') {
+        if (screen === 'SBCSquadSplitViewController' ||
+          screen === 'SquadSplitViewController') {
+          // not needed
+        } else if (screen === 'UTPlayerPicksViewController') {
           if (!controller.getPresentedViewController()) {
             return;
           }
@@ -98,7 +142,13 @@ export class FutbinPrices extends BaseScript {
         }
 
         let listrows = null;
-        if (listController._picks && screen === 'UTPlayerPicksViewController') {
+        if (screen === 'SBCSquadSplitViewController' ||
+          screen === 'SquadSplitViewController') {
+          listrows = controller._squad._players.slice(0, 11).map(p => (
+            {
+              data: p._item,
+            }));
+        } else if (listController._picks && screen === 'UTPlayerPicksViewController') {
           listrows = listController._picks.map((pick, index) => (
             {
               data: pick,
@@ -138,11 +188,12 @@ export class FutbinPrices extends BaseScript {
 
         let fetchedPlayers = 0;
         const fetchAtOnce = 30;
+        const futbinlist = [];
         while (fetchedPlayers < resourceIdMapping.length) {
           const futbinUrl = `https://www.futbin.com/19/playerPrices?player=&all_versions=${
             resourceIdMapping.slice(fetchedPlayers, fetchedPlayers + fetchAtOnce)
               .map(i => i.playerId)
-              .filter((current, next) => current !== next)
+              .filter((current, next) => current !== next && current !== 0)
               .join(',')
           }`;
           fetchedPlayers += fetchAtOnce;
@@ -152,8 +203,22 @@ export class FutbinPrices extends BaseScript {
             onload: (res) => {
               const futbinData = JSON.parse(res.response);
               resourceIdMapping.forEach((item) => {
-                FutbinPrices._showFutbinPrice(item, futbinData, showBargains);
+                FutbinPrices._showFutbinPrice(screen, item, futbinData, showBargains);
+                futbinlist.push(futbinData[item.playerId]);
               });
+              const platform = utils.getPlatform();
+              if (screen === 'SBCSquadSplitViewController' ||
+                screen === 'SquadSplitViewController') {
+                const futbinTotal = futbinlist.reduce(
+                  (sum, item) =>
+                    sum + parseInt(
+                      item.prices[platform].LCPrice.toString().replace(/[,.]/g, ''),
+                      10,
+                    ) || 0
+                  , 0,
+                );
+                $('.ut-squad-summary-value.coins.value').html(`${futbinTotal.toLocaleString()}`);
+              }
             },
           });
         }
@@ -168,7 +233,7 @@ export class FutbinPrices extends BaseScript {
     }
   }
 
-  static async _showFutbinPrice(item, futbinData, showBargain) {
+  static async _showFutbinPrice(screen, item, futbinData, showBargain) {
     if (!futbinData) {
       return;
     }
@@ -194,13 +259,20 @@ export class FutbinPrices extends BaseScript {
 
     const futbinText = 'Futbin BIN';
 
-    switch (window.currentPage) {
+    switch (screen) {
+      case 'SBCSquadSplitViewController':
+      case 'SquadSplitViewController':
+        target.prepend(`
+        <div class="squadSlotPedestal no-state futbin">
+          <span class="coins value" title="Last update: ${futbinData[playerId].prices[platform].updated || 'never'}">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
+        </div>`);
+        break;
       case 'UTPlayerPicksViewController':
         target.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>`);
         break;
       case 'UTTransferListSplitViewController':
@@ -214,8 +286,8 @@ export class FutbinPrices extends BaseScript {
         targetForButton.prepend(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>`);
         break;
       case 'SearchResults':
@@ -223,8 +295,8 @@ export class FutbinPrices extends BaseScript {
         targetForButton.prepend(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>`);
         break;
       default:
@@ -233,7 +305,7 @@ export class FutbinPrices extends BaseScript {
 
     if (showBargain) {
       if (item.item._auction &&
-        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice.replace(/[,.]/g, '')) {
+        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
       }
     }
