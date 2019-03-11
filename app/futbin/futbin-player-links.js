@@ -138,7 +138,7 @@ export class FutbinPlayerLinks extends BaseScript {
     const currentController = getAppMain().getRootViewController()
       .getPresentedViewController().getCurrentViewController()
       .getCurrentController()._rightController._currentController;
-    if (currentController) {
+    if (currentController && currentController._viewmodel) {
       const current = currentController._viewmodel.current();
 
       return current._item ? current._item : current;

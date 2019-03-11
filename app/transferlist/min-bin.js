@@ -160,7 +160,7 @@ class MinBin extends BaseScript {
       .getPresentedViewController()
       .getCurrentViewController()
       .getCurrentController()._rightController;
-    if (detailController) {
+    if (detailController && detailController._currentController._viewmodel) {
       const current = detailController
         ._currentController._viewmodel.current();
 
