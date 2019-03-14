@@ -14,7 +14,6 @@
 // @grant       GM_setValue
 // @grant       window.focus
 // @connect     ea.com
-// @connect     maker.ifttt.com
 // @connect     futbin.com
 // @connect     google-analytics.com
 // @updateURL   https://github.com/Mardaneus86/futwebapp-tampermonkey-web/raw/master/downloads/FUT_Enhancer.meta.js

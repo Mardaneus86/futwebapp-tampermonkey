@@ -67,8 +67,6 @@ services.Authentication._oAuthentication.observe(
 
     const settings = Settings.getInstance();
     settings.registerEntry(new RefreshListSettings());
-    // settings.registerEntry(new RemoveSoldAuctionsSettings());
-    // settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
     settings.registerEntry(new CardInfoSettings());
     settings.registerEntry(new ListSizeSettings());
@@ -76,7 +74,6 @@ services.Authentication._oAuthentication.observe(
 
     settings.registerEntry(new FutbinSettings());
     settings.registerEntry(new InstantBinConfirmSettings());
-    // settings.registerEntry(new ClubInfoSettings());
 
     initSettingsScreen(settings);
   },
