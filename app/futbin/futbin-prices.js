@@ -28,6 +28,10 @@ export class FutbinPrices extends BaseScript {
 
     if (screenId === 'SBCSquadSplitViewController' ||
       screenId === 'SquadSplitViewController') {
+      if (this.getSettings()['show-sbc-squad'].toString() !== 'true') {
+        return;
+      }
+
       this._squadObserver = getAppMain().getRootViewController()
         .getPresentedViewController().getCurrentViewController()
         .getCurrentController()._leftController._squad.onDataUpdated
@@ -97,6 +101,10 @@ export class FutbinPrices extends BaseScript {
         if (screen === 'SBCSquadSplitViewController' ||
           screen === 'SquadSplitViewController') {
           uiItems = $(controller._view.__root).find('.squadSlot');
+
+          if (this.getSettings()['show-sbc-squad'].toString() !== 'true') {
+            return;
+          }
         } else {
           uiItems = $(getAppMain().getRootViewController()
             .getPresentedViewController().getCurrentViewController()
