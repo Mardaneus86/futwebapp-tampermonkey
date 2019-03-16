@@ -4,7 +4,7 @@ window
 */
 
 import { utils } from '../../fut';
-import { BaseScript } from '../core';
+import { BaseScript, Database } from '../core';
 import { FutbinSettings } from './settings-entry';
 
 export class FutbinPrices extends BaseScript {
@@ -87,6 +87,14 @@ export class FutbinPrices extends BaseScript {
         clearInterval(this._intervalRunning);
       }
       this._intervalRunning = setInterval(() => {
+        const lastFutbinFetchFail = Database.get('lastFutbinFetchFail', 0);
+        if (lastFutbinFetchFail + (5 * 60000) > Date.now()) {
+          console.log(`Futbin fetching has been paused for 5 minutes because of failed requests earlier (retrying after ${new Date(lastFutbinFetchFail + (5 * 60000)).toLocaleTimeString()}). Check on Github for known issues.`);
+          if (this._intervalRunning) {
+            clearInterval(this._intervalRunning);
+          }
+          return;
+        }
         if (showFutbinPricePages.indexOf(window.currentPage) === -1 && !force) {
           if (this._intervalRunning) {
             clearInterval(this._intervalRunning);
@@ -197,7 +205,7 @@ export class FutbinPrices extends BaseScript {
         let fetchedPlayers = 0;
         const fetchAtOnce = 30;
         const futbinlist = [];
-        while (fetchedPlayers < resourceIdMapping.length) {
+        while (resourceIdMapping.length > 0 && fetchedPlayers < resourceIdMapping.length && Database.get('lastFutbinFetchFail', 0) + (5 * 60000) < Date.now()) {
           const futbinUrl = `https://www.futbin.com/19/playerPrices?player=&rids=${
             resourceIdMapping.slice(fetchedPlayers, fetchedPlayers + fetchAtOnce)
               .map(i => i.playerId)
@@ -205,10 +213,17 @@ export class FutbinPrices extends BaseScript {
               .join(',')
           }`;
           fetchedPlayers += fetchAtOnce;
+          /* eslint-disable no-loop-func */
           GM_xmlhttpRequest({
             method: 'GET',
             url: futbinUrl,
             onload: (res) => {
+              if (res.status !== 200) {
+                Database.set('lastFutbinFetchFail', Date.now());
+                GM_notification(`Could not load Futbin prices (code ${res.status}), pausing fetches for 5 minutes. Disable Futbin integration if the problem persists.`, 'Futbin fetch failed');
+                return;
+              }
+
               const futbinData = JSON.parse(res.response);
               resourceIdMapping.forEach((item) => {
                 FutbinPrices._showFutbinPrice(screen, item, futbinData, showBargains);
