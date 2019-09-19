@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        FUT Enhancer
 // @version     VERSION
-// @description Enhances the FIFA Ultimate Team 19 Web app. Includes Futbin integration and other useful tools
+// @description Enhances the FIFA Ultimate Team 20 Web app. Includes Futbin integration and other useful tools
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
