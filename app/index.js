@@ -1,5 +1,5 @@
 /* globals onVisibilityChanged services UTNavigationController
-UTViewController UTObservable window document $ */
+UTViewController UTObservable window document $ _0x1a026c */
 import 'babel-polyfill';
 import './index.scss';
 import initSettingsScreen from './settings';
