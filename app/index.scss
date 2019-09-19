@@ -18,3 +18,15 @@
         padding-right: 10px;
     }
 }
+
+@media (min-width: 1281px) {
+    .ut-content-container .ut-content {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .ut-split-view .ut-content {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
