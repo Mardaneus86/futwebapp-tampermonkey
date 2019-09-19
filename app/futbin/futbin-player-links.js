@@ -85,11 +85,11 @@ export class FutbinPlayerLinks extends BaseScript {
       let futbinPlayerIds = Database.getJson('futbin-player-ids', []);
       const futbinPlayer = futbinPlayerIds.find(i => i.id === item.resourceId);
       if (futbinPlayer != null) {
-        return resolve(`https://www.futbin.com/19/player/${futbinPlayer.futbinId}`);
+        return resolve(`https://www.futbin.com/20/player/${futbinPlayer.futbinId}`);
       }
 
       const name = `${item._staticData.firstName} ${item._staticData.lastName}`.replace(' ', '+');
-      const url = `https://www.futbin.com/search?year=19&term=${name}`;
+      const url = `https://www.futbin.com/search?year=20&term=${name}`;
       return GM_xmlhttpRequest({
         method: 'GET',
         url,
@@ -114,10 +114,10 @@ export class FutbinPlayerLinks extends BaseScript {
               });
             }
             Database.setJson('futbin-player-ids', futbinPlayerIds);
-            return resolve(`https://www.futbin.com/19/player/${exactPlayers[0].id}`);
+            return resolve(`https://www.futbin.com/20/player/${exactPlayers[0].id}`);
           } else if (exactPlayers.length > 1) {
             // Take first one, several players are returned more than once
-            return resolve(`https://www.futbin.com/19/player/${exactPlayers[0].id}`);
+            return resolve(`https://www.futbin.com/20/player/${exactPlayers[0].id}`);
           }
 
           return resolve(null); // TODO: what should we do if we find more than one?
