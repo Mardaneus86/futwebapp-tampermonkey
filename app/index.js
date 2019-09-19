@@ -1,5 +1,5 @@
-/* globals onVisibilityChanged services FUINavigationController
-FUIViewController UTObservable window document $ */
+/* globals onVisibilityChanged services UTNavigationController
+UTViewController UTObservable window document $ */
 import 'babel-polyfill';
 import './index.scss';
 import initSettingsScreen from './settings';
@@ -33,9 +33,11 @@ import {
 */
 
 window.onPageNavigation = new UTObservable();
+
 window.currentPage = '';
 
-FUINavigationController.prototype.didPush = (t) => {
+
+UTNavigationController.prototype.didPush = (t) => {
   if (t) {
     analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
@@ -43,7 +45,7 @@ FUINavigationController.prototype.didPush = (t) => {
   }
 };
 
-FUIViewController.prototype.didPresent = (t) => {
+UTViewController.prototype.didPresent = (t) => {
   if (t) {
     analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
