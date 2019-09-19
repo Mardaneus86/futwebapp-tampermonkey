@@ -89,7 +89,7 @@ export class FutbinPrices extends BaseScript {
       this._intervalRunning = setInterval(() => {
         const lastFutbinFetchFail = Database.get('lastFutbinFetchFail', 0);
         if (lastFutbinFetchFail + (5 * 60000) > Date.now()) {
-          console.log(`Futbin fetching has been paused for 5 minutes because of failed requests earlier (retrying after ${new Date(lastFutbinFetchFail + (5 * 60000)).toLocaleTimeString()}). Check on Github for known issues.`);
+          console.log(`Futbin fetching has been paused for 5 minutes because of failed requests earlier (retrying after ${new Date(lastFutbinFetchFail + (5 * 60000)).toLocaleTimeString()}). Check on Github for known issues.`); // eslint-disable-line no-console
           if (this._intervalRunning) {
             clearInterval(this._intervalRunning);
           }

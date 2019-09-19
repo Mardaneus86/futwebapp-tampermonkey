@@ -1,5 +1,5 @@
 /* globals onVisibilityChanged services UTNavigationController
-UTViewController UTObservable window document $ _0x1a026c */
+UTViewController UTObservable window document $ */
 import 'babel-polyfill';
 import './index.scss';
 import initSettingsScreen from './settings';
@@ -38,7 +38,7 @@ window.currentPage = '';
 
 // prevent debugger trap
 setInterval(() => {
-  _0x1a026c = function() {};
+  _0x1a026c = function () {}; // eslint-disable-line no-global-assign, no-undef
 }, 500);
 
 UTNavigationController.prototype.didPush = (t) => {
