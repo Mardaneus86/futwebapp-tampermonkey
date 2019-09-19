@@ -36,6 +36,10 @@ window.onPageNavigation = new UTObservable();
 
 window.currentPage = '';
 
+// prevent debugger trap
+setInterval(() => {
+  _0x1a026c = function() {};
+}, 500);
 
 UTNavigationController.prototype.didPush = (t) => {
   if (t) {
