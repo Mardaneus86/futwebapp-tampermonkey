@@ -141,8 +141,8 @@ class MinBin extends BaseScript {
 
       const bidSpinner = quicklistpanelView._bidNumericStepper;
       const buySpinner = quicklistpanelView._buyNowNumericStepper;
-      bidSpinner.value = listPrice.start;
-      buySpinner.value = listPrice.buyNow;
+      bidSpinner.setValue(listPrice.start);
+      buySpinner.setValue(listPrice.buyNow);
     }
   }
 
