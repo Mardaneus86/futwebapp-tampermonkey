@@ -1,50 +1,59 @@
 /* global
-$
-document
-window
 gPopupClickShield
+enums
+controllers
+utils
 */
 
 import { BaseScript } from '../core';
 import { InstantBinConfirmSettings } from './settings-entry';
 
 export class InstantBinConfirm extends BaseScript {
+  unmodifiedConfirmation = utils.PopupManager.ShowConfirmation;
+
   constructor() {
     super(InstantBinConfirmSettings.id);
   }
 
   activate(state) {
-    function mutationHandler(mutationRecords) {
-      mutationRecords.forEach((mutation) => {
-        if ($(mutation.addedNodes).hasClass('Dialog')) {
-          const t = gPopupClickShield._activePopup._title;
-          if (t === 'popup.buyNowConfirmationTitle') {
-            setTimeout(() => {
-              gPopupClickShield._activePopup._eOptionSelected(2);
-            }, 13);
-          }
-        }
-      });
-    }
-
     super.activate(state);
-    const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    const obsConfig = {
-      childList: true,
-      characterData: true,
-      attributes: false,
-      subtree: true,
-    };
-    this.observer = new MutationObserver(mutationHandler);
-    this.observer.observe(document, obsConfig);
   }
 
   onScreenRequest(screenId) {
     super.onScreenRequest(screenId);
+    const settings = this.getSettings();
+
+    utils.PopupManager.ShowConfirmation = (dialog, amount, proceed, s) => {
+      let cancel = s;
+      if (!utils.JS.isFunction(s)) {
+        cancel = function () { };
+      }
+
+      if (settings.isActive && dialog.title ===
+        utils.PopupManager.Confirmations.CONFIRM_BUY_NOW.title) {
+        proceed();
+        return;
+      }
+      const n = new controllers.views.popups.Dialog(
+        dialog.message, dialog.title,
+        enums.UIDialogTypes.MESSAGE, amount, dialog.buttonLabels,
+      );
+      n.init();
+      gPopupClickShield.setActivePopup(n);
+      n.onExit.observe(this, (e, t) => {
+        if (t !== enums.UIDialogOptions.CANCEL && t !== enums.UIDialogOptions.NO) {
+          if (proceed) {
+            proceed();
+          } else if (cancel) {
+            cancel();
+          }
+        }
+      });
+    };
   }
 
   deactivate(state) {
     super.deactivate(state);
-    this.observer.disconnect();
+    utils.PopupManager.ShowConfirmation = this.unmodifiedConfirmation;
   }
 }
