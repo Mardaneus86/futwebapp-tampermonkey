@@ -1,5 +1,5 @@
 /* globals
-enums transferobjects factories communication gUserModel models repositories
+enums transferobjects factories communication gUserModel models repositories services
 */
 import { mean } from 'math-statistics';
 
@@ -228,21 +228,17 @@ export class TransferMarket {
 
   _find(searchCriteria) {
     return new Promise((resolve, reject) => {
-      const o = new communication.SearchAuctionDelegate(searchCriteria);
-      o.useClickShield(false);
-      o.addListener(communication.BaseDelegate.SUCCESS, this, (sender, response) => {
-        sender.clearListenersByScope(this);
-        const t = factories.Item.generateItemsFromAuctionData(
-          response.auctionInfo || [],
-          response.duplicateItemIdList || [],
-        );
-        resolve(t);
-      });
-      o.addListener(communication.BaseDelegate.FAIL, this, (sender, error) => {
-        sender.clearListenersByScope(this);
-        reject(error);
-      });
-      o.send();
+      services.Item.searchTransferMarket(searchCriteria, 1).observe(
+        this,
+        function (obs, res) {
+          if (!res.success) {
+            obs.unobserve(this);
+            reject(res.status);
+          } else {
+            resolve(res.data.items);
+          }
+        },
+      );
     });
   }
 }
