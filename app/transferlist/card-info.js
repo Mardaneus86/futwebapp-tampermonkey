@@ -54,7 +54,14 @@ class CardInfo extends BaseScript {
           return;
         }
 
-        const items = controller._listController._view._list._listRows;
+        let items = [];
+        if (controller._listController._view._list) {
+          items = controller._listController._view._list._listRows;
+        } else {
+          items = controller._listController._viewmodel._collection.map(item => (
+            { data: item }
+          ));
+        }
         const rows = $('.listFUTItem');
 
         rows.each((index, row) => {
