@@ -66,9 +66,9 @@ class TransferTotals extends BaseScript {
           return;
         }
 
-        const lists = $('.list-view .itemList');
+        const lists = $('.ut-transfer-list-view .itemList');
         const items = controller._listController._viewmodel._collection;
-        const listRows = $('.list-view .listFUTItem');
+        const listRows = $('.ut-transfer-list-view .listFUTItem');
 
         lists.each((index, list) => {
           const totals = {
@@ -82,8 +82,8 @@ class TransferTotals extends BaseScript {
             return;
           }
 
-          const firstIndex = $(list).find('.listFUTItem:first').index('.list-view .listFUTItem');
-          const lastIndex = $(list).find('.listFUTItem:last').index('.list-view .listFUTItem');
+          const firstIndex = $(list).find('.listFUTItem:first').index('.ut-transfer-list-view .listFUTItem');
+          const lastIndex = $(list).find('.listFUTItem:last').index('.ut-transfer-list-view .listFUTItem');
 
           totals.futbin = items.slice(firstIndex, lastIndex + 1).reduce((sum, item, i) => {
             const futbin = parseInt(
