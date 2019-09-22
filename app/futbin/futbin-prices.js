@@ -27,7 +27,10 @@ export class FutbinPrices extends BaseScript {
       .getCurrentController().className;
 
     if (screenId === 'SBCSquadSplitViewController' ||
-      screenId === 'SquadSplitViewController') {
+      screenId === 'SquadSplitViewController' ||
+      screenId === 'UTSquadSplitViewController' ||
+      screenId === 'UTSquadsHubViewController' ||
+      screenId === 'UTSBCSquadSplitViewController') {
       if (this.getSettings()['show-sbc-squad'].toString() !== 'true') {
         return;
       }
@@ -39,7 +42,8 @@ export class FutbinPrices extends BaseScript {
           $('.squadSlotPedestal.futbin').remove(); // forces update
           this._show('SBCSquadSplitViewController', true);
         });
-      $('.ut-squad-summary-info--right.ut-squad-summary-info').append(`
+      if ($('.ut-squad-summary-info--right.ut-squad-summary-info').find('.futbin').length === 0) {
+        $('.ut-squad-summary-info--right.ut-squad-summary-info').append(`
         <div class="futbin total">
           <span class="ut-squad-summary-label">Total BIN value</span>
           <div style="text-align: right">
@@ -47,9 +51,13 @@ export class FutbinPrices extends BaseScript {
           </div>
         </div>
       `);
+      }
     } else if (this._squadObserver !== null &&
-        controllerName !== 'SBCSquadSplitViewController' &&
-        controllerName !== 'SquadSplitViewController') {
+      controllerName !== 'SBCSquadSplitViewController' &&
+      controllerName !== 'SquadSplitViewController' &&
+      controllerName !== 'UTSquadSplitViewController' &&
+      controllerName !== 'UTSquadsHubViewController' &&
+      controllerName !== 'UTSBCSquadSplitViewController') {
       this._squadObserver.unobserve(this);
     }
 
@@ -80,6 +88,9 @@ export class FutbinPrices extends BaseScript {
       'UTPlayerPicksViewController',
       'SBCSquadSplitViewController',
       'SquadSplitViewController',
+      'UTSquadSplitViewController',
+      'UTSquadsHubViewController',
+      'UTSBCSquadSplitViewController',
     ];
 
     if (showFutbinPricePages.indexOf(screen) !== -1) {
@@ -107,7 +118,10 @@ export class FutbinPrices extends BaseScript {
 
         let uiItems = null;
         if (screen === 'SBCSquadSplitViewController' ||
-          screen === 'SquadSplitViewController') {
+          screen === 'SquadSplitViewController' ||
+          screen === 'UTSquadSplitViewController' ||
+          screen === 'UTSquadsHubViewController' ||
+          screen === 'UTSBCSquadSplitViewController') {
           uiItems = $(controller._view.__root).find('.squadSlot');
 
           if (this.getSettings()['show-sbc-squad'].toString() !== 'true') {
@@ -130,7 +144,10 @@ export class FutbinPrices extends BaseScript {
 
         let listController = null;
         if (screen === 'SBCSquadSplitViewController' ||
-          screen === 'SquadSplitViewController') {
+          screen === 'SquadSplitViewController' ||
+          screen === 'UTSquadSplitViewController' ||
+          screen === 'UTSquadsHubViewController' ||
+          screen === 'UTSBCSquadSplitViewController') {
           // not needed
         } else if (screen === 'UTPlayerPicksViewController') {
           if (!controller.getPresentedViewController()) {
@@ -159,10 +176,14 @@ export class FutbinPrices extends BaseScript {
 
         let listrows = null;
         if (screen === 'SBCSquadSplitViewController' ||
-          screen === 'SquadSplitViewController') {
-          listrows = controller._squad._players.slice(0, 11).map(p => (
+          screen === 'SquadSplitViewController' ||
+          screen === 'UTSquadSplitViewController' ||
+          screen === 'UTSquadsHubViewController' ||
+          screen === 'UTSBCSquadSplitViewController') {
+          listrows = controller._squad._players.slice(0, 11).map((p, index) => (
             {
               data: p._item,
+              target: controller._view._lView._slotViews[index].__root,
             }));
         } else if (listController._picks && screen === 'UTPlayerPicksViewController') {
           listrows = listController._picks.map((pick, index) => (
@@ -231,7 +252,10 @@ export class FutbinPrices extends BaseScript {
               });
               const platform = utils.getPlatform();
               if (screen === 'SBCSquadSplitViewController' ||
-                screen === 'SquadSplitViewController') {
+                screen === 'SquadSplitViewController' ||
+                screen === 'UTSquadSplitViewController' ||
+                screen === 'UTSquadsHubViewController' ||
+                screen === 'UTSBCSquadSplitViewController') {
                 const futbinTotal = futbinlist.reduce(
                   (sum, item) =>
                     sum + parseInt(
@@ -285,8 +309,11 @@ export class FutbinPrices extends BaseScript {
     switch (screen) {
       case 'SBCSquadSplitViewController':
       case 'SquadSplitViewController':
+      case 'UTSquadSplitViewController':
+      case 'UTSquadsHubViewController':
+      case 'UTSBCSquadSplitViewController':
         target.prepend(`
-        <div class="squadSlotPedestal no-state futbin">
+        <div class="ut-squad-slot-pedestal-view no-state futbin">
           <span class="coins value" title="Last update: ${futbinData[playerId].prices[platform].updated || 'never'}">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
@@ -323,7 +350,7 @@ export class FutbinPrices extends BaseScript {
         </div>`);
         break;
       default:
-        // no need to do anything
+      // no need to do anything
     }
 
     if (showBargain) {
