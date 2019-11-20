@@ -1,5 +1,5 @@
 /* globals
-enums transferobjects factories communication gUserModel models repositories services
+enums factories communication gUserModel models repositories services
 */
 import { mean } from 'math-statistics';
 
@@ -24,6 +24,8 @@ export class TransferMarket {
   /* eslint-enable class-methods-use-this */
 
   async searchMinBuy(item, itemsForMean = 3, lowUp = false) {
+    services.Item.clearTransferMarketCache();
+
     this._logger.log(`Searching min buy for ${item.type} ${item._staticData.name} from low upward first ${lowUp}`, 'Core - Transfermarket');
     let minBuy = 0;
 
@@ -198,7 +200,8 @@ export class TransferMarket {
   /* eslint-disable class-methods-use-this */
   _defineSearchCriteria(item, maxBuy = -1) {
     // TODO: check if this can handle other items as well
-    const searchCriteria = new transferobjects.SearchCriteria();
+    // eslint-disable-next-line no-undef
+    const searchCriteria = new UTSearchCriteriaDTO();
 
     searchCriteria.count = 30;
     searchCriteria.maskedDefId = item.getMaskedResourceId();
