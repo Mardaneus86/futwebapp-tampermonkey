@@ -354,8 +354,11 @@ export class FutbinPrices extends BaseScript {
     }
 
     if (showBargain) {
+      // Add 5% EA Tax to price before comparing
+      var binPriceFivePercent = (5 / 100) * item.item._auction.buyNowPrice;
+      var binPrice = item.item._auction.buyNowPrice + binPriceFivePercent;
       if (item.item._auction &&
-        item.item._auction.buyNowPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
+        binPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
       }
     }

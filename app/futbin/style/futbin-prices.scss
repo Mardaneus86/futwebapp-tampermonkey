@@ -44,11 +44,11 @@
   filter: hue-rotate(165deg);
 }
 .listFUTItem.has-auction-data.futbin-bargain .rowContent {
-  background-color: #7ffe9445;
+  background-color: #add8e6;
 }
-.listFUTItem.has-auction-data.selected.futbin-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent.active {
-  background-color: #7ffe94;
-  color: #434853;
+.listFUTItem.has-auction-data.selected.futbin-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent.active, .listFUTItem.selected .rowContent .name, .listFUTItem.selected .rowContent.active .name {
+  background-color: #0000ff;
+  color: #ffffff;
 }
 
 .player-picks-modal .time {
