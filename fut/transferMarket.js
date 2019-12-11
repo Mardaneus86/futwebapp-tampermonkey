@@ -206,6 +206,8 @@ export class TransferMarket {
     searchCriteria.count = 30;
     searchCriteria.maskedDefId = item.getMaskedResourceId();
     searchCriteria.type = item.type;
+    searchCriteria.league = item.leagueId;
+    searchCriteria.club = item.teamId;
 
     if (item.rareflag === 47) { // 47 = Champions
       // if it is a Champions card, this is seen as a gold card
