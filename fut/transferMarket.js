@@ -42,7 +42,7 @@ export class TransferMarket {
     if (minBuy === 0) {
       this._logger.log('No players found... it might be extinct', 'Core - Transfermarket');
     } else {
-      this._logger.log(`Min buy for ${item.type} ${item._staticData.name} is ${minBuy}`, 'Core - Transfermarket');
+      this._logger.log(`Min buy for ${item.type} ${item._staticData.name} (Flag no: ${item.rareflag}) is ${minBuy}`, 'Core - Transfermarket');
     }
     return minBuy;
   }
@@ -209,15 +209,17 @@ export class TransferMarket {
     searchCriteria.league = item.leagueId;
     searchCriteria.club = item.teamId;
 
-    console.log("Card Type: "+item.rareflag);
+    // Card Types:
+    // TOTW = 3
+    // UCL = 47
+    // UCL Special = 70
+    // Icons = 12
+    // Europa League = 68
+    // Gold = 0
+    // Silver = 0
+    // Bronze = 1
 
-    // if (item.rareflag === 47) { // 47 = Champions
-    //   // if it is a Champions card, this is seen as a gold card
-    //   // Can only search for "Gold" in this case
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
-    //     .filter(d => d.id === 47)[0].value;
-    // } else 
-    if (item.rareflag >= 3) { // 3 = TOTW
+    if (item.rareflag >= 3) { //TOTW = 3
       // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType.
       // Can only search for "Specials", not more specific on Rare Type
       searchCriteria.level = factories.DataProvider.getItemLevelDP(true)

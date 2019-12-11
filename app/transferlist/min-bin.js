@@ -86,11 +86,11 @@ class MinBin extends BaseScript {
 
           selectedItem = this._getSelectedItem();
 
-          let notificationText = `Minimum BIN found for ${selectedItem._staticData.name} is ${minimumBin}`;
+          let notificationText = `Minimum BIN found for ${selectedItem._staticData.name} (Flag no: ${selectedItem.rareflag}) is ${minimumBin}`;
           if (btn.data('resource-id') === selectedItem.resourceId) {
             if (minimumBin === 0) {
               btn.find('.btn-text').html('Search minimum BIN (extinct)');
-              notificationText = `Minimum BIN not found for ${selectedItem._staticData.name}, card may be extinct`;
+              notificationText = `Minimum BIN not found for ${selectedItem._staticData.name} (Flag no: ${selectedItem.rareflag}), card may be extinct`;
             } else {
               btn.find('.btn-text').html(`Search minimum BIN (${minimumBin})`);
 
