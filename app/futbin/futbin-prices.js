@@ -354,11 +354,39 @@ export class FutbinPrices extends BaseScript {
     }
 
     if (showBargain) {
-      // Add 5% EA Tax to price before comparing
-      var binPriceFivePercent = (5 / 100) * item.item._auction.buyNowPrice;
+      /**
+       * Inside the item.item._auction Object:
+       * Object { 
+       *        onDataUpdated: {…}, 
+       *        _bidState: "none",
+       *        _tradeState: "expired",
+       *        stale: false,
+       *        _watched: true,
+       *        buyNowPrice: 500,
+       *        currentBid: 0,
+       *        expires: -1,
+       *        isUpdating: false,
+       *        startingBid: 450, … }
+       */
+      
+       // Show Bin Bargain Price
+      var binPriceFivePercent = (5 / 100) * item.item._auction.buyNowPrice;// Add 5% EA Tax to bin price before comparing
       var binPrice = item.item._auction.buyNowPrice + binPriceFivePercent;
       if (item.item._auction &&
         binPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
+        target.addClass('futbin-bargain');
+      }
+
+      // Show Bid Bargain Price
+      if (item.item._auction.currentBid > 0) {
+        var binBargainPrice = item.item._auction.currentBid;
+      } else {
+        var binBargainPrice = item.item._auction.startingBid;
+      }
+      var bidPriceFivePercent = (5 / 100) * binBargainPrice;// Add 5% EA Tax to bid price before comparing
+      var bidPrice = binBargainPrice + bidPriceFivePercent;
+      if (item.item._auction &&
+        bidPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
       }
     }
