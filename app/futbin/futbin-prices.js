@@ -375,19 +375,19 @@ export class FutbinPrices extends BaseScript {
       if (item.item._auction &&
         binPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
-      }
-
-      // Show Bid Bargain Price
-      if (item.item._auction.currentBid > 0) {
-        var binBargainPrice = item.item._auction.currentBid;
       } else {
-        var binBargainPrice = item.item._auction.startingBid;
-      }
-      var bidPriceFivePercent = (5 / 100) * binBargainPrice;// Add 5% EA Tax to bid price before comparing
-      var bidPrice = binBargainPrice + bidPriceFivePercent;
-      if (item.item._auction &&
-        bidPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
-        target.addClass('futbin-bargain');
+        // Show Bid Bargain Price
+        if (item.item._auction.currentBid > 0) {
+          var binBargainPrice = item.item._auction.currentBid;
+        } else {
+          var binBargainPrice = item.item._auction.startingBid;
+        }
+        var bidPriceFivePercent = (5 / 100) * binBargainPrice;// Add 5% EA Tax to bid price before comparing
+        var bidPrice = binBargainPrice + bidPriceFivePercent;
+        if (item.item._auction &&
+          bidPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
+          target.addClass('futbin-bid-bargain');
+        }
       }
     }
   }
