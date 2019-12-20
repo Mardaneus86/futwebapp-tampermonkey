@@ -50,6 +50,9 @@
 .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent.active {
   background-color: #0000ff;
   color: #ffffff;
+  border-style: solid;
+  border-color: black;
+  border-left-color: black;
 }
 
 .listFUTItem.has-auction-data.futbin-bid-bargain .rowContent {
@@ -58,6 +61,9 @@
 .listFUTItem.has-auction-data.selected.futbin-bid-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bid-bargain .rowContent.active {
   background-color: #add8e6;
   color: #ffffff;
+  border-style: solid;
+  border-color: black;
+  border-left-color: black;
 }
 
 .player-picks-modal .time {
