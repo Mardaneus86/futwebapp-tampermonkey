@@ -100,7 +100,7 @@ class MinBin extends BaseScript {
 
           GM_notification({
             text: notificationText,
-            title: 'FUT 19 Web App',
+            title: 'FUT 20 Web App',
             timeout: 5000,
             onclick: () => window.focus(),
           });
@@ -141,8 +141,8 @@ class MinBin extends BaseScript {
 
       const bidSpinner = quicklistpanelView._bidNumericStepper;
       const buySpinner = quicklistpanelView._buyNowNumericStepper;
-      bidSpinner.value = listPrice.start;
-      buySpinner.value = listPrice.buyNow;
+      bidSpinner.setValue(listPrice.start);
+      buySpinner.setValue(listPrice.buyNow);
     }
   }
 
@@ -160,7 +160,7 @@ class MinBin extends BaseScript {
       .getPresentedViewController()
       .getCurrentViewController()
       .getCurrentController()._rightController;
-    if (detailController) {
+    if (detailController && detailController._currentController._viewmodel) {
       const current = detailController
         ._currentController._viewmodel.current();
 

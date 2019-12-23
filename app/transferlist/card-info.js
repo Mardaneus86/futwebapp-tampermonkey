@@ -54,7 +54,14 @@ class CardInfo extends BaseScript {
           return;
         }
 
-        const items = controller._listController._viewmodel._collection;
+        let items = [];
+        if (controller._listController._view._list) {
+          items = controller._listController._view._list._listRows;
+        } else {
+          items = controller._listController._viewmodel._collection.map(item => (
+            { data: item }
+          ));
+        }
         const rows = $('.listFUTItem');
 
         rows.each((index, row) => {
@@ -65,13 +72,13 @@ class CardInfo extends BaseScript {
           let info = '';
           if (settings['show-fitness'].toString() === 'true') {
             info += `<div class="fitness" style="position: absolute;left: 5px;bottom: -3px;">
-              F:${items[index].fitness}
+              F:${items[index].data.fitness}
               </div>`;
           }
 
           if (settings['show-contracts'].toString() === 'true') {
             info += `<div class="contracts" style="position: absolute;right: 5px;bottom: -3px;">
-              C:${items[index].contract}
+              C:${items[index].data.contract}
               </div>`;
           }
 

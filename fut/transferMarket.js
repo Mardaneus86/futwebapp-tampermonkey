@@ -1,5 +1,5 @@
 /* globals
-enums transferobjects factories communication gUserModel models repositories
+enums factories communication gUserModel models repositories services
 */
 import { mean } from 'math-statistics';
 
@@ -24,6 +24,8 @@ export class TransferMarket {
   /* eslint-enable class-methods-use-this */
 
   async searchMinBuy(item, itemsForMean = 3, lowUp = false) {
+    services.Item.clearTransferMarketCache();
+
     this._logger.log(`Searching min buy for ${item.type} ${item._staticData.name} from low upward first ${lowUp}`, 'Core - Transfermarket');
     let minBuy = 0;
 
@@ -198,7 +200,8 @@ export class TransferMarket {
   /* eslint-disable class-methods-use-this */
   _defineSearchCriteria(item, maxBuy = -1) {
     // TODO: check if this can handle other items as well
-    const searchCriteria = new transferobjects.SearchCriteria();
+    // eslint-disable-next-line no-undef
+    const searchCriteria = new UTSearchCriteriaDTO();
 
     searchCriteria.count = 30;
     searchCriteria.maskedDefId = item.getMaskedResourceId();
@@ -225,21 +228,17 @@ export class TransferMarket {
 
   _find(searchCriteria) {
     return new Promise((resolve, reject) => {
-      const o = new communication.SearchAuctionDelegate(searchCriteria);
-      o.useClickShield(false);
-      o.addListener(communication.BaseDelegate.SUCCESS, this, (sender, response) => {
-        sender.clearListenersByScope(this);
-        const t = factories.Item.generateItemsFromAuctionData(
-          response.auctionInfo || [],
-          response.duplicateItemIdList || [],
-        );
-        resolve(t);
-      });
-      o.addListener(communication.BaseDelegate.FAIL, this, (sender, error) => {
-        sender.clearListenersByScope(this);
-        reject(error);
-      });
-      o.send();
+      services.Item.searchTransferMarket(searchCriteria, 1).observe(
+        this,
+        function (obs, res) {
+          if (!res.success) {
+            obs.unobserve(this);
+            reject(res.status);
+          } else {
+            resolve(res.data.items);
+          }
+        },
+      );
     });
   }
 }

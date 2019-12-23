@@ -2,6 +2,8 @@
 
 import { BaseScript, SettingsEntry } from '../core';
 
+import './style/refresh-list.scss';
+
 export class RefreshListSettings extends SettingsEntry {
   static id = 'refresh-transferlist';
   constructor() {

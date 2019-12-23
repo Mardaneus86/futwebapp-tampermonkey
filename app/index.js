@@ -1,5 +1,5 @@
-/* globals onVisibilityChanged services FUINavigationController
-FUIViewController UTObservable window document $ */
+/* globals onVisibilityChanged services UTNavigationController
+UTViewController UTObservable window document $ */
 import 'babel-polyfill';
 import './index.scss';
 import initSettingsScreen from './settings';
@@ -33,9 +33,15 @@ import {
 */
 
 window.onPageNavigation = new UTObservable();
+
 window.currentPage = '';
 
-FUINavigationController.prototype.didPush = (t) => {
+// prevent debugger trap
+setInterval(() => {
+  _0x1a026c = function () {}; // eslint-disable-line no-global-assign, no-undef
+}, 500);
+
+UTNavigationController.prototype.didPush = (t) => {
   if (t) {
     analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
@@ -43,7 +49,7 @@ FUINavigationController.prototype.didPush = (t) => {
   }
 };
 
-FUIViewController.prototype.didPresent = (t) => {
+UTViewController.prototype.didPresent = (t) => {
   if (t) {
     analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
@@ -67,8 +73,6 @@ services.Authentication._oAuthentication.observe(
 
     const settings = Settings.getInstance();
     settings.registerEntry(new RefreshListSettings());
-    // settings.registerEntry(new RemoveSoldAuctionsSettings());
-    // settings.registerEntry(new RelistAuctionsSettings());
     settings.registerEntry(new MinBinSettings());
     settings.registerEntry(new CardInfoSettings());
     settings.registerEntry(new ListSizeSettings());
@@ -76,7 +80,6 @@ services.Authentication._oAuthentication.observe(
 
     settings.registerEntry(new FutbinSettings());
     settings.registerEntry(new InstantBinConfirmSettings());
-    // settings.registerEntry(new ClubInfoSettings());
 
     initSettingsScreen(settings);
   },

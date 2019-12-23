@@ -18,3 +18,21 @@
         padding-right: 10px;
     }
 }
+
+.ut-transfer-list-view .listFUTItem .entityContainer,
+.ut-club-search-results-view.ui-layout-left .listFUTItem .entityContainer,
+.ut-unassigned-view.ui-layout-left .listFUTItem .entityContainer {
+    width: 45%;
+}
+
+@media (min-width: 1281px) {
+    .ut-content-container .ut-content {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .ut-split-view .ut-content {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}

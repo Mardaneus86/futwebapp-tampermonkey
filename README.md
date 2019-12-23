@@ -2,11 +2,11 @@
 
 [![Join the chat at https://gitter.im/futwebapp-tampermonkey/Lobby](https://badges.gitter.im/futwebapp-tampermonkey/Lobby.svg)](https://gitter.im/futwebapp-tampermonkey/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-FIFA 19's companion app for FIFA Ultimate Team, the FUT 19 Web App, is a website that let's you trade and manage your team on the go.
+FIFA 20's companion app for FIFA Ultimate Team, the FUT 20 Web App, is a website that let's you trade and manage your team on the go.
 
-This TamperMonkey script is meant to enhance the FUT 19 Web App experience. You can install the script following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The script provides a certain degree of customization possibilities.
+This TamperMonkey script is meant to enhance the FUT 20 Web App experience. You can install the script following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The script provides a certain degree of customization possibilities.
 
-:warning: Using this script is at your own risk. EA might (temp-)ban you for automating parts of their Web App.
+:warning: Using this script is at your own risk. EA might (temp-)ban you for altering parts of their Web App.
 
 :bangbang: Do not request autobuyer features. Because they are considered to be cheating, it will not be added.
 
@@ -21,12 +21,11 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
   - [x] Show Futbin prices on all player cards throughout the app
   - [x] Show link to player on Futbin
   - [x] Mark bargains (BIN price lower then Futbin value)
-- [x] Find Min BIN
+- [x] Find minimum BIN value of players
 - [x] Refresh transfer list
 - [x] Increase transfer list size
 - [x] Extra card information (contracts, fitness)
-- [x] Total coin value for transfer list cards
-- [ ] Download all players in club
+- [x] Total coin value for cards on the transfer list
 
 ## Installation
 Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
@@ -67,6 +66,7 @@ Make sure to enable `Allow access to file URLs` in `chrome://extensions/` for Ta
 // @license     MIT
 // @author      Tim Klingeleers
 // @match       https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
 // @grant       GM_notification
@@ -76,7 +76,6 @@ Make sure to enable `Allow access to file URLs` in `chrome://extensions/` for Ta
 // @grant       window.focus
 // @require     file:///<path to repo>/dist/fut-enhancer.user.js
 // @connect     ea.com
-// @connect     maker.ifttt.com
 // @connect     futbin.com
 // ==/UserScript==
 ```
