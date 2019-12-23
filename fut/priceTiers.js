@@ -24,6 +24,19 @@ export default {
     return value - diff;
   },
 
+  roundUpToNearestPriceTiers(value) {
+    const tier = utils.JS.find(UTCurrencyInputControl.PRICE_TIERS, i => value > i.min);
+
+    const diff = value % tier.inc;
+
+    if (diff === 0) {
+      return value;
+    } else if (diff < tier.inc / 2) {
+      return value + diff;
+    }
+    return value + (tier.inc - diff);
+  },
+
   determineListPrice(start, buyNow) {
     const tier = utils.JS.find(UTCurrencyInputControl.PRICE_TIERS, i => buyNow > i.min);
 

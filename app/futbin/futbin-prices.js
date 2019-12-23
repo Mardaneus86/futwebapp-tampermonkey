@@ -4,6 +4,7 @@ window
 */
 
 import { utils } from '../../fut';
+import priceTiers from '../../fut/priceTiers';
 import { BaseScript, Database } from '../core';
 import { FutbinSettings } from './settings-entry';
 
@@ -372,8 +373,10 @@ export class FutbinPrices extends BaseScript {
        // Show Bin Bargain Price
       var binPriceFivePercent = (5 / 100) * item.item._auction.buyNowPrice;// Add 5% EA Tax to bin price before comparing
       var binPrice = item.item._auction.buyNowPrice + binPriceFivePercent;
+      var binPriceNearestPrice = priceTiers.roundUpToNearestPriceTiers(binPrice);
+      // console.log("Bin Price"+binPrice+" - Bin Price after fix: "+binPriceNearestPrice);
       if (item.item._auction &&
-        binPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
+        binPriceNearestPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');
       } else {
         // Show Bid Bargain Price
@@ -384,8 +387,10 @@ export class FutbinPrices extends BaseScript {
         }
         var bidPriceFivePercent = (5 / 100) * binBargainPrice;// Add 5% EA Tax to bid price before comparing
         var bidPrice = binBargainPrice + bidPriceFivePercent;
+        var bidPriceNearestPrice = priceTiers.roundUpToNearestPriceTiers(bidPrice);
+        // console.log("bid Price"+bidPrice+" - Bid Price after fix: "+bidPriceNearestPrice);
         if (item.item._auction &&
-          bidPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
+          bidPriceNearestPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
           target.addClass('futbin-bid-bargain');
         }
       }
