@@ -26,23 +26,23 @@ export class TransferMarket {
   async searchMinBuy(item, itemsForMean = 3, lowUp = false) {
     services.Item.clearTransferMarketCache();
 
-    this._logger.log(`Searching min buy for ${item.type} ${item._staticData.name} from low upward first ${lowUp}`, 'Core - Transfermarket');
+    this._logger.log(`Searching min buy for ${item.type} ${item._staticData.name} from low upward first ${lowUp} - itemsForMean:${itemsForMean}`, 'fut/transferMarket.js');
     let minBuy = 0;
 
     if (lowUp) {
       minBuy = await this._findLowUp(item, itemsForMean);
-      this._logger.log(`Low up search yielded ${minBuy} as a result`, 'Core - Transfermarket');
+      this._logger.log(`Low up search yielded ${minBuy} as a result`, 'fut/transferMarket.js');
     }
 
     if (minBuy === 0) {
-      this._logger.log('Searching low down...', 'Core - Transfermarket');
+      this._logger.log('Searching low down...', 'fut/transferMarket.js');
       minBuy = await this._findLowDown(item, itemsForMean);
     }
 
     if (minBuy === 0) {
-      this._logger.log('No players found... it might be extinct', 'Core - Transfermarket');
+      this._logger.log('No players found... it might be extinct', 'fut/transferMarket.js');
     } else {
-      this._logger.log(`Min buy for ${item.type} ${item._staticData.name} (Flag no: ${item.rareflag}) is ${minBuy}`, 'Core - Transfermarket');
+      this._logger.log(`Min buy for ${item.type} ${item._staticData.name} (Flag no: ${item.rareflag}) is ${minBuy}`, 'fut/transferMarket.js');
     }
     return minBuy;
   }
