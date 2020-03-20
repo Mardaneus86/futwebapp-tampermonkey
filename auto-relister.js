@@ -123,7 +123,7 @@ setInterval(function () {
           button.onclick = clickFn;
           document.body.appendChild(button);
 
-          cl.style = "color:#000;top:0px;left:155px;width:500px;height:48px;overflow:auto;max-height:100px;position:absolute;z-index: 9999;background-color:#fefeff;font-family:monospace;font-size:small";
+          cl.style = "color:#fefeff;top:0px;left:155px;width:500px;height:48px;overflow:auto;max-height:100px;position:absolute;z-index: 9999;background-color:#000;font-family:monospace;font-size:small";
           document.body.appendChild(cl);
       });
   })();
