@@ -210,34 +210,22 @@ export class TransferMarket {
     searchCriteria.club = item.teamId;
 
     // Card Types:
-    // TOTW = 3
-    // UCL = 47
-    // UCL Special = 70
-    // Icons = 12
-    // Europa League = 68
     // Gold = 0
     // Silver = 0
     // Bronze = 1
+    // TOTW = 3
+    // Icons = 12
+    // UCL = 47
+    // Libertadores = 53
+    // UCL Special = 70
+    // Europa League = 46/68
 
-    // if (item.rareflag == 0) { // Bronze
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 1)[0].value;
-    // } else if (item.rareflag == 1) { // Silver / Gold
-    //   ssearchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 0)[0].value;
-    // } else 
-    if (item.rareflag == 3) { // TOTW
+    this._logger.log('Item flag No: '+item.rareflag, 'fut/transferMarket.js');
+
+    // Have to treat all "Special" (Under Quality on Web App Search) to get the most accurate price
+    if (item.rareflag > 2) { // TOTW
       searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
-    } 
-    // else if (item.rareflag == 12) { // Icons
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 12)[0].value;
-    // } else if (item.rareflag == 47) { // UCL NO TOTW
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 47)[0].value;
-    // } else if (item.rareflag == 48) { // UCL WITH TOTW
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 47)[0].value;
-    // } else if (item.rareflag == 68) { // EL
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 68)[0].value;
-    // } else if (item.rareflag == 70) { // UCL Special
-    //   searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 70)[0].value;
-    // }
+    }
 
     searchCriteria.category = enums.SearchCategory.ANY;
     searchCriteria.position = enums.SearchType.ANY;
