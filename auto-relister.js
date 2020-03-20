@@ -7,10 +7,13 @@
 // @match        https://www.easports.com/fifa/ultimate-team/web-app/*
 // @match        https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @grant        none
-// @require http://code.jquery.com/jquery-3.4.1.min.js
+// @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @run-at  document-end
 // ==/UserScript==
 //https://raw.githubusercontent.com/mbesh/futwebapp-tampermonkey/22f21d46a5a1d8593459bb53821d73ae758f5697/auto-relister.js
+
+var $ = window.jQuery;
+
 setInterval(function () {
     _0x426750 = function _0x426750() {}; // eslint-disable-line no-global-assign, no-undef
   }, 500);
