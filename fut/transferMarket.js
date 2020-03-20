@@ -209,23 +209,24 @@ export class TransferMarket {
     searchCriteria.league = item.leagueId;
     searchCriteria.club = item.teamId;
 
-    // Card Types:
-    // Gold = 0
-    // Silver = 0
-    // Bronze = 1
-    // TOTW = 3
-    // Icons = 12
-    // UCL = 47
-    // Libertadores = 53
-    // UCL Special = 70
-    // Europa League = 46/68
+    this._logger.log('Item flag No: ' + item.rareflag, 'fut/transferMarket.js');
 
-    this._logger.log('Item flag No: '+item.rareflag, 'fut/transferMarket.js');
-
-    // Have to treat all "Special" (Under Quality on Web App Search) to get the most accurate price
-    if (item.rareflag > 2) { // TOTW
-      searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
-    }
+    // Have to treat all "Special" (Under Quality on Web App Search) to get the most accurate price Excluding UCL
+    switch(item.rareflag) {
+      case 3:// TOTW / Special
+      case 12:// Icons
+      case 46:// Europa League
+      case 68:// Europa League
+      case 70:// UCL Special
+        searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(function (d) { return d.id === 3; })[0].value;
+      break;
+      default:
+        // Gold = 0
+        // Silver = 0
+        // Bronze = 1
+        // UCL = 47
+        // Libertadores = 53
+    } 
 
     searchCriteria.category = enums.SearchCategory.ANY;
     searchCriteria.position = enums.SearchType.ANY;
