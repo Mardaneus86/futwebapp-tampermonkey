@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         auto-relister
+// @name         FUT Auto Re-Lister
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  automatically relist all transfers
