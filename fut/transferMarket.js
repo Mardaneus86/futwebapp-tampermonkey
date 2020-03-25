@@ -209,30 +209,44 @@ export class TransferMarket {
     searchCriteria.league = item.leagueId;
     searchCriteria.club = item.teamId;
 
-    this._logger.log('Item flag No: ' + item.rareflag, 'fut/transferMarket.js');
-
-    // Have to treat all "Special" (Under Quality on Web App Search) to get the most accurate price Excluding UCL
-    switch(item.rareflag) {
-      case 3:// TOTW / Special
-      case 12:// Icons
-      case 46:// Europa League
-      case 68:// Europa League
-      case 70:// UCL Special
-        searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(function (d) { return d.id === 3; })[0].value;
-      break;
-      default:
-        // Gold = 0
-        // Silver = 0
-        // Bronze = 1
-        // UCL = 47
-        // Libertadores = 53
-    } 
+	this._logger.log('Before: Serach Critrial Level: ' + searchCriteria.level + ' - Flag no: ' + item.rareflag, 'fut/transferMarket.js');
+	/**
+	 * Have to treat all "Special" (Under Quality on Web App Search) to get the most accurate price Excluding UCL
+	 * To Call: searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(function (d) { return d.id === 3; })[0].value;
+	 * getItemLevelDP Values are:
+	 * label: "Any" = value: "any"
+	 * label: "Bronze"  value: "bronze"
+	 * label: "Silver" = value: "silver"
+	 * label: "Gold" = value: "gold"
+	 * label: "Special" = value: "SP"
+	 * 
+	 * item.rareflag Values Are
+	 * Gold = 0
+	 * Silver = 0
+	 * Bronze = 1
+	 * TOTW / Special = 3
+	 * Icons = 12
+	 * Europa League = 46
+	 * UCL = 47
+	 * Libertadores = 53
+	 * Europa League = 68
+	 * UCL Special = 70
+	 */
+	if (item.rareflag === 47) {
+		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 2)[0].value;
+	} else if (item.rareflag >= 3 && item.rareflag < 47) {
+		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
+	} else if (item.rareflag >= 48) {
+		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
+	}
 
     searchCriteria.category = enums.SearchCategory.ANY;
     searchCriteria.position = enums.SearchType.ANY;
     if (maxBuy !== -1) {
       searchCriteria.maxBuy = maxBuy;
-    }
+	}
+	
+	this._logger.log('After: Serach Critrial Level: ' + searchCriteria.level + ' - Flag no: ' + item.rareflag, 'fut/transferMarket.js');
 
     return searchCriteria;
   }

@@ -18,7 +18,7 @@
 // @connect     google-analytics.com
 // @updateURL   https://github.com/Mardaneus86/futwebapp-tampermonkey-web/raw/master/downloads/FUT_Enhancer.meta.js
 // @downloadURL https://github.com/Mardaneus86/futwebapp-tampermonkey-web/raw/master/downloads/FUT_Enhancer.user.js
-// @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require     http://code.jquery.com/jquery-3.4.1.min.js
 // @run-at      document-idle
 // ==/UserScript==
 
