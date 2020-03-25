@@ -197,17 +197,17 @@ export class TransferMarket {
     return 0; // player extinct
   }
 
-  /* eslint-disable class-methods-use-this */
-  _defineSearchCriteria(item, maxBuy = -1) {
-    // TODO: check if this can handle other items as well
-    // eslint-disable-next-line no-undef
-    const searchCriteria = new UTSearchCriteriaDTO();
+/* eslint-disable class-methods-use-this */
+_defineSearchCriteria(item, maxBuy = -1) {
+	// TODO: check if this can handle other items as well
+	// eslint-disable-next-line no-undef
+	const searchCriteria = new UTSearchCriteriaDTO();
 
-    searchCriteria.count = 30;
-    searchCriteria.maskedDefId = item.getMaskedResourceId();
-    searchCriteria.type = item.type;
-    searchCriteria.league = item.leagueId;
-    searchCriteria.club = item.teamId;
+	searchCriteria.count = 30;
+	searchCriteria.maskedDefId = item.getMaskedResourceId();
+	searchCriteria.type = item.type;
+	searchCriteria.league = item.leagueId;
+	searchCriteria.club = item.teamId;
 
 	this._logger.log('Before: Serach Critrial Level: ' + searchCriteria.level + ' - Flag no: ' + item.rareflag, 'fut/transferMarket.js');
 	/**
@@ -221,7 +221,7 @@ export class TransferMarket {
 	 * label: "Special" = value: "SP"
 	 * 
 	 * item.rareflag Values Are
-	 * Gold = 0
+	 * Gold = 0 1
 	 * Silver = 0
 	 * Bronze = 1
 	 * TOTW / Special = 3
@@ -232,24 +232,31 @@ export class TransferMarket {
 	 * Europa League = 68
 	 * UCL Special = 70
 	 */
-	if (item.rareflag === 47) {
-		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 2)[0].value;
-	} else if (item.rareflag >= 3 && item.rareflag < 47) {
-		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
-	} else if (item.rareflag >= 48) {
-		searchCriteria.level = factories.DataProvider.getItemLevelDP(true).filter(d => d.id === 3)[0].value;
+	switch(item.rareflag) {
+		case 2:
+		case 47:
+		case 52:
+		case 53:
+			searchCriteria.level = "gold"
+			break;
+		case 1:
+		case 0:
+			searchCriteria.level = "any"
+			break;
+		default:
+			searchCriteria.level = "SP"
 	}
 
-    searchCriteria.category = enums.SearchCategory.ANY;
-    searchCriteria.position = enums.SearchType.ANY;
-    if (maxBuy !== -1) {
-      searchCriteria.maxBuy = maxBuy;
+	searchCriteria.category = enums.SearchCategory.ANY;
+	searchCriteria.position = enums.SearchType.ANY;
+	if (maxBuy !== -1) {
+		searchCriteria.maxBuy = maxBuy;
 	}
-	
+
 	this._logger.log('After: Serach Critrial Level: ' + searchCriteria.level + ' - Flag no: ' + item.rareflag, 'fut/transferMarket.js');
 
-    return searchCriteria;
-  }
+	return searchCriteria;
+}
   /* eslint-enable class-methods-use-this */
 
   _find(searchCriteria) {
