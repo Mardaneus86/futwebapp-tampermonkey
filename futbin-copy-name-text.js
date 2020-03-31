@@ -5,13 +5,20 @@
 // @author       snightingale
 // @match        *://www.futbin.com/*
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @grant        GM_setClipboard
 // @run-at       document-end
 // ==/UserScript==
 
+/* globals jQuery, $, waitForKeyElements */
+
 var $ = window.jQuery;
 
-var targText = $(".full-name").text ().trim ();
+waitForKeyElements (".pcdisplay-name", getNodeText);
 
-console.log ("Copied to clipboard: ", targText);
-GM_setClipboard (targText);
+function getNodeText (jNode) {
+    var targText = jNode.text ().trim ();
+
+    console.log ("Copied to clipboard: ", targText);
+    GM_setClipboard (targText);
+}
