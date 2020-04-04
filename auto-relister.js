@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         FUT Auto Re-Lister
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  automatically relist all transfers
-// @author       mbesh
+// @author       mbesh, darthvader666uk
 // @match        https://www.easports.com/fifa/ultimate-team/web-app/*
 // @match        https://www.easports.com/*/fifa/ultimate-team/web-app/*
+// @namespace    https://github.com/mbesh
+// @namespace    https://github.com/darthvader666uk
 // @grant        none
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @run-at  document-end
