@@ -44,9 +44,22 @@
   filter: hue-rotate(165deg);
 }
 
+.listFUTItem.selected {
+  border-style: solid;
+  border-color: black;
+  border-left-color: black;
+}
+
 .listFUTItem.has-auction-data.futbin-bargain .rowContent {
   background-color: #0000ff;
+  color: #ffffff;
 }
+
+.listFUTItem.has-auction-data.futbin-bargain.selected .rowContent {
+  background-color: #0000ff;
+  color: #ffffff;
+}
+
 .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent, .listFUTItem.has-auction-data.selected.futbin-bargain .rowContent.active {
   background-color: #0000ff;
   color: #ffffff;
