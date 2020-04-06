@@ -13,6 +13,7 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @grant       GM_setClipboard
 // @grant       window.focus
 // @connect     ea.com
 // @connect     futbin.com
@@ -22,5 +23,7 @@
 // @require     http://code.jquery.com/jquery-3.4.1.min.js
 // @run-at      document-idle
 // ==/UserScript==
+
+/* globals jQuery, $ */
 
 var $ = window.jQuery;
