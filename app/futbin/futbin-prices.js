@@ -335,8 +335,8 @@ export class FutbinPrices extends BaseScript {
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
-        <span class="label">MIN Start Price:</span>
-          <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
+          <span class="label">MIN Start Price:</span>
+          <span class="coins value">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
         </div>
         `);
         break;
@@ -350,13 +350,13 @@ export class FutbinPrices extends BaseScript {
         targetForButton.show();
         targetForButton.prepend(`
         <div class="auctionValue futbin">
-          <span class="label minbid">MIN Bid:</span>
+          <span class="label">MIN Bid:</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
           <span class="label">MIN Start Price:</span>
-          <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
+          <span class="coins value">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
         </div>
         `);
         break;
@@ -369,8 +369,8 @@ export class FutbinPrices extends BaseScript {
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
-        <span class="label">MIN Start Price:</span>
-          <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
+          <span class="label">MIN Start Price:</span>
+          <span class="coins value">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
         </div>
         `);
         break;
