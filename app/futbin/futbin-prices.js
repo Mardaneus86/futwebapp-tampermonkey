@@ -335,9 +335,8 @@ export class FutbinPrices extends BaseScript {
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
-          <span class="label">MIN Bid:</span>
+        <span class="label">MIN Start Price:</span>
           <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         `);
         break;
@@ -356,9 +355,8 @@ export class FutbinPrices extends BaseScript {
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
-          <span class="label">MIN Bid:</span>
+          <span class="label">MIN Start Price:</span>
           <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         `);
         break;
@@ -371,9 +369,8 @@ export class FutbinPrices extends BaseScript {
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         <div class="auctionValue futbin">
-          <span class="label">MIN Bid:</span>
+        <span class="label">MIN Start Price:</span>
           <span class="coins value minbid">${priceTiers.roundUpToNearestPriceTiers(salePrice) || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
         </div>
         `);
         break;
