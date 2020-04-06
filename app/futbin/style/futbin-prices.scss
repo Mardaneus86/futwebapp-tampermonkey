@@ -2,7 +2,7 @@
   width: 12em;
 }
 #TradePile .listFUTItem .entityContainer, #Unassigned .listFUTItem .entityContainer {
-  width: 45%;
+  width: 21%;
 }
 #Unassigned .listFUTItem .auction .auctionValue, #Unassigned .listFUTItem .auction .auction-state {
   display: none;
@@ -17,7 +17,7 @@
   right: 0;
 }
 .MyClubResults .listFUTItem .auction .auctionValue, .MyClubResults .listFUTItem .auction .auction-state {
-  width: 24%;
+  width: 71%;
   float: right;
   padding-right: 1%;
   display: none;
@@ -30,10 +30,18 @@
   float: right;
 }
 .listFUTItem .auction .auctionValue {
-  width: 24%;
+  width: 14%;
   float: left;
   padding-right: 1%;
 }
+
+.listFUTItem .auction {
+  float: right;
+  margin: 3.5em 3em 0 0;
+  display: block;
+  width: 75%;
+}
+
 .futbinupdate {
   font-size: 14px;
   clear: both;

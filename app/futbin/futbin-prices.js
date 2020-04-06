@@ -307,6 +307,15 @@ export class FutbinPrices extends BaseScript {
 
     const futbinText = 'Futbin BIN';
 
+    // Get Sell For Price After Tax
+    if (item.item._auction.currentBid > 0) {
+      var selForPrice = item.item._auction.currentBid;
+    } else {
+      var selForPrice = item.item._auction.startingBid;
+    }
+    var taxFivePercent = (6 / 100) * selForPrice;// Add 5% + 1 (for a profit) EA Tax to bid price before comparing
+    var salePrice = selForPrice + taxFivePercent;
+
     switch (screen) {
       case 'SBCSquadSplitViewController':
       case 'SquadSplitViewController':
@@ -321,10 +330,16 @@ export class FutbinPrices extends BaseScript {
       case 'UTPlayerPicksViewController':
         target.append(`
         <div class="auctionValue futbin">
-          <span class="label">${futbinText}</span>
+          <span class="label">Futbin BIN:</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
-        </div>`);
+        </div>
+        <div class="auctionValue futbin">
+          <span class="label">MIN Bid:</span>
+          <span class="coins value">${salePrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+        </div>
+        `);
         break;
       case 'UTTransferListSplitViewController':
       case 'UTWatchListSplitViewController':
@@ -336,19 +351,31 @@ export class FutbinPrices extends BaseScript {
         targetForButton.show();
         targetForButton.prepend(`
         <div class="auctionValue futbin">
-          <span class="label">${futbinText}</span>
+          <span class="label">Futbin BIN:</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
-        </div>`);
+        </div>
+        <div class="auctionValue futbin">
+          <span class="label">MIN Bid:</span>
+          <span class="coins value">${salePrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+        </div>
+        `);
         break;
       case 'SearchResults':
         targetForButton = target.find('.auctionValue').parent();
         targetForButton.prepend(`
         <div class="auctionValue futbin">
-          <span class="label">${futbinText}</span>
+          <span class="label">Futbin BIN:</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
           <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
-        </div>`);
+        </div>
+        <div class="auctionValue futbin">
+          <span class="label">MIN Bid:</span>
+          <span class="coins value">${salePrice || '---'}</span>
+          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+        </div>
+        `);
         break;
       default:
       // no need to do anything
@@ -370,11 +397,11 @@ export class FutbinPrices extends BaseScript {
        *        startingBid: 450, … }
        */
       
-       // Show Bin Bargain Price
+      // Show Bin Bargain Price
       var binPriceFivePercent = (5 / 100) * item.item._auction.buyNowPrice;// Add 5% EA Tax to bin price before comparing
       var binPrice = item.item._auction.buyNowPrice + binPriceFivePercent;
       var binPriceNearestPrice = priceTiers.roundUpToNearestPriceTiers(binPrice);
-      // console.log("Bin Price"+binPrice+" - Bin Price after fix: "+binPriceNearestPrice);
+
       if (item.item._auction &&
         binPriceNearestPrice < futbinData[playerId].prices[platform].LCPrice.toString().replace(/[,.]/g, '')) {
         target.addClass('futbin-bargain');

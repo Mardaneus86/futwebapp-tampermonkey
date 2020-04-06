@@ -22,7 +22,17 @@
 .ut-transfer-list-view .listFUTItem .entityContainer,
 .ut-club-search-results-view.ui-layout-left .listFUTItem .entityContainer,
 .ut-unassigned-view.ui-layout-left .listFUTItem .entityContainer {
-    width: 45%;
+    width: 21%;
+}
+
+.ui-layout-left .listFUTItem.has-auction-data .entityContainer {
+    width: 21%;
+    box-sizing: border-box;
+}
+
+.ui-layout-left .listFUTItem .auction .auctionValue {
+    float: left;
+    width: 18%;
 }
 
 @media (min-width: 1281px) {
