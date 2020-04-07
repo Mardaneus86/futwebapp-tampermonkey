@@ -8,7 +8,7 @@
 // @match       https://www.easports.com/*/fifa/ultimate-team/web-app/*
 // @namespace   https://github.com/Mardaneus86
 // @namespace   https://github.com/darthvader666uk
-// @supportURL  https://github.com/Mardaneus86/futwebapp-tampermonkey/issues
+// @supportURL  https://github.com/darthvader666uk/futwebapp-tampermonkey/pulls
 // @grant       GM_notification
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getValue
