@@ -1,7 +1,8 @@
 /* global
 gPopupClickShield
 enums
-controllers
+EADialogViewController
+services
 utils
 */
 
@@ -34,10 +35,14 @@ export class InstantBinConfirm extends BaseScript {
         proceed();
         return;
       }
-      const n = new controllers.views.popups.Dialog(
-        dialog.message, dialog.title,
-        enums.UIDialogTypes.MESSAGE, amount, dialog.buttonLabels,
-      );
+
+      const n = new EADialogViewController({
+        dialogOptions: [dialog.buttonLabels[0],
+          dialog.buttonLabels[1]],
+        message: services.Localization.localize(dialog.message, amount),
+        title: services.Localization.localize(dialog.title),
+      });
+
       n.init();
       gPopupClickShield.setActivePopup(n);
       n.onExit.observe(this, (e, t) => {
@@ -47,6 +52,8 @@ export class InstantBinConfirm extends BaseScript {
           } else if (cancel) {
             cancel();
           }
+        } else {
+          cancel();
         }
       });
     };

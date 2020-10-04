@@ -1,5 +1,5 @@
-/* globals onVisibilityChanged services UTNavigationController
-UTViewController UTObservable window document $ */
+/* globals onVisibilityChanged services UTGameFlowNavigationController
+UTViewController EAObservable window document $ */
 import 'babel-polyfill';
 import './index.scss';
 import initSettingsScreen from './settings';
@@ -32,16 +32,11 @@ import {
 } from './club';
 */
 
-window.onPageNavigation = new UTObservable();
+window.onPageNavigation = new EAObservable();
 
 window.currentPage = '';
 
-// prevent debugger trap
-setInterval(() => {
-  _0x1a026c = function () {}; // eslint-disable-line no-global-assign, no-undef
-}, 500);
-
-UTNavigationController.prototype.didPush = (t) => {
+UTGameFlowNavigationController.prototype.didPush = (t) => {
   if (t) {
     analytics.trackPage(t.className);
     window.onPageNavigation.notify(t.className);
