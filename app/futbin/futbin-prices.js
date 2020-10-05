@@ -312,7 +312,7 @@ export class FutbinPrices extends BaseScript {
       case 'UTSquadSplitViewController':
       case 'UTSquadsHubViewController':
       case 'UTSBCSquadSplitViewController':
-        target.prepend(`
+        target.append(`
         <div class="ut-squad-slot-pedestal-view no-state futbin">
           <span class="coins value" title="Last update: ${futbinData[playerId].prices[platform].updated || 'never'}">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
@@ -321,8 +321,9 @@ export class FutbinPrices extends BaseScript {
         target.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
+            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
+          </span>
         </div>`);
         break;
       case 'UTTransferListSplitViewController':
@@ -333,20 +334,22 @@ export class FutbinPrices extends BaseScript {
         $('.secondary.player-stats-data-component').css('float', 'left');
         targetForButton = target.find('.auction');
         targetForButton.show();
-        targetForButton.prepend(`
+        targetForButton.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
+            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
+          </span>
         </div>`);
         break;
       case 'SearchResults':
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.prepend(`
+        targetForButton.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
-          <span class="time" style="color: #acacc4;">${futbinData[playerId].prices[platform].updated || 'never'}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
+            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
+          </span>
         </div>`);
         break;
       default:
