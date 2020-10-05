@@ -113,7 +113,6 @@ class TransferTotals extends BaseScript {
                 <span class="label">Futbin BIN</span>
                 <span class="coins value total-futbin">0</span>
               </div>
-              <div class="auctionStartPrice auctionValue">&nbsp;</div>
               <div class="auctionValue">
                 <span class="label">Bid Total</span>
                 <span class="coins value total-bid">0</span>
