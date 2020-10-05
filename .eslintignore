@@ -1,0 +1,4 @@
+dist/
+tampermonkey-headers.js
+webpack.config.js
+webpack.config.prd.js

@@ -227,7 +227,7 @@ export class FutbinPrices extends BaseScript {
         const fetchAtOnce = 30;
         const futbinlist = [];
         while (resourceIdMapping.length > 0 && fetchedPlayers < resourceIdMapping.length && Database.get('lastFutbinFetchFail', 0) + (5 * 60000) < Date.now()) {
-          const futbinUrl = `https://www.futbin.com/20/playerPrices?player=&rids=${
+          const futbinUrl = `https://www.futbin.com/21/playerPrices?player=&rids=${
             resourceIdMapping.slice(fetchedPlayers, fetchedPlayers + fetchAtOnce)
               .map(i => i.playerId)
               .filter((current, next) => current !== next && current !== 0)

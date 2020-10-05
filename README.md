@@ -2,9 +2,9 @@
 
 [![Join the chat at https://gitter.im/futwebapp-tampermonkey/Lobby](https://badges.gitter.im/futwebapp-tampermonkey/Lobby.svg)](https://gitter.im/futwebapp-tampermonkey/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-FIFA 20's companion app for FIFA Ultimate Team, the FUT 20 Web App, is a website that let's you trade and manage your team on the go.
+FIFA 21's companion app for FIFA Ultimate Team, the FUT 21 Web App, is a website that let's you trade and manage your team on the go.
 
-This TamperMonkey script is meant to enhance the FUT 20 Web App experience. You can install the script following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The script provides a certain degree of customization possibilities.
+This TamperMonkey script is meant to enhance the FUT 21 Web App experience. You can install the script following the instructions below. Afterwards you will get a settings button on the bottom right of the web app, where you can enable every feature by itself. The script provides a certain degree of customization possibilities.
 
 :warning: Using this script is at your own risk. EA might (temp-)ban you for altering parts of their Web App.
 

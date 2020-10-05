@@ -8,7 +8,7 @@
     font-family: UltimateTeam-Icons,sans-serif;
     content: "\E056";
     font-size: 2rem;
-    color: black;
+    color: gray;
   }
 }
 
@@ -24,6 +24,10 @@
   z-index: 998;
   padding: 15px;
 
+  label {
+    color: black;
+  }
+
   &, *, *:before, *:after {
     box-sizing: border-box;
   }
@@ -31,6 +35,7 @@
   footer {
     text-align: center;
     padding: 15px;
+    color: black;
 
     hr {
       border: none;
