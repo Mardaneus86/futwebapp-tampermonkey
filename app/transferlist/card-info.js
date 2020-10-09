@@ -11,7 +11,6 @@ export class CardInfoSettings extends SettingsEntry {
     super('card-info', 'Extra card information', null);
 
     this.addSetting('Show contracts', 'show-contracts', true, 'checkbox');
-    this.addSetting('Show fitness', 'show-fitness', true, 'checkbox');
   }
 }
 
@@ -70,11 +69,6 @@ class CardInfo extends BaseScript {
           }
 
           let info = '';
-          if (settings['show-fitness'].toString() === 'true') {
-            info += `<div class="fitness" style="position: absolute;left: 5px;bottom: -3px;">
-              F:${items[index].data.fitness}
-              </div>`;
-          }
 
           if (settings['show-contracts'].toString() === 'true') {
             info += `<div class="contracts" style="position: absolute;right: 5px;bottom: -3px;">
