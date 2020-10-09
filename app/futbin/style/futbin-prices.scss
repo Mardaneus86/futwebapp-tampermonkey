@@ -74,7 +74,21 @@
   white-space: nowrap;
 
   .coins.value {
-    text-align: center; 
+    text-align: center;
     margin: 0 8px;
   }
 }
+
+.ut-squad-overview .ut-squad-summary {
+  width: 70%;
+}
+
+.refresh-squad-button {
+  margin: 17px 5px;
+  color:#e2dde2;
+  &:before {
+    font-family: UltimateTeam-Icons,sans-serif;
+    content: '\E051';
+  }
+}
+

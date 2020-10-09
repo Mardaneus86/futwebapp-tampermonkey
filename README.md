@@ -24,7 +24,7 @@ If you benefit from this project, you can buy me a beer :beers: :+1:
 - [x] Find minimum BIN value of players
 - [x] Refresh transfer list
 - [x] Increase transfer list size
-- [x] Extra card information (contracts, fitness)
+- [x] Extra card information (contracts)
 - [x] Total coin value for cards on the transfer list
 
 ## Installation

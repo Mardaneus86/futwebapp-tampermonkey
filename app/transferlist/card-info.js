@@ -69,7 +69,6 @@ class CardInfo extends BaseScript {
           }
 
           let info = '';
-
           if (settings['show-contracts'].toString() === 'true') {
             info += `<div class="contracts" style="position: absolute;right: 5px;bottom: -3px;">
               C:${items[index].data.contract}
