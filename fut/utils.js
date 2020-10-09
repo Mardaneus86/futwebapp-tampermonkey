@@ -1,5 +1,5 @@
 /* globals
-services
+services $
 */
 
 export default {
@@ -28,4 +28,22 @@ export default {
 
     throw new Error('unknown platform');
   },
+
+  updateTitle(title, keepOriginalTitle) {
+    const keepOriginalTitleTmp = (typeof keepOriginalTitle === 'undefined') ? true : keepOriginalTitle;
+    const $h1 = $('.ut-tab-bar-view h1');
+
+    if (keepOriginalTitleTmp) {
+      $h1.attr('data-original-title', $h1.text());
+      $h1.text(`${$h1.text()} - ${title}`);
+    } else {
+      $h1.text(title);
+    }
+  },
+
+  restoreTitle() {
+    const $h1 = $('.ut-tab-bar-view h1');
+    $h1.text($h1.attr('data-original-title'));
+  },
+
 };
