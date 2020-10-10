@@ -1,7 +1,6 @@
 /* globals $ */
 
 import { BaseScript, SettingsEntry } from '../core';
-
 import './style/refresh-list.scss';
 
 export class RefreshListSettings extends SettingsEntry {
