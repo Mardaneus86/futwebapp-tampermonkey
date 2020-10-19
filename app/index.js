@@ -31,6 +31,9 @@ import {
   ClubInfoSettings,
 } from './club';
 */
+import {
+  SBCSettings,
+} from './sbc';
 
 window.onPageNavigation = new EAObservable();
 
@@ -72,6 +75,7 @@ services.Authentication._oAuthentication.observe(
     settings.registerEntry(new CardInfoSettings());
     settings.registerEntry(new ListSizeSettings());
     settings.registerEntry(new TransferTotalsSettings());
+    settings.registerEntry(new SBCSettings());
 
     settings.registerEntry(new FutbinSettings());
     settings.registerEntry(new InstantBinConfirmSettings());
