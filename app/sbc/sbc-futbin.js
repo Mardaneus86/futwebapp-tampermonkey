@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-/* globals $ prompt */
+/* globals $ prompt services */
 
 import { BaseScript } from '../core';
 import { SBCSettings } from './settings-entry';
@@ -56,6 +56,7 @@ export class SBCFutbin extends BaseScript {
   static async _setSBCPlayers() {
     const SBCController = SBC.getSBCController();
     const squad = SBCController._squad;
+    const challenge = SBCController._challenge;
 
     const club = new Club();
     const urlFutBin = prompt('Insert the Futbin SBC url', '');
@@ -76,6 +77,7 @@ export class SBCFutbin extends BaseScript {
       /* eslint-enable no-restricted-syntax */
       squad.setPlayers(itemPlayers, true);
       utils.restoreTitle();
+      services.SBC.saveChallenge(challenge);
     }
   }
 

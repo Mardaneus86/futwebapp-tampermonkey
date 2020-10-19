@@ -1,4 +1,4 @@
-/* globals $ UTSearchCriteriaDTO enums */
+/* globals $ UTSearchCriteriaDTO enums services */
 import { BaseScript } from '../core';
 import { SBCSettings } from './settings-entry';
 import { Club, Squad, SBC, utils } from '../../fut';
@@ -37,7 +37,7 @@ export class SBCAuto extends BaseScript {
               });
             }
           }
-        }, 1000);
+        }, 300);
         break;
       default:
         // no need to show anything on other screens
@@ -48,6 +48,7 @@ export class SBCAuto extends BaseScript {
   static async _generateGold() {
     const SBCController = SBC.getSBCController();
     const squad = SBCController._squad;
+    const challenge = SBCController._challenge;
 
     const club = new Club();
     const players = [];
@@ -75,6 +76,8 @@ export class SBCAuto extends BaseScript {
     // Set players in the SBC
     squad.setPlayers(players, true);
     utils.restoreTitle();
+    // Save squad challenge
+    services.SBC.saveChallenge(challenge);
   }
 
   /**
