@@ -52,30 +52,32 @@ UTViewController.prototype.didPresent = (t) => {
   }
 };
 
-services.Authentication._oAuthentication.observe(
-  this,
-  () => {
-    // reset the logs at startup
-    new Logger().reset();
+setTimeout(() => {
+  services.Authentication.oAuthentication.observe(
+    this,
+    () => {
+      // reset the logs at startup
+      new Logger().reset();
 
-    // force full web app layout in any case
-    $('body').removeClass('phone').addClass('landscape');
+      // force full web app layout in any case
+      $('body').removeClass('phone').addClass('landscape');
 
-    Queue.getInstance().start();
+      Queue.getInstance().start();
 
-    // get rid of pinEvents when switching tabs
-    document.removeEventListener('visibilitychange', onVisibilityChanged);
+      // get rid of pinEvents when switching tabs
+      document.removeEventListener('visibilitychange', onVisibilityChanged);
 
-    const settings = Settings.getInstance();
-    settings.registerEntry(new RefreshListSettings());
-    settings.registerEntry(new MinBinSettings());
-    settings.registerEntry(new CardInfoSettings());
-    settings.registerEntry(new ListSizeSettings());
-    settings.registerEntry(new TransferTotalsSettings());
+      const settings = Settings.getInstance();
+      settings.registerEntry(new RefreshListSettings());
+      settings.registerEntry(new MinBinSettings());
+      settings.registerEntry(new CardInfoSettings());
+      settings.registerEntry(new ListSizeSettings());
+      settings.registerEntry(new TransferTotalsSettings());
 
-    settings.registerEntry(new FutbinSettings());
-    settings.registerEntry(new InstantBinConfirmSettings());
+      settings.registerEntry(new FutbinSettings());
+      settings.registerEntry(new InstantBinConfirmSettings());
 
-    initSettingsScreen(settings);
-  },
-);
+      initSettingsScreen(settings);
+    },
+  );
+}, 1000);
