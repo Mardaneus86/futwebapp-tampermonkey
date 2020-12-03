@@ -1,4 +1,4 @@
-/* globals PIN_PAGEVIEW_EVT_TYPE services enums */
+/* globals PIN_PAGEVIEW_EVT_TYPE services PINEventType */
 
 export class PinEvent {
   static sendPageView(pageId, delay = 2000) {
