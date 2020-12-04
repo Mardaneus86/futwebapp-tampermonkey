@@ -333,13 +333,13 @@ export class FutbinPrices extends BaseScript {
       case 'UTSquadSplitViewController':
       case 'UTSBCSquadSplitViewController':
       case 'UTTOTWSquadSplitViewController':
-        target.append(`
+        target.prepend(`
         <div class="ut-squad-slot-pedestal-view no-state futbin">
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
       case 'UTPlayerPicksViewController':
-        target.append(`
+        target.prepend(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
@@ -351,7 +351,7 @@ export class FutbinPrices extends BaseScript {
       case 'ClubSearchResultsSplitViewController':
       case 'UTMarketSearchResultsSplitViewController':
         $('.secondary.player-stats-data-component').css('float', 'left');
-        target.find('.auction').append(`
+        target.find('.auction').prepend(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
@@ -359,7 +359,7 @@ export class FutbinPrices extends BaseScript {
         break;
       case 'SearchResults':
         targetForButton = target.find('.auctionValue').parent();
-        targetForButton.append(`
+        targetForButton.prepend(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
           <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
