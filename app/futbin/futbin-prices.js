@@ -164,11 +164,6 @@ export class FutbinPrices extends BaseScript {
       uiItems = $(getAppMain().getRootViewController()
         .getPresentedViewController().getCurrentViewController()
         ._view.__root).find('.listFUTItem');
-
-      const targetForButton = uiItems.find('.auction');
-      if (targetForButton !== null) {
-        targetForButton.show(); // make sure it's always shown (#69)
-      }
     }
 
     if ($(uiItems[0]).find('.futbin').length > 0) {
@@ -248,13 +243,17 @@ export class FutbinPrices extends BaseScript {
     const showBargains = (this.getSettings()['show-bargains'].toString() === 'true');
 
     const resourceIdMapping = [];
-    listrows.forEach((row, index) => {
-      resourceIdMapping.push({
-        target: uiItems[index] || row.target,
-        playerId: row.data.resourceId,
-        item: row.data,
+
+    listrows
+      .filter(row => row.data.type === 'player' && row.data.resourceId !== 0)
+      .forEach((row, index) => {
+        $(row.__auction).show();
+        resourceIdMapping.push({
+          target: uiItems[index] || row.target,
+          playerId: row.data.resourceId,
+          item: row.data,
+        });
       });
-    });
 
     let fetchedPlayers = 0;
     const fetchAtOnce = 30;
@@ -336,16 +335,14 @@ export class FutbinPrices extends BaseScript {
       case 'UTTOTWSquadSplitViewController':
         target.append(`
         <div class="ut-squad-slot-pedestal-view no-state futbin">
-          <span class="coins value" title="Last update: ${futbinData[playerId].prices[platform].updated || 'never'}">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
       case 'UTPlayerPicksViewController':
         target.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
-            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
-          </span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
       case 'UTTransferListSplitViewController':
@@ -354,14 +351,10 @@ export class FutbinPrices extends BaseScript {
       case 'ClubSearchResultsSplitViewController':
       case 'UTMarketSearchResultsSplitViewController':
         $('.secondary.player-stats-data-component').css('float', 'left');
-        targetForButton = target.find('.auction');
-        targetForButton.show();
-        targetForButton.append(`
+        target.find('.auction').append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
-            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
-          </span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
       case 'SearchResults':
@@ -369,9 +362,7 @@ export class FutbinPrices extends BaseScript {
         targetForButton.append(`
         <div class="auctionValue futbin">
           <span class="label">${futbinText}</span>
-          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}
-            <span class="time" style="color: #acacc4;"> (${futbinData[playerId].prices[platform].updated || 'never'})</span>
-          </span>
+          <span class="coins value">${futbinData[playerId].prices[platform].LCPrice || '---'}</span>
         </div>`);
         break;
       default:
