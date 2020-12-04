@@ -26,12 +26,29 @@
   display: block;
 }
 
+.listFUTItem .auction>.auction-state, .listFUTItem .auction>.auctionStartPrice, .listFUTItem .auction>.auctionValue {
+  flex: 1 1 20%;
+  overflow: hidden;
+}
+
 .listFUTItem .auction {
-  top: 5%;
+  top: 30%;
+  max-width: none;
+  width: 50%;
 
   .futbin .coins.value .time {
     display: inline;
     font-size: 1em;
+  }
+}
+
+@media (max-width: 1130px) {
+  .listFUTItem .auction {
+    width: auto;
+  }
+  
+  html[dir=ltr] .listFUTItem .auction {
+    left: auto;
   }
 }
 .ut-navigation-container-view.ui-layout-right .listFUTItem .auction {
@@ -54,7 +71,11 @@
   background-color: #7ffe94;
   color: #434853;
 }
-.ut-club-search-results-view .listFUTItem .auction {
+.ut-club-search-results-view {
+  .listFUTItem .auction {
+    width: 10%;
+  }
+  
   .auction-state, .auctionValue {
     display: none;
 
