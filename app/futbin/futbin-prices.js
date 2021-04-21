@@ -220,17 +220,17 @@ export class FutbinPrices extends BaseScript {
           target: listController._view._playerPickViews[index].__root,
         }));
     } else if (listController._view._list &&
-      listController._view._list._listRows &&
-      listController._view._list._listRows.length > 0) {
-      listrows = listController._view._list._listRows; // for transfer market and club search
+      listController._view._list.listRows &&
+      listController._view._list.listRows.length > 0) {
+      listrows = listController._view._list.listRows; // for transfer market and club search
     } else if (listController._view._sections &&
       listController._view._sections.length > 0) { // for transfer list & trade pile
       listController._view._sections.forEach((row) => {
-        if (row._listRows.length > 0) {
+        if (row.listRows.length > 0) {
           if (listrows == null) {
-            listrows = row._listRows;
+            listrows = row.listRows;
           } else {
-            listrows = listrows.concat(row._listRows);
+            listrows = listrows.concat(row.listRows);
           }
         }
       });
