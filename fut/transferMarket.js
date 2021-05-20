@@ -206,13 +206,10 @@ export class TransferMarket {
     searchCriteria.count = 30;
     searchCriteria.maskedDefId = item.getMaskedResourceId();
     searchCriteria.type = item.type;
+    searchCriteria.league = item.leagueId;
+    searchCriteria.club = item.teamId;
 
-    if (item.rareflag === 47) { // 47 = Champions
-      // if it is a Champions card, this is seen as a gold card
-      // Can only search for "Gold" in this case
-      searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
-        .filter(d => d.id === 2)[0].value;
-    } else if (item.rareflag >= 3) { // 3 = TOTW
+    if (item.rareflag >= 3) { // 3 = TOTW
       // if it is TOTW or other special, set it to TOTW. See enums.ItemRareType.
       // Can only search for "Specials", not more specific on Rare Type
       searchCriteria.level = factories.DataProvider.getItemLevelDP(true)
